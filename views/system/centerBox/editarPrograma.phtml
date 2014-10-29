@@ -1,0 +1,56 @@
+<form enctype="multipart/form-data" class="frmEditPDF">
+
+    <div class="panel panel-info" id="divEditPDF">
+        <div class="panel-heading">
+            <h4><b>Programa:</b> <?php echo $this->EP_nombreProg; ?></h4>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <table align="center">
+                        <tr>
+                            <td width="450">
+                                <div class="col-sm-9">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+
+                                        <?php if($this->EP_PDF){ ?>
+                                        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; padding-top:10px;">
+                                            <a href="<?php echo $_layoutParamsCB['ruta_pdf'] . $this->EP_PDF; ?>" target="_blank">
+                                                    <img src="<?php echo $_layoutParamsCB['ruta_img']; ?>pdf_gran.png" />
+                                            </a>
+                                        </div>
+                                        <center>
+                                            <label style="cursor:pointer; display: none;">
+                                                <input style="margin-top:-1px; vertical-align:middle;" type="checkbox" name="chkEP_flPDF" checked="checked"> Eliminar
+                                            </label>
+                                            <input type="button"  id="btnEP_CargaPDF" class="btn btn-primary" value="Eliminar" 
+                                            onclick="procesoEnviaForm('frmEditPDF', '<?php echo BASE_URL ?>system/modificarPrograma', 'btnEP_CargaPDF', 'divEditPDF')">
+                                        </center>
+
+                                        <?php }else{ ?>
+
+                                        <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
+                                        <div>
+                                            <span class="btn btn-default btn-file">
+                                                <span class="fileinput-new">Seleccionar</span>
+                                                <span class="fileinput-exists">Cambiar</span>
+                                                <input type="file" name="flPDF" accept="application/pdf">
+                                            </span>
+                                            <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remover</a>
+                                            <input type="button"  id="btnEP_CargaPDF" class="btn btn-primary" value="Subir PDF" 
+                                            onclick="procesoEnviaForm('frmEditPDF', '<?php echo BASE_URL ?>system/modificarPrograma', 'btnEP_CargaPDF', 'divEditPDF')">
+                                        </div>
+
+                                        <?php } ?>
+
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>

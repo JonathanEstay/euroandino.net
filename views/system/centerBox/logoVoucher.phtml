@@ -1,0 +1,48 @@
+<div class="panel-heading">
+    <h4>Logo voucher - Agencia: <b><?php echo $this->I_nombre; ?></b></h4>
+</div>
+<div class="panel-body" id="divLogoVou">
+    <div class="row">
+    
+        <div class="col-md-12">
+            <form  enctype="multipart/form-data" class="frmLogoVouAgen">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">
+                    <u><h3>Condiciones:</h3></u><br>
+                    
+                    Formato imagen: <br>
+                    [.JPG] [.JPEG] [.PNG] [.GIF]<br><br>
+                    
+                    Tama&ntilde;o Maximo: 500 KB
+                    </label>
+                    <div class="col-sm-9">
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                        
+                            <?php if($this->I_imagen){?>
+                            <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px; padding-top:10px;">
+                                <img src="<?php echo $_layoutParamsCB['ruta_voucher'] . $this->I_imagen; ?>" />
+                            </div>
+                            <center>
+                                <label style="cursor:pointer; display:none;">
+                                    <input style="margin-top:-1px; vertical-align:middle;" type="checkbox" name="chk_flImagenVouAgen" checked="checked"> Eliminar
+                                </label>
+                                <input type="button"  id="btnSubeVoucherAgen" class="btn btn-primary" value="Eliminar" onclick="procesoEnviaForm('frmLogoVouAgen', '<?php echo BASE_URL; ?>system/modificarLogoVoucher', 'btnSubeVoucherAgen', 'divLogoVou')">
+                            </center>
+                        	<?php }else{ ?>
+                            <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
+                            <div>
+                                <span class="btn btn-default btn-file"><span class="fileinput-new">Seleccione una imagen</span>
+                                <span class="fileinput-exists">Cambiar imagen</span><input type="file" name="flImagenVouAgen" accept="image/*"></span>
+                                <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remover</a>
+                                <input type="button"  id="btnSubeVoucherAgen" class="btn btn-primary" value="Subir imagen" onclick="procesoEnviaForm('frmLogoVouAgen', '<?php echo BASE_URL; ?>system/modificarLogoVoucher', 'btnSubeVoucherAgen', 'divLogoVou')">
+                            </div>
+                            <?php } ?>
+                            
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+    </div>
+</div>

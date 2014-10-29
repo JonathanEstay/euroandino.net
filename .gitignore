@@ -1,0 +1,8 @@
+$ cat .gitignore	
+application/Config.php
+public/img/*
+public/pdf/*
+
+#Ignorar documentacion
+_documentacion/
+*~	
