@@ -54,19 +54,19 @@
                                                             for($i=0; $i<$this->objCiudadesCNT; $i++)
                                                             {
                                                                 //$mL_codigoCiuPRG= trim($this->objCiudades[$i]->getCodigo());
-                                                                $mL_nombreCiuPRG= trim($this->objCiudades[$i]->getNombre());
+                                                                $mL_nombreCiu= trim($this->objCiudades[$i]->getNombre());
                                                                 //$mL_nombreCiudadPRG = $mL_nombreCiuPRG." (".$mL_codigoCiuPRG.")";
 
-                                                                if(Session::get('sess_AP_ciudad')==$mL_nombreCiuPRG)
+                                                                if(Session::get('sess_H_ciudad')==$mL_nombreCiu)
                                                                 {
                                                                 ?>
-                                                                    <option value="<?php echo $mL_nombreCiuPRG; ?>" selected="selected"><?php echo $mL_nombreCiuPRG; ?></option>
+                                                                    <option value="<?php echo $mL_nombreCiu; ?>" selected="selected"><?php echo $mL_nombreCiu; ?></option>
                                                                 <?php
                                                                 }
                                                                 else
                                                                 {
                                                                 ?>
-                                                                    <option value="<?php echo $mL_nombreCiuPRG; ?>"><?php echo $mL_nombreCiuPRG; ?></option>
+                                                                    <option value="<?php echo $mL_nombreCiu; ?>"><?php echo $mL_nombreCiu; ?></option>
                                                                 <?php
                                                                 }
                                                             }

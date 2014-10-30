@@ -177,12 +177,12 @@ class Session
             throw new Exception('No se ha definido el tiempo de sesion');
         }
         
-        if(SESSION_TIME == 0)
+        if(APP_SESSION_TIME == 0)
         {
             return;
         }
         
-        if((time() - Session::get('tiempo')) > (SESSION_TIME * 60))
+        if((time() - Session::get('tiempo')) > (APP_SESSION_TIME * 60))
         {
             Session::destroy();
             header('Location: ' . BASE_URL . 'error/access/8080');
