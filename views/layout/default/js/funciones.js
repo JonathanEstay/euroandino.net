@@ -831,10 +831,10 @@ function abrePopup(div, docPHP, idTitulo, titulo, val)
     /* ADMIN PROGRAMAS */
     $('#btnAdmProg').on('click',function(){
         
-        if($('#AP_cmbCiudadDestino').val()===0)
+        if($('#AP_cmbCiudadDestino').val()==='0')
         {
-            $('#divAlertWar').fadeIn( 1500 );
-            $('#divAlertWar').animate({
+            $('#divAlertWarProg').fadeIn( 1500 );
+            $('#divAlertWarProg').animate({
                     'display': 'block'
             });
         }

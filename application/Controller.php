@@ -162,7 +162,7 @@ abstract class Controller
             require_once $rutaLibreria;
         }
         else{
-            throw new Exception('Error de libreria');
+            throw new Exception('Error al abrir la libreria: ' . $rutaLibreria);
         }
     }
     
@@ -229,8 +229,8 @@ abstract class Controller
     protected function mailReserva($file, $html) {
         // Preparar Correo electrónico
         $email_asunto="Confirmación de reserva online: ".$file;
-        $email_destinatario = 'jestay@tsyacom.cl'; //$_SESSION['sess_email'];
-        $email_destinatarioCC = 'j.estay1988@gmail.com'; //$_SESSION['sess_email_opera'];
+        $email_destinatario = 'jestay@tsyacom.cl'; //Session::get('sess_email');
+        $email_destinatarioCC = 'j.estay1988@gmail.com'; //Session::get('sess_email_opera');
 
         $mail = new PHPMailer();
 

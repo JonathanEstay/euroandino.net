@@ -43,9 +43,36 @@
                                                 <tr>
                                                     <td>Ciudad:</td>
                                                 <td>
-                                                    <input type="text" id="txtCiudad-Hot" name="txtCiudad-Hot" style="width:200px" value="<?php echo Session::get('sess_H_ciudad'); ?>" autocomplete="off"
+                                                    <!--<input type="text" id="txtCiudad-Hot" name="txtCiudad-Hot" style="width:200px" value="<?php echo Session::get('sess_H_ciudad'); ?>" autocomplete="off"
                                                     placeholder="Ingrese ciudad de destino" onkeyup="buscarCiudad(this.value, 'frmHoteles', 'spnCiudad-hoteles', 'txtCiudad-Hot');">
-                                                    <span id="spnCiudad-hoteles" class="twitter-typeahead" style="position: relative; display: none; direction: ltr;"></span>
+                                                    <span id="spnCiudad-hoteles" class="twitter-typeahead" style="position: relative; display: none; direction: ltr;"></span> -->
+                                                    <select name="cmbCiudad-Hot" id="cmbCiudad-Hot" class="form-control" >
+                                                        <option value="0">Seleccione destino</option>
+                                                        <?php 
+                                                        if($this->objCiudades)
+                                                        { 
+                                                            for($i=0; $i<$this->objCiudadesCNT; $i++)
+                                                            {
+                                                                //$mL_codigoCiuPRG= trim($this->objCiudades[$i]->getCodigo());
+                                                                $mL_nombreCiuPRG= trim($this->objCiudades[$i]->getNombre());
+                                                                //$mL_nombreCiudadPRG = $mL_nombreCiuPRG." (".$mL_codigoCiuPRG.")";
+
+                                                                if(Session::get('sess_AP_ciudad')==$mL_nombreCiuPRG)
+                                                                {
+                                                                ?>
+                                                                    <option value="<?php echo $mL_nombreCiuPRG; ?>" selected="selected"><?php echo $mL_nombreCiuPRG; ?></option>
+                                                                <?php
+                                                                }
+                                                                else
+                                                                {
+                                                                ?>
+                                                                    <option value="<?php echo $mL_nombreCiuPRG; ?>"><?php echo $mL_nombreCiuPRG; ?></option>
+                                                                <?php
+                                                                }
+                                                            }
+                                                        }
+                                                        ?>
+                                                        </select>
                                                 </td>
                                                 <td>Nombre:</td>
                                                 <td>
@@ -218,10 +245,10 @@
 <script>
 $('#btnHoteles').on('click',function()
 {
-    if($('#txtCiudad-Hot').val()==='' && $('#txtNombre-Hot').val()==='' && $('#cmbCategoria').val()==='0')
+    if($('#cmbCiudad-Hot').val()==='0' && $('#txtNombre-Hot').val()==='' && $('#cmbCategoria').val()==='0')
     {
         $('#divAlertWarHot').fadeIn( 1500 );
-        $('#divAlertWarHoy').animate({
+        $('#divAlertWarHot').animate({
                 'display': 'block'
         });
     }

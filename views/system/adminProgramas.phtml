@@ -31,10 +31,10 @@
 
                                     <div class="col-md-12">
 
-                                        <div id="divAlertWar" class="alert alert-dismissable alert-warning" style="display:none;">
+                                        <div id="divAlertWarProg" class="alert alert-dismissable alert-warning" style="display:none;">
                                             <strong>Atenci&oacute;n!</strong>
                                             Debe ingresar una <b>Ciudad</b> para buscar.
-                                            <button type="button" class="close" onClick="muestraOculta('divAlertWar', '2')">&times;</button>
+                                            <button type="button" class="close" onClick="muestraOculta('divAlertWarProg', '2')">&times;</button>
                                         </div>
                                         <form method="post" id="frmAdmProg" action="<?php echo BASE_URL ?>system/buscarAdmProgramas">
                                             <table align="left" cellspacing="5" cellpadding="5">
@@ -50,20 +50,20 @@
                                                         { 
                                                             for($i=0; $i<$this->objCiudadesCNT; $i++)
                                                             {
-                                                                $mL_codigoCiuPRG= trim($this->objCiudades[$i]->getCodigo());
+                                                                //$mL_codigoCiuPRG= trim($this->objCiudades[$i]->getCodigo());
                                                                 $mL_nombreCiuPRG= trim($this->objCiudades[$i]->getNombre());
-                                                                $mL_nombreCiudadPRG = $mL_nombreCiuPRG." (".$mL_codigoCiuPRG.")";
+                                                                //$mL_nombreCiudadPRG = $mL_nombreCiuPRG." (".$mL_codigoCiuPRG.")";
 
                                                                 if(Session::get('sess_AP_ciudad')==$mL_nombreCiuPRG)
                                                                 {
                                                                 ?>
-                                                                    <option value="<?php echo $mL_nombreCiuPRG; ?>" selected="selected"><?php echo $mL_nombreCiudadPRG; ?></option>
+                                                                    <option value="<?php echo $mL_nombreCiuPRG; ?>" selected="selected"><?php echo $mL_nombreCiuPRG; ?></option>
                                                                 <?php
                                                                 }
                                                                 else
                                                                 {
                                                                 ?>
-                                                                    <option value="<?php echo $mL_nombreCiuPRG; ?>"><?php echo $mL_nombreCiudadPRG; ?></option>
+                                                                    <option value="<?php echo $mL_nombreCiuPRG; ?>"><?php echo $mL_nombreCiuPRG; ?></option>
                                                                 <?php
                                                                 }
                                                             }

@@ -31,9 +31,11 @@
         <script type='text/javascript' src='<?php echo $_layoutParams['ruta_js']; ?>jquery.easypiechart.min.js'></script> 
         <script type='text/javascript' src='<?php echo $_layoutParams['ruta_js']; ?>jquery.sparklines.min.js'></script> 
         <script type='text/javascript' src='<?php echo $_layoutParams['ruta_js']; ?>toggle.min.js'></script> 
+        
         <script type='text/javascript' src='<?php echo $_layoutParams['ruta_js']; ?>jquery.dataTables.min.js'></script> 
         <script type='text/javascript' src='<?php echo $_layoutParams['ruta_js']; ?>dataTables.bootstrap.js'></script> 
         <script type='text/javascript' src='<?php echo $_layoutParams['ruta_js']; ?>demo-datatables.js'></script> 
+        
         
         <script type='text/javascript' src='<?php echo $_layoutParams['ruta_js']; ?>fileinput.min.js'></script> 
         

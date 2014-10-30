@@ -1374,7 +1374,7 @@ class systemController extends Controller
     public function buscarHotel()
     {
         Session::set('sess_H_nombre', $this->getTexto('txtNombre-Hot'));
-        Session::set('sess_H_ciudad', $this->getTexto('txtCiudad-Hot'));
+        Session::set('sess_H_ciudad', $this->getTexto('cmbCiudad-Hot'));
         Session::set('sess_H_cat', $this->getTexto('cmbCategoria'));
         
         $this->redireccionar('system/hoteles');

@@ -12,6 +12,8 @@ define('ROOT', realpath(dirname(__FILE__)) . DS);
 define('APP_PATH', ROOT . 'application' . DS);
 define('CHARSET', 'ISO-8859-1'); //UTF-8
 //ini_set('mssql.charset', CHARSET);
+session_name('3uR04nd1No');
+session_cache_limiter('nocache');
 date_default_timezone_set('America/Santiago');
 //date_default_timezone_set('America/Argentina/Buenos_Aires');
 header('Content-Type: text/html; charset=' . CHARSET);
