@@ -136,7 +136,7 @@
                             <img src="<?php echo $_layoutParams['ruta_img']; ?>home.png" />
                             <div>
                                 <span class="name">Direcci&oacute;n</span>
-                                <span class="msg"><?php echo ENT_DIREC; ?><br><?php echo ENT_CIUDAD; ?></span>
+                                <span class="msg"><?php echo ENT_DIREC; ?><br><?php echo ENT_CIUDAD . ' de ' . ENT_PAIS; ?></span>
                             </div>
                     </a></li>
                     <li><a href="#">

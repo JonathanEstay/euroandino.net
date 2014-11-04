@@ -23,12 +23,12 @@
                 </td>
                 <td width="50%" align="right" class="TopBot">
                     <strong class="TopBot">
-                        ALL WAYS Travel - TOUR OPERADOR MAYORISTA</strong><br />
-                        Fidel Ote&iacute;za 1916, Of. 302, Providencia<br />
-                        Teléfonos : (56) 2897 8000<br /><br />	      
-                        <a href="http://www.allwaystravel.cl" target="_blank"> http://www.allwaystravel.cl <br /></a>
+                        <?php echo ENT_NAME; ?></strong><br />
+                        <?php echo ENT_DIREC; ?>, <?php echo ENT_COMUNA; ?><br />
+                        Tel&eacute;fonos : <?php echo ENT_FONO; ?><br /><br />	      
+                        <a href="<?php echo ENT_WEB; ?>" target="_blank"> <?php echo ENT_WEB; ?> <br /></a>
                         <br />
-                        Santiago, <?php echo date("d F Y"); ?>
+                        <?php echo ENT_CIUDAD . ', ' . date("d F Y"); ?>
                 </td>
 
 
@@ -89,11 +89,7 @@
 
         <table width="100%" border="0" align="center" cellpadding="2" cellspacing="2" class="Base">
             <tr>
-                <td colspan="3">Estimada(o) <?php echo $this->CC_vage; ?></td>
-            </tr>
-
-            <tr>
-                <td colspan="3">De acuerdo a lo solicitado, confirmo los siguientes servicios: </td>
+                <td colspan="3">De acuerdo a la solicitud de Reserva por Ud. efectuada, confirmo lo siguiente: </td>
             </tr>
             <tr>
                 <td colspan="3"><hr noshade="noshade" /></td>
@@ -353,36 +349,128 @@
                 </td>
             </tr>	
         </table>
+        
+
+        
+
+
+        
+        
+        
         <br />
-
-        <table width="100%" border="0" align="center" cellpadding="2" cellspacing="2" class="Base">
-
-            <tr class="TopBot">
-                    <td colspan="3">DEPARTAMENTO RESERVA</td>
-                    </tr>
-            </table>
-
-
-
-
-
-
-
-
-            <style>
-                <!--
-                    @media print{
-                        .oculto{display:none}
-                    }
-                -->
-            </style>
-            <center>
-                <div style="width:90%; text-align:right;" >
-                    <img class="oculto" src="<?php echo $_layoutParamsCB['ruta_img']; ?>print.png" onClick="javascript:imprSelec('imprimirSector')" width="32" style="cursor:pointer;" /> &nbsp;<br />&nbsp;
-                </div>
-            </center>
+        <br />
+        <p style="text-align: justify">
+            *** No incluye Tasas de Embarque ni Tax de Seguridad ***
             <br /><br />
-        </body>
+            
+            EUROANDINO S.A.<br />
+            RUT: 96.985.620 - 4<br />
+            CTA CTE DOLARES: 5-169-09417-05 &nbsp;&nbsp; BANCO DE CHILE<br />
+            CTA CTE PESOS&nbsp;&nbsp;: 169-09417-00 &nbsp;&nbsp; BANCO DE CHILE
+            <br /><br />
+
+            AGRADECEREMOS ENVIAR JUNTO AL PAGO DE ESTA RESERVA, SU FACTURA POR COMISION. <br />
+
+            * LA EMISION DE TICKET SE REALIZARA SOLO CONTRA RECIBO DE IDENTIDAD OFICICIAL 
+            DEL CLIENTE SEG&Uacute;N  CORRESPONDE, PASAPORTE &Oacute; CARNE DE IDENTIDAD
+        </p>
+        
+        
+        
+        
+        <br />
+        <br />
+        <center>
+            <span style="font-weight: bold;">CONDICIONES GENERALES</span>
+        </center>
+        <br />
+        <p style="text-align: justify">
+        Precios p&uacute;blicos expresados en d&oacute;lares americanos, se entiende por persona, itinerario seg&uacute;n indicado, 
+        n&uacute;mero de noches, tipo de habitaci&oacute;n y servicios. <br /><br />
+
+        1.- El alojamiento esta considerado en habitaciones est&aacute;ndar, salvo que se especifique lo contrario. 
+        Validez seg&uacute;n especificado en la confirmaci&oacute;n de la reserva. <br /><br />
+
+        2.- Se incluye todos los servicios especificados en programa confirmado. Y no incluye extras de ning&uacute;n 
+        tipo, gastos de &iacute;ndole personal, tasas de aeropuerto (solo si as&iacute; se indica), exceso de equipaje, seguros 
+        de equipaje, transporte de animales, y cualquier otro gasto an&aacute;logo. Las excursiones opcionales son de
+        Adicionalmente, se debe consultar las condiciones del ticket a&eacute;reo
+        cargo de cada pasajero, a menos que este claramente especificado en el programa como incluido.<br /><br />
+
+        CAMBIO DE ITINERARIO Y HOTELES: el organizador se reserva el derecho de alterar en cualquier 
+        momento el itinerario, si es necesario para el confort y seguridad de los pasajeros y tambi&eacute;n cambiar los 
+        hoteles por otros similares de igual categor&iacute;a, as&iacute; como el horario de las salidas, sin necesidad de previo
+        aviso.<br /><br />
+
+        3.- Check IN/OUT: Los hoteles tienen como norma general el ingreso a las habitaciones desde las 14:00 
+        hrs. PM. En adelante y el horario de salida es antes de las 12:00 hrs. AM. La distribuci&oacute;n de las 
+        habitaciones de los hoteles, depender&aacute; de la disponibilidad al momento del check in a menos que se 
+        tenga confirmado tipo de habitaci&oacute;n especifica. En general los hoteles cuentan solo con dos camas
+        grandes con dimensiones similares a tama&ntilde;o queen en las habitaciones, por lo que el alojamiento de
+        habitaciones triples y cu&aacute;druples se har&aacute; compartiendo las camas.<br /><br />
+
+        DOCUMENTACION:
+        Sin excepci&oacute;n, todo pasajero deber&aacute;n tener en regla sus documentos, siendo esto responsabilidad del 
+        mismo &oacute; de la Agencia de Viajes,  en ning&uacute;n caso ser&aacute; EUROANDINO responsable de la imposibilidad de 
+        viajar de los pasajeros debido a la falta de documentaci&oacute;n en regla, cualquiera sea la naturaleza de 
+        esta, ni por los gastos adicionales causados por lo mismo.<br /><br />
+
+        PAGOS Y CANCELACIONES:
+        Al recibir confirmaci&oacute;n de los servicios la Agencia de viajes deber&aacute; efectuar el pago total de los servicios 
+        solicitados y confirmados.
+        La cancelaci&oacute;n de servicios, supondr&aacute; un cargo al pasajero por concepto de gastos operacionales, valor 
+        que ser&aacute; indicado en cada caso. Toda cancelaci&oacute;n debe ser comunicada por escrito a EUROANDINO.<br /><br />
+
+        Reclamos de reembolso deber&aacute;n ser dirigidos a la oficina vendedora dentro de un plazo de no m&aacute;s de 30 
+        d&iacute;as a contar de la fecha de t&eacute;rmino del viaje. El reclamo deber&aacute; acompa&ntilde;arse con una nota del gu&iacute;a o 
+        carta escrita del hotel por servicios no utilizados y sus razones. <br /><br />
+
+        ASISTENCIA DE VIAJES & RESPONSABILIDADES:
+        EUROANDINO solicita a todos sus clientes viajar con asistencia de viajes, en emergencias m&eacute;dicas,
+        perdida de equipaje, interrupci&oacute;n y m&aacute;s, es importante informar si el cliente ya cuanta con este servicio 
+        de no ser as&iacute; contamos con SEGURVIAJE.<br /><br />
+
+        EUROANDINO, declara expl&iacute;citamente que obra solo como intermediario entre las agencias de viajes y 
+        las entidades o personas que proporcionen los servicios que constan en los itinerarios de servicios 
+        otorgados y espec&iacute;ficos en cada voucher, como empresas de transporte, hoteles, restaurantes, 
+        excursiones, etc.<br /><br />
+
+        EUROANDINO, no se hace responsable por da&ntilde;os, heridas, accidentes, retrasos o irregularidades que 
+        pudiesen ocurrir durante la ejecuci&oacute;n de los servicios, as&iacute; como la perdida del equipaje y dem&aacute;s objetos 
+        de su propiedad: por las malas condiciones atmosf&eacute;ricas, decisiones gubernamentales, cat&aacute;strofes 
+        naturales y dem&aacute;s sucesos que puedan ocurrir fuera del control de EUROANDINO. En caso de existir 
+        imposibilidad de prestar algunos de los servicios en las condiciones pactadas ya sea total o parcial, 
+        EUROANDINO reembolsara al viajero las cantidades debidas por los servicios no realizados con exclusi&oacute;n 
+        de cualquier otro compromiso. <br />
+        Cuando el pasajero viaja en autom&oacute;vil debe someterse a las leyes del pa&iacute;s en el cual esta matriculado el 
+        veh&iacute;culo en caso de accidente. EUROANDINO se reserva el derecho de cambiar el orden de los servicios 
+        indicados en el folleto, por motivo de una mejor realizaci&oacute;n o causas que as&iacute; lo justifiquen.
+
+        </p>
+        
+        
+        
+        
+        
+
+
+
+
+
+        <style>
+            <!--
+                @media print{
+                    .oculto{display:none}
+                }
+            -->
+        </style>
+        <center>
+            <div style="width:90%; text-align:right;" >
+                <img class="oculto" src="<?php echo $_layoutParamsCB['ruta_img']; ?>print.png" onClick="javascript:imprSelec('imprimirSector')" width="32" style="cursor:pointer;" /> &nbsp;<br />&nbsp;
+            </div>
+        </center>
+        <br /><br />
+    </body>
         
 </html>
 </div>

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title><?php if(isset($this->titulo))echo $this->titulo; ?></title>
+    <title><?php if(isset($this->titulo)){ echo $this->titulo; } ?></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Avant">
@@ -27,7 +27,7 @@
                         <div class="col-sm-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><img src="<?php echo $_layoutParams['ruta_img']; ?>user.png" width="16"></span>
-                                <input type="text" class="form-control" id="username" name="txtUser" placeholder="Nombre de usuario" value="<?php echo $_SESSION["sess_usuario"]; ?>">
+                                <input type="text" class="form-control" id="username" name="txtUser" placeholder="Nombre de usuario" value="<?php if(Session::get('sess_usuario')){ echo Session::get('sess_usuario'); } ?>">
                             </div>
                         </div>
                     </div>

@@ -138,7 +138,7 @@ class programaDAO extends Model
                 
                 $objPackages= new programaDTO();
                 
-                if(trim($packDB['Error']))
+                if(trim(isset($packDB['Error'])))
                 {
                     $objPackages->setERROR(trim($packDB['Error']));
                     $objPackages->setLINEA(trim($packDB['Linea']));

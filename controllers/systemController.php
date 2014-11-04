@@ -38,6 +38,7 @@ class systemController extends Controller
         $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
         $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
         
+        $this->_view->currentMenu=0;
         $this->_view->titulo='ORISTRAVEL';
         $this->_view->renderingSystem('index');
     }
@@ -51,7 +52,7 @@ class systemController extends Controller
         $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
         $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
         
-        
+        $this->_view->rdbRes=false;
         
         if(Session::get('sess_CR_fechaDesde') && Session::get('sess_CR_fechaHasta'))
         {
@@ -259,6 +260,7 @@ class systemController extends Controller
             $this->_view->objProgramasCNT= count($this->_view->objProgramas);
         }
         
+        $this->_view->currentMenu=0;
         $this->_view->procesoTerminado=false;
         $this->_view->titulo='ORISTRAVEL';
         $this->_view->renderingSystem('programas');
