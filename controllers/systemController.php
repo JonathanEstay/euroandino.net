@@ -232,6 +232,8 @@ class systemController extends Controller
         Session::acceso('Usuario');
         //$this->_view->setJS(array(''));
         
+        //$this->getLibrary('kint/Kint.class');
+        
         $this->_view->ML_fechaIni= Session::get('sess_BP_fechaIn');
         $this->_view->ML_fechaFin= Session::get('sess_BP_fechaOut');
         
