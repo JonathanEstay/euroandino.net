@@ -27,7 +27,7 @@
                     <div class="col-sm-12">
                         <div class="input-group">
                             <span class="input-group-addon"><img src="<?php echo $_layoutParams['ruta_img']; ?>user.png" width="16"></span>
-                            <input type="text" class="form-control" id="username" name="txtUser" placeholder="Nombre de usuario" value="<?php echo $_SESSION["sess_usuario"]; ?>">
+                            <input type="text" class="form-control" id="username" name="txtUser" placeholder="Nombre de usuario" value="<?php if(Session::get('sess_usuario')){ echo Session::get('sess_usuario'); } ?>">
                         </div>
                     </div>
                 </div>
