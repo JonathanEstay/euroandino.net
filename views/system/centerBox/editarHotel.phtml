@@ -21,12 +21,12 @@
                         <td>
                             <select name="cmbEH_categoria" style="width:100px" >
                             <?php
-                            if($this->objCategorias!=false)
+                            if($this->objCategorias)
                             {
                                 echo '<option value="0">Todas</option>';
-                                for($i=0; $i<$this->objCategoriasCNT; $i++)
+                                foreach($this->objCategorias as $objCat)
                                 {
-                                    $eH_nombreCat= $this->objCategorias[$i]->getNombre();
+                                    $eH_nombreCat= $objCat->getNombre();
                                     if($eH_nombreCat)
                                     {
                                         if($this->EH_cat==$eH_nombreCat)

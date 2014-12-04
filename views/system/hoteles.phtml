@@ -51,10 +51,10 @@
                                                         <?php 
                                                         if($this->objCiudades)
                                                         { 
-                                                            for($i=0; $i<$this->objCiudadesCNT; $i++)
+                                                            foreach($this->objCiudades as $objCiu)
                                                             {
-                                                                //$mL_codigoCiuPRG= trim($this->objCiudades[$i]->getCodigo());
-                                                                $mL_nombreCiu= trim($this->objCiudades[$i]->getNombre());
+                                                                //$mL_codigoCiuPRG= $objCiu->getCodigo();
+                                                                $mL_nombreCiu= $objCiu->getNombre();
                                                                 //$mL_nombreCiudadPRG = $mL_nombreCiuPRG." (".$mL_codigoCiuPRG.")";
 
                                                                 if(Session::get('sess_H_ciudad')==$mL_nombreCiu)
@@ -82,12 +82,12 @@
                                                 <td>
                                                     <select name="cmbCategoria" id="cmbCategoria" class="form-control">
                                                         <?php
-                                                        if($this->objCategorias!=false)
+                                                        if($this->objCategorias)
                                                         {
-                                                            echo '<option value="0">Todas</option>';
-                                                            for($i=0; $i<$this->objCategoriasCNT; $i++)
+                                                            echo '<option value="0">Todas</option>'; 
+                                                            foreach($this->objCategorias as $objCat)
                                                             {
-                                                                $h_nombreCat= $this->objCategorias[$i]->getNombre();
+                                                                $h_nombreCat= $objCat->getNombre();
                                                                 if($h_nombreCat)
                                                                 {
                                                                     if(Session::get('sess_H_cat')==$h_nombreCat)
@@ -181,13 +181,13 @@
                                     <?php
                                     if($this->objHoteles)
                                     { 
-                                        for($i=0; $i<$this->objHotelesCNT; $i++)
+                                        foreach($this->objHoteles as $objHot)
                                         {
-                                            $h_codigoHotel= $this->objHoteles[$i]->getCodigo();
-                                            $h_nombreH= $this->objHoteles[$i]->getHotel();
-                                            $h_paisH= $this->objHoteles[$i]->getPais();
-                                            $h_ciudadH= $this->objHoteles[$i]->getCiudad();
-                                            $h_catH= $this->objHoteles[$i]->getCat();
+                                            $h_codigoHotel= $objHot->getCodigo();
+                                            $h_nombreH= $objHot->getHotel();
+                                            $h_paisH= $objHot->getPais();
+                                            $h_ciudadH= $objHot->getCiudad();
+                                            $h_catH= $objHot->getCat();
                                     ?>
                                     <tr class="odd gradeX">
                                         <td><?php echo $h_nombreH; ?></td>

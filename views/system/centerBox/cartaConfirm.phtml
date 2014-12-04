@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>	
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />	
-        <title>Confirmaci&oacute;n</title>	
+        <title>Carta de confirmaci&oacute;n <?php echo $this->numFile; ?></title>	
         <style type="text/css"> 
         <!--
         .Base {font-family: Tahoma; font-size: 11px; color: #000000; }	
@@ -19,7 +19,7 @@
         <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">	  
             <tr>
                 <td align="left">
-                    <img src="<?php echo $_layoutParamsCB['ruta_img']; ?>logo.jpg" alt="ALLWAYS" height="130" vspace="5" border="0" />
+                    <img src="<?php echo $_layoutParamsCB['ruta_img']; ?>logo.jpg" alt="ALLWAYS" height="100" vspace="5" border="0" />
                 </td>
                 <td width="50%" align="right" class="TopBot">
                     <strong class="TopBot">
@@ -102,21 +102,19 @@
                 <td bordercolor="#FFFFFF">
                     <table width="100%" border="0" cellpadding="2" cellspacing="2">	
                         <?php 
-                        if($this->CC_objsDetFile!=false)
-                        {
-                            
-                            //while($row_detfile = mssql_fetch_array($res_detfile))
-                            for($i=0; $i<$this->CC_objsDetFileCNT; $i++)
+                        if($this->CC_objsDetFile)
+                        { 
+                            foreach($this->CC_objsDetFile as $objDF)
                             {
-                                $s_1= $this->CC_objsDetFile[$i]->getPaxS();
-                                $s_2= $this->CC_objsDetFile[$i]->getPaxD();
-                                $s_3= $this->CC_objsDetFile[$i]->getPaxT();
-                                $s_4= $this->CC_objsDetFile[$i]->getPaxQ();
-                                $s_5= $this->CC_objsDetFile[$i]->getPaxA();
-                                $s_6= $this->CC_objsDetFile[$i]->getPaxI();
-                                $s_7= $this->CC_objsDetFile[$i]->getPaxC1();
-                                $s_8= $this->CC_objsDetFile[$i]->getPaxCA();
-                                $s_9= $this->CC_objsDetFile[$i]->getPaxC2();
+                                $s_1= $objDF->getPaxS();
+                                $s_2= $objDF->getPaxD();
+                                $s_3= $objDF->getPaxT();
+                                $s_4= $objDF->getPaxQ();
+                                $s_5= $objDF->getPaxA();
+                                $s_6= $objDF->getPaxI();
+                                $s_7= $objDF->getPaxC1();
+                                $s_8= $objDF->getPaxCA();
+                                $s_9= $objDF->getPaxC2();
                                 
                                 
                                 /*if($row_detfile["pax_s"] <> "" && $row_detfile["pax_s"] <> "0")
@@ -142,18 +140,18 @@
 
                                 echo '<tr>
                                         <td width="80%" class="Base">
-                                            <strong>&middot;</strong>&nbsp; '.$suma_total.' Pax '.$this->CC_objsDetFile[$i]->getNombre().'<strong></strong>
+                                            <strong>&middot;</strong>&nbsp; '.$suma_total.' Pax '.$objDF->getNombre().'<strong></strong>
                                         </td>
                                         <td width="10%" class="Base">';
 
 
-                                        if($this->CC_objsDetFile[$i]->getIn() == "01/01/1900")
+                                        if($objDF->getIn() == "01/01/1900")
                                         {
                                             echo '';
                                         }
                                         else
                                         {
-                                            echo $this->CC_objsDetFile[$i]->getIn(); 
+                                            echo $objDF->getIn(); 
                                         }
 
 
@@ -161,13 +159,13 @@
                                         <td width="10%" class="Base">';
 
 
-                                    if($this->CC_objsDetFile[$i]->getOut() == "01/01/1900")
+                                    if($objDF->getOut() == "01/01/1900")
                                     {
                                         echo '';
                                     }
                                     else
                                     {
-                                        echo $this->CC_objsDetFile[$i]->getOut();
+                                        echo $objDF->getOut();
                                     }
 
 
@@ -285,49 +283,48 @@
                         </tr>
                         <?php
                         $contador = 1; 
-                        //while($row_detbloq = mssql_fetch_array($res_detbloq)) 
-                        if($this->CC_objsDetBloq!=false)
-                        {
-                            for($i=0; $i<$this->CC_objsDetBloqCNT; $i++)
+                        if($this->CC_objsDetBloq)
+                        { 
+                            foreach($this->CC_objsDetBloq as $objDB)
                             {
                                 echo '<tr>
                                         <td>'.$contador.'</td>
                                         <td>';
                                 
-                                if($this->CC_objsDetBloq[$i]->getTipoPax() == "A")
+                                if($objDB->getTipoPax() == "A")
                                 {
                                     echo 'Adulto';
                                 }
-                                elseif($this->CC_objsDetBloq[$i]->getTipoPax() == "C")
+                                elseif($objDB->getTipoPax() == "C")
                                 {
                                     echo 'Child';
                                 }
 
                                 echo '</td>
-                                        <td>'.str_replace('/', ' ', $this->CC_objsDetBloq[$i]->getNomPax()).'</td>
-                                        <td>'.$this->CC_objsDetBloq[$i]->getRut().'</td>
+                                        <td>'.str_replace('/', ' ', $objDB->getNomPax()).'</td>
+                                        <td>'.$objDB->getRut().'</td>
                                         <td>';
-                                        if($this->CC_objsDetBloq[$i]->getFChild() == "01/01/1900")
+                                        if($objDB->getFChild() == "01/01/1900")
                                         {
                                             echo '';
                                         }
                                         else
                                         {
-                                            echo $this->CC_objsDetBloq[$i]->getFChild();
+                                            echo $objDB->getFChild();
                                         }
 
-                                $html.='</td>
-                                        <td>'.$this->CC_objsDetBloq[$i]->getNInfant().'</td>
-                                        <td>'.$this->CC_objsDetBloq[$i]->getRutInf().'</td>
+                                echo '</td>
+                                        <td>'.$objDB->getNInfant().'</td>
+                                        <td>'.$objDB->getRutInf().'</td>
                                         <td>';
 
-                                        if($this->CC_objsDetBloq[$i]->getFInfant() == "01/01/1900")
+                                        if($objDB->getFInfant() == "01/01/1900")
                                         {
                                             echo ''; 
                                         }
                                         else
                                         {
-                                            echo $this->CC_objsDetBloq[$i]->getFInfant();
+                                            echo $objDB->getFInfant();
                                         }
                                         echo '</td>
                                 </tr>';

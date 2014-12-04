@@ -2,6 +2,9 @@ $ cat .gitignore
 application/Config.php
 public/img/*
 public/pdf/*
+nbproject/*
+php-errors.log
+
 
 #Ignorar documentacion
 _documentacion/

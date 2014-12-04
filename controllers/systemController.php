@@ -20,7 +20,7 @@ class systemController extends Controller
     public function horaServer()
     {
         //echo ((int)date('H')+1) . ':' . date('i:s');
-        echo date('H') . ':' . date('i:s');
+        echo date('H:i:s');
     }
     
     
@@ -36,7 +36,6 @@ class systemController extends Controller
         //$this->_view->setJS(array(''));
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
-        $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
         
         $this->_view->currentMenu=0;
         $this->_view->titulo='ORISTRAVEL';
@@ -50,7 +49,6 @@ class systemController extends Controller
         $reserva= $this->loadModel('reserva');
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
-        $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
         
         $this->_view->rdbRes=false;
         
@@ -75,7 +73,6 @@ class systemController extends Controller
                 Session::get('sess_sp_acceso'),
                 Session::get('sess_clave_usuario')
                 );
-            $this->_view->objReservasCNT= count($this->_view->objReservas);
             
         }
         else
@@ -108,16 +105,13 @@ class systemController extends Controller
         $hoteles= $this->loadModel('hotel');
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
-        $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
 
 
         $this->_view->objCategorias= $categorias->getCategorias();
-        $this->_view->objCategoriasCNT= count($this->_view->objCategorias);
         
         if(Session::get('sess_H_nombre') || Session::get('sess_H_ciudad') || Session::get('sess_H_cat'))
         {
             $this->_view->objHoteles= $hoteles->getHoteles(Session::get('sess_H_nombre'), Session::get('sess_H_ciudad'), Session::get('sess_H_cat'));
-            $this->_view->objHotelesCNT= count($this->_view->objHoteles);
         }
         else
         {
@@ -137,7 +131,6 @@ class systemController extends Controller
         Session::acceso('Usuario');
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
-        $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
         
         
         if(Session::get('sess_AP_ciudad'))
@@ -145,7 +138,6 @@ class systemController extends Controller
             $programas= $this->loadModel('programa');
             //getAdmProgramas
             $this->_view->objProgramas= $programas->getAdmProgramas(Session::get('sess_AP_ciudad'));
-            $this->_view->objProgramasCNT= count($this->_view->objProgramas);
         }
         
         
@@ -161,10 +153,8 @@ class systemController extends Controller
         $agencia= $this->loadModel('agencia');
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
-        $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
         
         $this->_view->objAgencias= $agencia->getAgencias();
-        $this->_view->objAgenciasCNT= count($this->_view->objAgencias);
         
         $this->_view->currentMenu=4;
         $this->_view->titulo='ORISTRAVEL';
@@ -227,7 +217,7 @@ class systemController extends Controller
     }
     
     
-    public function programas()
+    public function bloqueos()
     {
         Session::acceso('Usuario');
         //$this->_view->setJS(array(''));
@@ -238,16 +228,15 @@ class systemController extends Controller
         $this->_view->ML_fechaFin= Session::get('sess_BP_fechaOut');
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
-        $this->_view->objCiudadesCNT= count($this->_view->objCiudades);
         if(Session::get('sess_BP_ciudadDes'))
         {
             $this->loadDTO('incluye');
             $programas= $this->loadModel('programa');
             $sql="exec WEB_TraeProgramas_Oficial '".Session::get('sess_BP_ciudadDes')."', "
-                    //. "'".Functions::invertirFecha(Session::get('sess_BP_fechaIn'), '/', '-')."', "
-                    //. "'".Functions::invertirFecha(Session::get('sess_BP_fechaOut'), '/', '-')."', "
-                    . "'".str_replace('/', '-', Session::get('sess_BP_fechaIn'))."', "
-                    . "'".str_replace('/', '-', Session::get('sess_BP_fechaOut'))."', "
+                    . "'".Functions::invertirFecha(Session::get('sess_BP_fechaIn'), '/', '-')."', "
+                    . "'".Functions::invertirFecha(Session::get('sess_BP_fechaOut'), '/', '-')."', "
+                    //. "'".str_replace('/', '-', Session::get('sess_BP_fechaIn'))."', "
+                    //. "'".str_replace('/', '-', Session::get('sess_BP_fechaOut'))."', "
                     . "'".Session::get('sess_BP_cntPas')."', '".Session::get('sess_BP_hotel')."'";
             for($i=1; $i<=3; $i++)
             {	
@@ -259,14 +248,66 @@ class systemController extends Controller
             //echo $sql; exit;
             
             $this->_view->objProgramas= $programas->exeTraeProgramas($sql, true);
-            $this->_view->objProgramasCNT= count($this->_view->objProgramas);
+            $this->_view->objProgramasCNT = count($this->_view->objProgramas);
         }
         
+        Session::destroy('sess_BP_ciudadDes_PRG');
+        $this->_view->currentMenu=0;
+        $this->_view->procesoTerminado=false;
+        $this->_view->titulo='ORISTRAVEL';
+        $this->_view->renderingSystem('bloqueos');
+    }
+    
+    
+    
+    
+    
+    public function programas()
+    {
+        Session::acceso('Usuario');
+        //$this->_view->setJS(array(''));
+        
+        //$this->getLibrary('kint/Kint.class');
+        
+        $this->_view->ML_fechaIni_PRG= Session::get('sess_BP_fechaIn_PRG');
+        $this->_view->ML_fechaFin_PRG= Session::get('sess_BP_fechaOut_PRG');
+        
+        $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
+        if(Session::get('sess_BP_ciudadDes_PRG'))
+        {
+            $this->loadDTO('incluye');
+            $programas= $this->loadModel('programa');
+            $sql="exec WEB_TraeProgramas_Oficial '".Session::get('sess_BP_ciudadDes_PRG')."', "
+                    . "'".Functions::invertirFecha(Session::get('sess_BP_fechaIn_PRG'), '/', '-')."', "
+                    . "'".Functions::invertirFecha(Session::get('sess_BP_fechaOut_PRG'), '/', '-')."', "
+                    //. "'".str_replace('/', '-', Session::get('sess_BP_fechaIn'))."', "
+                    //. "'".str_replace('/', '-', Session::get('sess_BP_fechaOut'))."', "
+                    . "'".Session::get('sess_BP_cntPas')."', '".Session::get('sess_BP_hotel_PRG')."'";
+            for($i=1; $i<=3; $i++)
+            {	
+                $sql.= ", '".Session::get('sess_BP_Adl_'.$i)."', '".Session::get('sess_BP_edadChd_1_'.$i)."', 
+                        '".Session::get('sess_BP_edadChd_2_'.$i)."', '".Session::get('sess_BP_Inf_'.$i)."'"; //habitaciones
+            }
+            
+            Session::set('sess_TraeProg', $sql);
+            //echo $sql; exit;
+            
+            $this->_view->objProgramas= $programas->exeTraeProgramas($sql, true);
+            $this->_view->objProgramasCNT = count($this->_view->objProgramas);
+        }
+        
+        Session::destroy('sess_BP_ciudadDes');
         $this->_view->currentMenu=0;
         $this->_view->procesoTerminado=false;
         $this->_view->titulo='ORISTRAVEL';
         $this->_view->renderingSystem('programas');
     }
+    
+    
+    
+    
+    
+    
     
     
     
@@ -296,15 +337,12 @@ class systemController extends Controller
         }
         //Creando los objetos para las View
         $objsFile= $M_file->getFile($nFile);
-        //$objsFileCNT= count($objsFile);
         
         $this->_view->CC_objsDetFile= $M_file->getDetFile($nFile);
-        $this->_view->CC_objsDetFileCNT= count($this->_view->CC_objsDetFile);
         
         $objsBloq= $M_bloqueos->getBloqueos($codBloq);
         
         $this->_view->CC_objsDetBloq= $M_bloqueos->getDetBloq($codBloq, $nFile);
-        $this->_view->CC_objsDetBloqCNT= count($this->_view->CC_objsDetBloq);
         
         $objsPackages= $M_packages->getPackages($codPRG);
         
@@ -335,6 +373,10 @@ class systemController extends Controller
         {
             $this->_view->CC_notas= str_replace("\n", "<br>", $objsBloq[0]->getNotas());
         }
+        else
+        {
+            $this->_view->CC_notas=false;
+        }
         
         $this->_view->numFile= $nFile;
         $this->_view->codigoPRG= $codPRG;
@@ -354,15 +396,21 @@ class systemController extends Controller
     {
         if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest')
         {
-            $tags= array_keys($this->getPOST());
-            $RP_rdbOpc=trim($this->getTexto($tags[1]));
-            $RP_idProg=trim($this->getTexto($tags[0]));
+            $RP_rdbOpc = false;
+            $RP_idProg = false;
             
-            if(empty($RP_rdbOpc))
-            {
-                throw new Exception('Seleccione una opcion para poder reservar');
+            $tags= array_keys($this->getPOST());
+            if(!empty($tags[1])) { 
+                $RP_rdbOpc= $this->getTexto($tags[1]);
+                $RP_idProg= $this->getTexto($tags[0]);
             }
-            else if(!empty($RP_idProg))
+            
+            
+            if(!$RP_rdbOpc)
+            {
+                throw new Exception('Seleccione una opcion para poder reservar.');
+            }
+            else if($RP_idProg)
             {
                 Session::set('sessRP_rdbOpc', $RP_rdbOpc);
                 Session::set('sessRP_idPrograma', $RP_idProg);
@@ -396,8 +444,6 @@ class systemController extends Controller
                     
                     $this->_view->hoteles= $this->_view->objOpcionProg[0]->getHoteles();
                     $this->_view->hotelesCNT= count($this->_view->hoteles);
-                    
-                    
                     $this->_view->renderingCenterBox('reservarPrograma');
                 }
                 else
@@ -587,7 +633,6 @@ class systemController extends Controller
             
             
             $this->_view->ETH_objsTipoHab= $ETH_tHab->getTipoHab();
-            $this->_view->ETH_objsTipoHabCNT= count($this->_view->ETH_objsTipoHab);
         
             
             $this->_view->renderingCenterBox('editarTipoHab');
@@ -788,7 +833,6 @@ class systemController extends Controller
             $categorias= $this->loadModel('categoria');
 
             $this->_view->objCategorias= $categorias->getCategorias();
-            $this->_view->objCategoriasCNT= count($this->_view->objCategorias);
             
             
             $objHotel= $hoteles->getHotel($EH_codHotel);
@@ -1273,6 +1317,8 @@ class systemController extends Controller
     {
         $this->_view->ML_fechaIni=  Session::get('sess_fechaDefault');
         $this->_view->ML_fechaFin=  Session::get('sess_fechaDefault');
+        $this->_view->ML_fechaIni_PRG=  Session::get('sess_fechaDefault');
+        $this->_view->ML_fechaFin_PRG=  Session::get('sess_fechaDefault');
     }
     
     private function _alert($tipo=false, $msg=false)
@@ -1302,7 +1348,7 @@ class systemController extends Controller
     *                             METODOS PROCESADORES                             *
     *                                                                              *
     *******************************************************************************/
-    public function buscarProgramas()
+    public function buscarBloqueos()
     {
         $BP_cntHab= $this->getInt('mL_cmbHab');
         $BP_ciudadDes= $this->getTexto('mL_txtCiudadDestino');
@@ -1319,6 +1365,73 @@ class systemController extends Controller
         Session::set('sess_BP_fechaIn', $BP_fechaIn);
         Session::set('sess_BP_fechaOut', $BP_fechaOut);
         Session::set('sess_BP_hotel', $BP_hotel);
+
+
+        Session::set('sess_BP_cntPas', 0);
+        Session::set('sess_BP_cntAdl', 0);
+        Session::set('sess_BP_cntChd', 0);
+        Session::set('sess_BP_cntInf', 0);
+        for($i=1; $i<=3; $i++)
+        {
+            if($i<=$BP_cntHab)
+            {
+                Session::set('sess_BP_Adl_'.$i, $this->getInt('mL_cmbAdultos_'.$i));
+                Session::set('sess_BP_Chd_'.$i, $this->getInt('mL_child_'.$i));
+                Session::set('sess_BP_Inf_'.$i, $this->getInt('mL_inf_'.$i));
+
+
+                if(Session::get('sess_BP_Adl_'.$i)>0)
+                {
+                    Session::set('sess_BP_cntAdl', (Session::get('sess_BP_cntAdl')+1));
+                }
+                if(Session::get('sess_BP_Chd_'.$i)>0)
+                {
+                    Session::set('sess_BP_cntChd', (Session::get('sess_BP_cntChd')+1));
+                }
+                if(Session::get('sess_BP_Inf_'.$i)>0)
+                {
+                    Session::set('sess_BP_cntInf', (Session::get('sess_BP_cntInf')+1));
+                }
+
+
+                for($x=1; $x<=2; $x++)
+                {
+                    Session::set('sess_BP_edadChd_'.$x.'_' . $i, $this->getInt('mL_edadChild_'.$x.'_'.$i));
+                }
+
+                Session::set('sess_BP_cntPas', (Session::get('sess_BP_cntPas')+Session::get('sess_BP_Adl_'.$i)+Session::get('sess_BP_Chd_'.$i)));
+            }
+            else
+            {
+                Session::set('sess_BP_Adl_'.$i, 0);
+                Session::set('sess_BP_Chd_'.$i, 0);
+                Session::set('sess_BP_Inf_'.$i, 0);
+
+                Session::set('sess_BP_edadChd_1_'.$i, 0);
+                Session::set('sess_BP_edadChd_2_'.$i, 0);
+            }
+        }
+
+        $this->redireccionar('system/bloqueos');
+    }
+    
+    public function buscarProgramas()
+    {
+        $BP_cntHab= $this->getInt('mL_cmbHab_PRG');
+        $BP_ciudadDes= $this->getTexto('mL_txtCiudadDestino_PRG');
+        $BP_fechaIn= $this->getTexto('mL_txtFechaIn_PRG');
+        $BP_fechaOut= $this->getTexto('mL_txtFechaOut_PRG');
+        $BP_hotel= $this->getTexto('mL_txtHotel_PRG');
+
+        if($BP_ciudadDes)
+        {
+            Session::set('sess_BP_ciudadDes_PRG', $BP_ciudadDes);
+        }
+
+        Session::set('sess_BP_cntHab_PRG', $BP_cntHab);
+        Session::set('sess_BP_fechaIn_PRG', $BP_fechaIn);
+        Session::set('sess_BP_fechaOut_PRG', $BP_fechaOut);
+        Session::set('sess_BP_hotel_PRG', $BP_hotel);
 
 
         Session::set('sess_BP_cntPas', 0);

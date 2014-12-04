@@ -681,6 +681,69 @@ function abrePopup(div, docPHP, idTitulo, titulo, val)
 
 
 
+    /*BEGIN: Busqueda de Bloqueos */
+    $('#btnBuscarBloqueos').on('click',function()
+    {
+        var mL_Error=0;
+        $("#btnBuscarBloqueos").attr('disabled', 'disabled');
+        if($('#mL_txtCiudadDestino').val() != 0)
+        {
+            if($('#mL_cmbHab').val() != 0)
+            {
+                $(document).skylo('start');
+
+                setTimeout(function(){
+                        $(document).skylo('set',50);
+                },1000);
+
+                setTimeout(function(){
+                        $(document).skylo('end');
+                },1500);
+                setTimeout(function(){
+                   document.getElementById('frmBuscarBloqueos').submit();
+                },2500);
+            }
+            else
+            {
+                mL_Error=1;
+                $('#mensajeWar').html('Debe seleccionar la cantidad de habitaciones');
+            }
+        }
+        else
+        {
+            mL_Error=1;
+            $('#mensajeWar').html('Debe seleccionar una ciudad de destino');	
+        }
+
+
+
+
+        if( mL_Error==1 )
+        {
+            $('#divAlertWar').delay( 10 ).fadeIn( 500 );
+            $('#divAlertWar').animate({
+                    'display': 'block'
+            });
+
+            $('#divAlertWar').delay( 2000 ).fadeOut( 500 );
+            $('#divAlertWar').animate({
+                                        'display': 'none'
+                                    });
+
+            $("#btnBuscarBloqueos").delay(2000).queue(function(dis)
+            {
+                $("#btnBuscarBloqueos").removeAttr("disabled");
+                dis();
+            });	
+        }
+		
+    });
+    /*END: Busqueda de Bloqueos*/
+    
+    
+    
+    
+    
     /*BEGIN: Busqueda de Programas */
     $('#btnBuscarProgramas').on('click',function()
     {
@@ -739,9 +802,6 @@ function abrePopup(div, docPHP, idTitulo, titulo, val)
 		
     });
     /*END: Busqueda de Programas*/
-    
-    
-    
     
     
     

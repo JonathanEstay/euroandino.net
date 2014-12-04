@@ -51,7 +51,7 @@ class usuarioDAO extends Model
                 $userObj->setDepto(trim($usdb['depto']));
                 $userObj->setAtipoa(trim($usdb['atipoa']));
                 
-                $userObj->setFirma(trim($usdb['firma']));
+                //$userObj->setFirma(trim($usdb['firma']));
                 $userObj->setEmail(trim($usdb['email']));
                 $userObj->setEmailOpera(trim($usdb['email_opera']));
 

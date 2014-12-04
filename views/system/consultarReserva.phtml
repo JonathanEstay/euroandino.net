@@ -160,26 +160,25 @@ $(function()
                                 <tbody>
                                 
                                  <?php
-                                    if($this->objReservas!=false)
+                                    if($this->objReservas)
                                     { 
-                                        //foreach($var_getConsRes as $columRes)
-                                        for($i=0; $i<$this->objReservasCNT; $i++)
+                                        foreach($this->objReservas as $objRes)
                                         {
-                                            $valorVenta= $this->objReservas[$i]->getTotVenta();
-                                            $valorPago= $this->objReservas[$i]->getTotPag(); //intval($columRes["totpag"]);
-                                            $cR_moneda= $this->objReservas[$i]->getMoneda();
-                                            $cR_fecha= $this->objReservas[$i]->getFecha();
-                                            $cR_fViaje= $this->objReservas[$i]->getFViaje();
-                                            $cR_nFile= $this->objReservas[$i]->getFile();
-                                            $cR_agencia= $this->objReservas[$i]->getAgencia();
-                                            $cR_nomPax= $this->objReservas[$i]->getNomPax();
-                                            $cR_totVenta= Functions::formatoValor($cR_moneda, $this->objReservas[$i]->getTotVenta());
+                                            $valorVenta= $objRes->getTotVenta();
+                                            $valorPago= $objRes->getTotPag(); //intval($columRes["totpag"]);
+                                            $cR_moneda= $objRes->getMoneda();
+                                            $cR_fecha= $objRes->getFecha();
+                                            $cR_fViaje= $objRes->getFViaje();
+                                            $cR_nFile= $objRes->getFile();
+                                            $cR_agencia= $objRes->getAgencia();
+                                            $cR_nomPax= $objRes->getNomPax();
+                                            $cR_totVenta= Functions::formatoValor($cR_moneda, $objRes->getTotVenta());
 
-                                            $cR_codProg= $this->objReservas[$i]->getCodPak();
-                                            $cR_codBloq= $this->objReservas[$i]->getRecordC();
+                                            $cR_codProg= $objRes->getCodPak();
+                                            $cR_codBloq= $objRes->getRecordC();
 
 
-                                            $cR_estado= $this->objReservas[$i]->getEstado();
+                                            $cR_estado= $objRes->getEstado();
                                             $imgStatus='';
                                             $voucherStatus='';
                                             if($cR_estado<>'N' && $valorPago < ($valorVenta -1))

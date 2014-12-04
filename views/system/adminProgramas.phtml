@@ -48,10 +48,10 @@
                                                         <?php 
                                                         if($this->objCiudades)
                                                         { 
-                                                            for($i=0; $i<$this->objCiudadesCNT; $i++)
+                                                            foreach($this->objCiudades as $objCiu)
                                                             {
                                                                 //$mL_codigoCiuPRG= trim($this->objCiudades[$i]->getCodigo());
-                                                                $mL_nombreCiuPRG= trim($this->objCiudades[$i]->getNombre());
+                                                                $mL_nombreCiuPRG= $objCiu->getNombre();
                                                                 //$mL_nombreCiudadPRG = $mL_nombreCiuPRG." (".$mL_codigoCiuPRG.")";
 
                                                                 if(Session::get('sess_AP_ciudad')==$mL_nombreCiuPRG)
@@ -147,18 +147,15 @@
                                 //$var_getProgAdmin= $privateFunctions->getProgramasAdmin($_SESSION["sess_pAP_ciudad"]);
                                 if($this->objProgramas)
                                 { 
-                                    for($i=0; $i<$this->objProgramasCNT; $i++)
+                                    foreach($this->objProgramas as $objProg)
                                     {
-                                        $aP_codigoProg= $this->objProgramas[$i]->getCodigo();
-                                        $aP_nombreProg= $this->objProgramas[$i]->getNombre();
-                                        $aP_ciudadProg= $this->objProgramas[$i]->getCiudad();
                                 ?>
                                         <tr class="odd gradeX">
-                                            <td><?php echo $aP_codigoProg; ?></td>
-                                            <td><?php echo $aP_nombreProg; ?></td>
-                                            <td><?php echo $aP_ciudadProg; ?></td>
+                                            <td><?php echo $objProg->getCodigo(); ?></td>
+                                            <td><?php echo $objProg->getNombre(); ?></td>
+                                            <td><?php echo $objProg->getCiudad(); ?></td>
                                             <td align="center">
-                                                <a data-toggle="modal" href="#myModal" onClick="abrePopup('AP_divPopup', '<?php echo BASE_URL; ?>system/editarPrograma', 'tituloForm', 'Carga de archivos', '<?php echo $aP_codigoProg; ?>');">
+                                                <a data-toggle="modal" href="#myModal" onClick="abrePopup('AP_divPopup', '<?php echo BASE_URL; ?>system/editarPrograma', 'tituloForm', 'Carga de archivos', '<?php echo $objProg->getCodigo(); ?>');">
                                                     <img src="<?php echo $_layoutParams['ruta_img']; ?>conf.png" width="24" />
                                                 </a>
                                             </td>
