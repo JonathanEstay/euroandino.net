@@ -231,7 +231,7 @@ class systemController extends Controller
         if(Session::get('sess_BP_ciudadDes'))
         {
             $this->loadDTO('incluye');
-            $programas= $this->loadModel('programa');
+            $programas= $this->loadModel('bloqueo');
             $sql="exec WEB_TraeProgramas_Oficial '".Session::get('sess_BP_ciudadDes')."', "
                     . "'".Functions::invertirFecha(Session::get('sess_BP_fechaIn'), '/', '-')."', "
                     . "'".Functions::invertirFecha(Session::get('sess_BP_fechaOut'), '/', '-')."', "
@@ -277,19 +277,9 @@ class systemController extends Controller
         {
             $this->loadDTO('incluye');
             $programas= $this->loadModel('programa');
-            $sql="exec WEB_TraeProgramas_Oficial '".Session::get('sess_BP_ciudadDes_PRG')."', "
-                    . "'".Functions::invertirFecha(Session::get('sess_BP_fechaIn_PRG'), '/', '-')."', "
-                    . "'".Functions::invertirFecha(Session::get('sess_BP_fechaOut_PRG'), '/', '-')."', "
-                    //. "'".str_replace('/', '-', Session::get('sess_BP_fechaIn'))."', "
-                    //. "'".str_replace('/', '-', Session::get('sess_BP_fechaOut'))."', "
-                    . "'".Session::get('sess_BP_cntPas')."', '".Session::get('sess_BP_hotel_PRG')."'";
-            for($i=1; $i<=3; $i++)
-            {	
-                $sql.= ", '".Session::get('sess_BP_Adl_'.$i)."', '".Session::get('sess_BP_edadChd_1_'.$i)."', 
-                        '".Session::get('sess_BP_edadChd_2_'.$i)."', '".Session::get('sess_BP_Inf_'.$i)."'"; //habitaciones
-            }
+            $sql="EXEC TS_GET_PROGRAMAS '".Session::get('sess_BP_ciudadDes_PRG')."', '', '".Functions::invertirFecha(Session::get('sess_BP_fechaIn_PRG'), '/', '-')."' ";
             
-            Session::set('sess_TraeProg', $sql);
+            Session::set('sess_TS_GET_PROGRAMAS', $sql);
             //echo $sql; exit;
             
             $this->_view->objProgramas= $programas->exeTraeProgramas($sql, true);

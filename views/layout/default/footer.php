@@ -50,10 +50,9 @@
         <script type='text/javascript' src='<?php echo $_layoutParams['ruta_js']; ?>jquery.stepy.js'></script>
         <script type='text/javascript' src='<?php echo $_layoutParams['ruta_js']; ?>demo-formwizard.js'></script> 
         
-        <?php if($this->procesoTerminado){ sleep(1); ?>
+        <?php if(isset($this->procesoTerminado) && $this->procesoTerminado) { sleep(1); ?>
         <script>
-            if($(':contains("{fechaSalida}")').length >= 18)
-            {
+            if($(':contains("{fechaSalida}")').length >= 18) {
                 $("#accordion").html('<div id="divAlertWarHot" class="alert alert-dismissable alert-warning"><strong>Atenci&oacute;n!</strong><br>Ha ocurrido un error en el armado de programas. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="<?php echo BASE_URL ?>system/programas" class="btn btn-primary">Volver a cargar datos</a></div>');
             }
         </script>

@@ -306,10 +306,10 @@ $(function()
                         <select name="mL_txtCiudadDestino_PRG" id="mL_txtCiudadDestino_PRG" class="form-control" >
                             <option value="0">Seleccione destino</option>
                             <?php 
-                            if($this->objCiudades)
-                            { 
-                                foreach($this->objCiudades as $objCiu)
-                                {
+                            if($this->objCiudades) {
+                                
+                                foreach($this->objCiudades as $objCiu) {
+                                    
                                     //$mL_codigoCiuPRG= trim($this->objCiudades[$i]->getCodigo());
                                     $mL_nombreCiuPRG= $objCiu->getNombre();
                                     //$mL_nombreCiudadPRG = $mL_nombreCiuPRG." (".$mL_codigoCiuPRG.")";

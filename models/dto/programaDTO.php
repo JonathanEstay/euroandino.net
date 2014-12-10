@@ -12,242 +12,258 @@ class programaDTO
     private $_LINEA;
     private $_MSG;
     
-    private $_codigo;
-    private $_nombre;
     private $_id;
-    private $_ciudad;
-    private $_nota;
-    private $_id_opc;
+    private $_codigo;
     private $_desde;
-    private $_valor_hab;
-    private $_nota_opc;
+    private $_hasta;
+    private $_noches;
+    private $_tipo_p;
+    private $_cod_bloq;
+    private $_espacios;
+    private $_pais;
+    private $_ciudad;
+    private $_titulo;
+    private $_epigrafe;
     private $_moneda;
-    private $_itinerario_vuelo;
-    private $_tramo;
-    
-    private $_hoteles;
-    private $_cod_hoteles;
-    private $_pa;
-    private $_th;
-    private $_cod_th;
-    private $_cat;
-    
+    private $_tcambio;
+    private $_valor_desde;
+    private $_aereo;
+    private $_hotel;
+    private $_traslado;
+    private $_allInclu;
+    private $_rauto;
+    private $_crucero;
+    private $_asisten;
+    private $_itinera;
+    private $_imagen;
+    private $_nota;
     private $_incluye;
+    private $_descrip;
+    private $_cat_estrella;
+    private $_iata;
     
     
-    
-    
-    public function getTramo()
-    {
-        return $this->_tramo;
+    public function getIata() {
+        return $this->_iata;
     }
-    public function setTramo($tramo)
-    {
-        $this->_tramo=$tramo;
-    }
-    
-    
-    public function getItiVuelo()
-    {
-        return $this->_itinerario_vuelo;
-    }
-    public function setItiVuelo($iv)
-    {
-        $this->_itinerario_vuelo=$iv;
+    public function setIata($iata) {
+        $this->_iata = $iata;
     }
     
-    
-    public function getMoneda()
-    {
-        return $this->_moneda;
+    public function getCatEstrella() {
+        return $this->_cat_estrella;
     }
-    public function setMoneda($moneda)
-    {
-        $this->_moneda=$moneda;
+    public function setCatEstrella($cat) {
+        $this->_cat_estrella = $cat;
     }
     
-    
-    public function getNotaOpc()
-    {
-        return $this->_nota_opc;
+    public function getDescrip() {
+        return $this->_descrip;
     }
-    public function setNotaOpc($nota)
-    {
-        $this->_nota_opc=$nota;
+    public function setDescrip($desc) {
+        $this->_descrip = $desc;
     }
     
-    
-    public function getValorHab()
-    {
-        return $this->_valor_hab;
-    }
-    public function setValorHab($vhab)
-    {
-        $this->_valor_hab=$vhab;
-    }
-    
-    
-    public function getDesde()
-    {
-        return $this->_desde;
-    }
-    public function setDesde($desde)
-    {
-        $this->_desde=$desde;
-    }
-    
-    
-    public function getIncluye()
-    {
+    public function getIncluye() {
         return $this->_incluye;
     }
-    public function setIncluye($inc)
-    {
-        $this->_incluye=$inc;
+    public function setIncluye($inc) {
+        $this->_incluye = $inc;
     }
     
-    
-    public function getCat()
-    {
-        return $this->_cat;
-    }
-    public function setCat($cat)
-    {
-        $this->_cat=$cat;
-    }
-    
-    
-    public function getCodTH()
-    {
-        return $this->_cod_th;
-    }
-    public function setCodTH($cth)
-    {
-        $this->_cod_th=$cth;
-    }
-    
-    
-    public function getTH()
-    {
-        return $this->_th;
-    }
-    public function setTH($th)
-    {
-        $this->_th=$th;
-    }
-    
-    
-    public function getPA()
-    {
-        return $this->_pa;
-    }
-    public function setPA($pa)
-    {
-        $this->_pa=$pa;
-    }
-    
-    
-    public function getHoteles()
-    {
-        return $this->_hoteles;
-    }
-    public function setHoteles($h)
-    {
-        $this->_hoteles=$h;
-    }
-    
-    
-    public function getCodHoteles()
-    {
-        return $this->_cod_hoteles;
-    }
-    public function setCodHoteles($ch)
-    {
-        $this->_cod_hoteles=$ch;
-    }
-    
-    
-    public function getIdOpc()
-    {
-        return $this->_id_opc;
-    }
-    public function setIdOpc($id)
-    {
-        $this->_id_opc=$id;
-    }
-    
-    
-    public function getNota()
-    {
+    public function getNota() {
         return $this->_nota;
     }
-    public function setNota($nota)
-    {
-        $this->_nota=$nota;
+    public function setNota($nota) {
+        $this->_nota = $nota;
     }
     
-    
-    public function getLINEA()
-    {
-        return $this->_LINEA;
+    public function getImagen() {
+        return $this->_imagen;
     }
-    public function setLINEA($linea)
-    {
-        $this->_LINEA=$linea;
+    public function setImagen($img) {
+        $this->_imagen = $img;
     }
     
-    public function getMSG()
-    {
-        return $this->_MSG;
+    public function getIti() {
+        return $this->_itinera;
     }
-    public function setMSG($msg)
-    {
-        $this->_MSG=$msg;
+    public function setIti($iti) {
+        $this->_itinera = $iti;
     }
     
-    public function getERROR()
-    {
-        return $this->_ERROR;
+    public function getAsis() {
+        return $this->_asisten;
     }
-    public function setERROR($error)
-    {
-        $this->_ERROR=$error;
+    public function setAsis($asis) {
+        $this->_asisten = $asis;
     }
     
-    public function getCiudad()
-    {
+    public function getCrucero() {
+        return $this->_crucero;
+    }
+    public function setCrucero($crucero) {
+        $this->_crucero = $crucero;
+    }
+    
+    public function getRAauto() {
+        return $this->_rauto;
+    }
+    public function setRAuto($rauto) {
+        $this->_rauto = $rauto;
+    }
+    
+    public function getAllInclu() {
+        return $this->_allInclu;
+    }
+    public function setAllInclu($all) {
+        $this->_allInclu = $all;
+    }
+    
+    public function getTraslado() {
+        return $this->_traslado;
+    }
+    public function setTraslado($tras) {
+        $this->_traslado = $tras;
+    }
+    
+    public function getHotel() {
+        return $this->_hotel;
+    }
+    public function setHotel($hotel) {
+        $this->_hotel = $hotel;
+    }
+    
+    public function getAereo() {
+        return $this->_aereo;
+    }
+    public function setAereo($aereo) {
+        $this->_aereo = $aereo;
+    }
+    
+    public function getValorDesde() {
+        return $this->_valor_desde;
+    }
+    public function setValorDesde($vdesde) {
+        $this->_valor_desde = $vdesde;
+    }
+    
+    public function getTcambio() {
+        return $this->_tcambio;
+    }
+    public function setTcambio($tc) {
+        $this->_tcambio = $tc;
+    }
+    
+    public function getMoneda() {
+        return $this->_moneda;
+    }
+    public function setMoneda($mon) {
+        $this->_moneda = $mon;
+    }
+    
+    public function getEpigrafe() {
+        return $this->_epigrafe;
+    }
+    public function setEpigrafe($epi) {
+        $this->_epigrafe = $epi;
+    }
+    
+    public function getTitulo() {
+        return $this->_titulo;
+    }
+    public function setTitulo($tit) {
+        $this->_titulo = $tit;
+    }
+    
+    public function getCiudad() {
         return $this->_ciudad;
     }
-    public function setCiudad($ciu)
-    {
-        $this->_ciudad=$ciu;
+    public function setCiudad($ciu) {
+        $this->_ciudad = $ciu;
     }
     
-    
-    public function getId()
-    {
-        return $this->_id;
+    public function getPais() {
+        return $this->_pais;
     }
-    public function setId($id)
-    {
-        $this->_id=$id;
+    public function setPais($pais) {
+        $this->_pais = $pais;
     }
     
-    public function setCodigo($cod)
-    {
-        $this->_codigo=$cod;
+    public function getEspacios() {
+        return $this->_espacios;
     }
-    public function getCodigo()
-    {
+    public function setEspacios($esp) {
+        $this->_espacios = $esp;
+    }
+    
+    public function getCodBloq() {
+        return $this->_cod_bloq;
+    }
+    public function setCodBloq($cod) {
+        $this->_cod_bloq = $cod;
+    }
+    
+    public function getTipoP() {
+        return $this->_tipo_p;
+    }
+    public function setTipoP($tipoP) {
+        $this->_tipo_p = $tipoP;
+    }
+    
+    public function getNoches() {
+        return $this->_noches;
+    }
+    public function setNoches($noches) {
+        $this->_noches = $noches;
+    }
+    
+    public function getHasta() {
+        return $this->_hasta;
+    }
+    public function setHasta($hasta) {
+        $this->_hasta = $hasta;
+    }
+    
+    public function getDesde() {
+        return $this->_desde;
+    }
+    public function setDesde($desde) {
+        $this->_desde = $desde;
+    }
+    
+    public function getCodigo() {
         return $this->_codigo;
     }
-    
-    public function setNombre($nombre)
-    {
-        $this->_nombre=$nombre;
+    public function setCodigo($cod) {
+        $this->_codigo = $cod;
     }
-    public function getNombre()
-    {
-        return $this->_nombre;
+    
+    public function getId() {
+        return $this->_id;
+    }
+    public function setId($id) {
+        $this->_id = $id;
+    }
+    
+    public function getLINEA() {
+        return $this->_LINEA;
+    }
+    public function setLINEA($linea) {
+        $this->_LINEA = $linea;
+    }
+    
+    public function getMSG() {
+        return $this->_MSG;
+    }
+    public function setMSG($msg) {
+        $this->_MSG = $msg;
+    }
+    
+    public function getERROR() {
+        return $this->_ERROR;
+    }
+    public function setERROR($error) {
+        $this->_ERROR = $error;
     }
 }

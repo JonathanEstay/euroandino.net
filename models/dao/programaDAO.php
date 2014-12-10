@@ -319,4 +319,56 @@ class programaDAO extends Model
             return false;
         }
     }
+    
+    
+    public function exeTS_GET_PROGRAMAS($sql) {
+        $datos = $this->_db->consulta($sql);
+        if($this->_db->numRows($datos)>0) {
+            
+            $objetosProg = array();
+            $arrayProgramas= $this->_db->fetchAll($datos);
+            
+            foreach ($arrayProgramas as $progDB) {
+                $objProg = new programaDTO();
+
+                $objProg->setId(trim($progDB['idProg']));
+                $objProg->setCodigo(trim($progDB['codProg']));
+                $objProg->setDesde(trim($progDB['desde']));
+                $objProg->setHasta(trim($progDB['hasta']));
+                $objProg->setNoches(trim($progDB['ntsProg']));
+                $objProg->setTipoP(trim($progDB['tipoProg']));
+                $objProg->setCodBloq(trim($progDB['codBloq']));
+                $objProg->setEspacios(trim($progDB['espacios']));
+                $objProg->setPais(trim($progDB['paisPRG']));
+                $objProg->setCiudad(trim($progDB['ciudadPRG']));
+                $objProg->setTitulo(trim($progDB['titulo']));
+                $objProg->setEpigrafe(trim($progDB['epigrafe']));
+                $objProg->setMoneda(trim($progDB['moneda']));
+                $objProg->setTcambio(trim($progDB['tcambio']));
+                $objProg->setValorDesde(trim($progDB['valdesde']));
+                $objProg->setAereo(trim($progDB['aereo']));
+                $objProg->setHotel(trim($progDB['hotel']));
+                $objProg->setTraslado(trim($progDB['traslado']));
+                $objProg->setAllInclu(trim($progDB['allInclu']));
+                $objProg->setRAuto(trim($progDB['rauto']));
+                $objProg->setCrucero(trim($progDB['crucero']));
+                $objProg->setAsis(trim($progDB['asisten']));
+                $objProg->setIti(trim($progDB['itinera']));
+                $objProg->setImagen(trim($progDB['imagen']));
+                $objProg->setNota(trim($progDB['nota']));
+                $objProg->setIncluye(trim($progDB['incluye']));
+                $objProg->setDescrip(trim($progDB['descrip']));
+                $objProg->setCatEstrella(trim($progDB['CatEstrella']));
+                $objProg->setIata(trim($progDB['iata']));
+                
+                $objetosProg[] = $objProg;
+            }
+
+            return $objetosProg;
+            
+        } else {
+            return false;
+        }
+    }
+    
 }
