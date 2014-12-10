@@ -8,6 +8,7 @@
 
 class Acl
 {
+    private $_registry;
     private $_db;
     private $_id;
     private $_role;
@@ -31,7 +32,8 @@ class Acl
             }
         }
         
-        $this->_db = new Database();
+        $this->_registry = Registry::getInstancia();
+        $this->_db = $this->_registry->_db;
         $this->_role = $this->getRole();
         $this->_permisos = $this->getPermisosRole();
         $this->compilarAcl();

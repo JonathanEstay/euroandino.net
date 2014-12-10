@@ -19,22 +19,23 @@ date_default_timezone_set('America/Santiago');
 //date_default_timezone_set('America/Argentina/Buenos_Aires');
 header('Content-Type: text/html; charset=' . CHARSET);
 
+
+
 try
 {
+    require_once APP_PATH . 'Autoload.php';
     require_once APP_PATH . 'Config.php';
-    require_once APP_PATH . 'Request.php';
-    require_once APP_PATH . 'Bootstrap.php';
-    require_once APP_PATH . 'Controller.php';
-    require_once APP_PATH . 'Model.php';
-    require_once APP_PATH . 'View.php';
-    require_once APP_PATH . 'Registro.php'; //Trabajar con patron Singleton
-    require_once APP_PATH . 'Database.php';
-    require_once APP_PATH . 'Session.php';
-    require_once APP_PATH . 'Functions.php';
-
+    
     Session::init();
+    
+    $registry = Registry::getInstancia();
+    $registry->_request = new Request();
+    $registry->_db = new Database();
+    //$registry->_acl = new Acl();
+    
+    
 
-    Bootstrap::run(new Request);
+    Bootstrap::run($registry->_request);
 }
 catch (Exception $e)
 {

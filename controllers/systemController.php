@@ -176,7 +176,7 @@ class systemController extends Controller
     {
         Session::acceso('Usuario');
         
-        $this->getLibrary('fpdf');
+        //$this->getLibrary('fpdf');
         $this->getLibrary('pdf_html');
         
         $pdf= new PDF('P', 'mm','letter');
@@ -470,7 +470,7 @@ class systemController extends Controller
             }
             else
             {
-                $this->getLibrary('class.phpmailer');
+                //$this->getLibrary('class.phpmailer');
                 $this->mailReserva($n_file, $html);
                 echo 'OK' . '&' . $n_file . '&' . $cod_prog . '&' . $cod_bloq;
             }
@@ -685,7 +685,7 @@ class systemController extends Controller
         if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest')
         {
             $MTH_tHab= $this->loadModel('tipoHab');
-            $this->getLibrary('upload' . DS . 'class.upload');
+            //$this->getLibrary('upload' . DS . 'class.upload');
             $rutaImg= ROOT . 'public' . DS . 'img' . DS .'tipo_habitacion' . DS;
 
             $cntFotos=0;
@@ -912,7 +912,7 @@ class systemController extends Controller
             
             
             $MH_Hotel= $this->loadModel('hotel');
-            $this->getLibrary('upload' . DS . 'class.upload');
+            //$this->getLibrary('upload' . DS . 'class.upload');
             $rutaImg= ROOT . 'public' . DS . 'img' . DS .'hoteles' . DS;
 
             
@@ -1132,7 +1132,7 @@ class systemController extends Controller
             {
                 if($_FILES['flPDF']['name'])
                 {
-                    $this->getLibrary('upload' . DS . 'class.upload');
+                    //$this->getLibrary('upload' . DS . 'class.upload');
 
                     $upload= new upload($_FILES['flPDF'], 'es_ES');
                     $upload->allowed= array('application/pdf');
@@ -1228,7 +1228,7 @@ class systemController extends Controller
             {
                 if($_FILES['flImagenVouAgen']['name'])
                 {
-                    $this->getLibrary('upload' . DS . 'class.upload');
+                    //$this->getLibrary('upload' . DS . 'class.upload');
 
                     $upload= new upload($_FILES['flImagenVouAgen'], 'es_ES');
                     $upload->allowed= array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');

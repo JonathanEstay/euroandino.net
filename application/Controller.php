@@ -8,10 +8,12 @@
 
 abstract class Controller
 {
+    private $_registry;
     protected $_view;
     
     public function __construct() {
-        $this->_view= new view(new Request());
+        $this->_registry = Registry::getInstancia();
+        $this->_view= new view($this->_registry->_request);
     }
     
     abstract public function index();

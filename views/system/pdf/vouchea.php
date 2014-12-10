@@ -294,7 +294,7 @@ while($row = mssql_fetch_array($res))
 	// Obtener PRE-PAGO.
 	if($row["codhtl"] == $row["provee"] || $row["codhtl"] == "0" || $row["codhtl"] == "")
 	{
-		$desc_empresa = $_SESSION["nombre_emp_xml"];
+		$desc_empresa = ENT_NAME;
 	}
 	elseif($row["provee"] > 0)
 	{
@@ -419,7 +419,7 @@ while($row = mssql_fetch_array($res))
                 <tr valign="top">
                 	<td>Conf. Number: </td>
                     <td><strong><?php echo $row["nconf"]; ?></strong></td>
-                    <td><strong><?php echo $nombre_opects; ?></strong> <br /><?php echo $_SESSION["nombre_emp_xml"]; ?></td>
+                    <td><strong><?php echo $nombre_opects; ?></strong> <br /><?php echo ENT_NAME; ?></td>
                 </tr>
             </table>
         <!-- <div style="width:750px;" align="center">&nbsp;</div> -->        </td>
