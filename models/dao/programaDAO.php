@@ -340,7 +340,7 @@ class programaDAO extends Model
                 $objProg->setCodBloq(trim($progDB['codBloq']));
                 $objProg->setEspacios(trim($progDB['espacios']));
                 $objProg->setPais(trim($progDB['paisPRG']));
-                $objProg->setCiudad(trim($progDB['ciudadPRG']));
+                $objProg->setCiudad(trim($progDB['ciuPRG']));
                 $objProg->setTitulo(trim($progDB['titulo']));
                 $objProg->setEpigrafe(trim($progDB['epigrafe']));
                 $objProg->setMoneda(trim($progDB['moneda']));
@@ -365,6 +365,86 @@ class programaDAO extends Model
             }
 
             return $objetosProg;
+            
+        } else {
+            return false;
+        }
+    }
+    
+    
+    
+    public function exeTS_GET_DETALLEPROG($sql) {
+        $datos = $this->_db->consulta($sql);
+        if($this->_db->numRows($datos)>0) {
+            
+            $objetosDetProg = array();
+            $arrayDetProgramas= $this->_db->fetchAll($datos);
+            
+            //echo 'VAR:: '.var_dump($arrayDetProgramas); exit;
+            foreach ($arrayDetProgramas as $detProgDB) {
+                
+                $objDetProg = new detalleProgramaDTO();
+                
+                if(isset($detProgDB['Error'])) {
+
+                    $objDetProg->setError(trim($detProgDB['Error']));
+                    $objDetProg->setMensaje(trim($detProgDB['Mensaje']));
+                    
+                } else {
+                    $nomHotel= array();
+                    $codHotel= array();
+                    $dirHotel= array();
+                    $catHotel= array();
+                    $starHotel= array();
+                    $codTH= array();
+                    $TH= array();
+
+                    
+
+                    $objDetProg->setCodProg(trim($detProgDB['codProg']));
+                    $objDetProg->setCodBloq(trim($detProgDB['codBloq']));
+                    $objDetProg->setClaveOpc(trim($detProgDB['claveOpc']));
+                    $objDetProg->setFechaBloq(trim($detProgDB['fecBloq']));
+                    $objDetProg->setDesde(trim($detProgDB['desde']));
+                    $objDetProg->setDesde(trim($detProgDB['hasta']));
+                    $objDetProg->setCupBloq(trim($detProgDB['cupBloq']));
+                    $objDetProg->setCodAero(trim($detProgDB['codAero']));
+                    $objDetProg->setAerolin(trim($detProgDB['aerolin']));
+                    $objDetProg->setMoneda(trim($detProgDB['moneda']));
+                    $objDetProg->setTCambio(trim($detProgDB['tcambio']));
+                    $objDetProg->setVVenSGL(trim($detProgDB['vVen_SGL']));
+                    $objDetProg->setVNetoSGL(trim($detProgDB['vNeto_SGL']));
+                    $objDetProg->setVVenDBL(trim($detProgDB['vVen_DBL']));
+                    $objDetProg->setVNetoDBL(trim($detProgDB['vNeto_DBL']));
+                    $objDetProg->setVVenTPL(trim($detProgDB['vVen_TPL']));
+                    $objDetProg->setVNetoTPL(trim($detProgDB['vNeto_TPL']));
+                    //$objDetProg->setXxx(trim($detProgDB['xxx']));
+
+                    /* HOTELES */
+                    for($i=1; $i<=5; $i++) {
+                        $nomHotel[]=trim($detProgDB['nomHotel_'.$i]);
+                        $codHotel[]=trim($detProgDB['codHotel_'.$i]);
+                        $dirHotel[]=trim($detProgDB['dirHotel_'.$i]);
+                        $catHotel[]=trim($detProgDB['catHot_'.$i]);
+                        $starHotel[]=trim($detProgDB['catEstrella_'.$i]);
+                        $codTH[]=trim($detProgDB['codTH_'.$i]);
+                        $TH[]=trim($detProgDB['tipoHab_'.$i]);
+                    }
+
+                    $objDetProg->setNombreHotel($nomHotel);
+                    $objDetProg->setCodHotel($codHotel);
+                    $objDetProg->setDir($dirHotel);
+                    $objDetProg->setCat($catHotel);
+                    $objDetProg->setEstrellas($starHotel);
+                    $objDetProg->setCodTH($codTH);
+                    $objDetProg->setTipoHab($TH);
+                    /* HOTELES */
+                }
+                
+                $objetosDetProg[] = $objDetProg;
+            }
+
+            return $objetosDetProg;
             
         } else {
             return false;

@@ -234,18 +234,18 @@ class Functions
     }
     
     
-    public function formatoValor($tipo, $dinero)
+    public function formatoValor($moneda, $dinero)
     {
-        if($tipo=='P')
-        {
-            $nuevo_dinero=number_format($dinero, 0, ',', '.');
-        }
-        else if($tipo=='D')
-        {
-            $nuevo_dinero=number_format($dinero, 2, ',', '.');
+        $valor=false;
+        if ($moneda == 'P') {
+            $valor = '$ ' . number_format($dinero, 0, ',', '.');
+        } else if ($moneda == 'D') {
+            $valor = 'USD ' . number_format($dinero, 2, ',', '.');
+        } elseif ($moneda == 'E') {
+            $valor = 'EUR ' . number_format($dinero, 0, ',', '.');
         }
 
-        return $nuevo_dinero;
+        return $valor;
     }
     
     public static function getBrowser()

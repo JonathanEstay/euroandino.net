@@ -36,7 +36,9 @@ class systemController extends Controller
         //$this->_view->setJS(array(''));
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
+        $this->_view->objCiudadesPRG= $this->_ciudad->getCiudades();
         
+        $this->_view->index=true;
         $this->_view->currentMenu=0;
         $this->_view->titulo='ORISTRAVEL';
         $this->_view->renderingSystem('index');
@@ -49,6 +51,7 @@ class systemController extends Controller
         $reserva= $this->loadModel('reserva');
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
+        $this->_view->objCiudadesPRG= $this->_ciudad->getCiudades();
         
         $this->_view->rdbRes=false;
         
@@ -105,6 +108,7 @@ class systemController extends Controller
         $hoteles= $this->loadModel('hotel');
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
+        $this->_view->objCiudadesPRG= $this->_ciudad->getCiudades();
 
 
         $this->_view->objCategorias= $categorias->getCategorias();
@@ -131,6 +135,7 @@ class systemController extends Controller
         Session::acceso('Usuario');
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
+        $this->_view->objCiudadesPRG= $this->_ciudad->getCiudades();
         
         
         if(Session::get('sess_AP_ciudad'))
@@ -153,6 +158,7 @@ class systemController extends Controller
         $agencia= $this->loadModel('agencia');
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
+        $this->_view->objCiudadesPRG= $this->_ciudad->getCiudades();
         
         $this->_view->objAgencias= $agencia->getAgencias();
         
@@ -166,9 +172,50 @@ class systemController extends Controller
     {
         Session::acceso('Usuario');
         
+        
+        $this->getLibrary('class.phpmailer');
+        
+        $mail = new PHPMailer();
+        $mail->IsSMTP();
+        $mail->SMTPAuth = true;
+        
+        //$mail->Port = 25;
+        $mail->Host = "mail.oristravel.com";
+        $mail->Username = "oris@oristravel.com";
+        $mail->Password = "tsyacom";
+        
+        $mail->From = 'euroandino@online.euroandino.net';
+        $mail->FromName = 'Euroandino Online';
+        $mail->CharSet = 'UTF-8';
+        $mail->Subject = 'Confirmacion de reserva online: ';
+        	
+        $body  = "Proebando los correos con un tutorial<br>";
+        $body .= "hecho por <strong>Developando</strong>.<br>";
+        $body .= "<font color='red'>Visitanos pronto</font>";
+        $mail->MsgHTML($body);
+
+        //$mail->AltBody = 'Su servidor de correo no soporta html';
+        $mail->AddAddress('jestay@tsyacom.cl', "");
+        //$mail->AddAddress("destino2@correo.com","Nombre 02"); 
+
+        //$mail->AddAttachment('images/phpmailer.gif');      // attachment
+        //$mail->AddAttachment('images/phpmailer_mini.gif'); // attachment
+
+
+        
+        //$mail->Send();
+        if (!$mail->Send()) {
+            echo "Error al enviar: " . $mail->ErrorInfo;
+        } else {
+            echo "Mensaje enviado!";
+        }
+
+        //echo 'Mail enviado';
+        
+        
         $this->_view->currentMenu=5;
         $this->_view->titulo='ORISTRAVEL';
-        $this->_view->renderizaSistema('contactenos');
+        //$this->_view->renderizaSistema('contactenos');
     }
     
     
@@ -228,6 +275,7 @@ class systemController extends Controller
         $this->_view->ML_fechaFin= Session::get('sess_BP_fechaOut');
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
+        $this->_view->objCiudadesPRG= $this->_ciudad->getCiudades();
         if(Session::get('sess_BP_ciudadDes'))
         {
             $this->loadDTO('incluye');
@@ -239,7 +287,7 @@ class systemController extends Controller
                     //. "'".str_replace('/', '-', Session::get('sess_BP_fechaOut'))."', "
                     . "'".Session::get('sess_BP_cntPas')."', '".Session::get('sess_BP_hotel')."'";
             for($i=1; $i<=3; $i++)
-            {	
+            {
                 $sql.= ", '".Session::get('sess_BP_Adl_'.$i)."', '".Session::get('sess_BP_edadChd_1_'.$i)."', 
                         '".Session::get('sess_BP_edadChd_2_'.$i)."', '".Session::get('sess_BP_Inf_'.$i)."'"; //habitaciones
             }
@@ -273,17 +321,24 @@ class systemController extends Controller
         $this->_view->ML_fechaFin_PRG= Session::get('sess_BP_fechaOut_PRG');
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
+        $this->_view->objCiudadesPRG= $this->_ciudad->getCiudades();
         if(Session::get('sess_BP_ciudadDes_PRG'))
         {
-            $this->loadDTO('incluye');
+            //$this->loadDTO('incluye');
             $programas= $this->loadModel('programa');
-            $sql="EXEC TS_GET_PROGRAMAS '".Session::get('sess_BP_ciudadDes_PRG')."', '', '".Functions::invertirFecha(Session::get('sess_BP_fechaIn_PRG'), '/', '-')."' ";
+            
+            //WEB
+            //$sql="EXEC TS_GET_PROGRAMAS '".Session::get('sess_BP_ciudadDes_PRG')."', '', '".Functions::invertirFecha(Session::get('sess_BP_fechaIn_PRG'), '/', '-')."' ";
+            
+            //Local
+            $sql="EXEC TS_GET_PROGRAMAS '".Session::get('sess_BP_ciudadDes_PRG')."', '', '".str_replace('/', '-', Session::get('sess_BP_fechaIn_PRG'))."' ";
             
             Session::set('sess_TS_GET_PROGRAMAS', $sql);
             //echo $sql; exit;
             
-            $this->_view->objProgramas= $programas->exeTraeProgramas($sql, true);
-            $this->_view->objProgramasCNT = count($this->_view->objProgramas);
+            $this->_view->objCiudadBs= $this->_ciudad->getCiudades(Session::get('sess_BP_ciudadDes_PRG'));
+            $this->_view->objProgramas= $programas->exeTS_GET_PROGRAMAS($sql);
+            //$this->_view->objProgramasCNT = count($this->_view->objProgramas);
         }
         
         Session::destroy('sess_BP_ciudadDes');
@@ -308,6 +363,36 @@ class systemController extends Controller
     *                          METODOS VIEWS CENTER BOX                            *
     *                                                                              *
     *******************************************************************************/
+    public function detalleProg()
+    {
+        $programas= $this->loadModel('programa');
+        
+        //WEB
+        //$sql="";
+        
+        if($this->getInt('__SP_id__')) {
+            //Local
+            $sql="EXEC TS_GET_DETALLEPROG ".$this->getInt('__SP_id__')." ";
+
+            //Session::set('sess_TS_GET_DETALLEPROG', $sql);
+            //echo $sql; exit;
+
+            $objOpcProgramas= $programas->exeTS_GET_DETALLEPROG($sql);
+            if($objOpcProgramas[0]->getError()) {
+                throw new Exception('<b>Error</b>: ['.$objOpcProgramas[0]->getError().'] <br> <b>Mensaje</b>: ['.$objOpcProgramas[0]->getMensaje().']');
+            } else {
+                $this->_view->objOpcProgramas= $objOpcProgramas;
+                $this->_view->renderingCenterBox('detalleProg');
+            }
+        } else {
+            throw new Exception('Error al cargar las opciones');
+        }
+    }
+
+
+    
+    
+    
     public function cartaConfirmacion()
     {
         //Cargando modelos
@@ -320,8 +405,7 @@ class systemController extends Controller
         $codPRG= $this->getTexto('CR_cod_prog');
         $codBloq= $this->getTexto('CR_cod_bloq');
         
-        if(!$nFile)
-        {
+        if(!$nFile) {
             throw new Exception('File no recibido');
             exit;
         }
@@ -916,31 +1000,26 @@ class systemController extends Controller
             $rutaImg= ROOT . 'public' . DS . 'img' . DS .'hoteles' . DS;
 
             
-            for($i=1; $i<=5; $i++)
-            {
-                if(isset($_FILES['flImagen' . $i]['name']))
-                {
-                    if($_FILES['flImagen' . $i]['name'])
-                    {
-                        if(Functions::validaFoto($_FILES['flImagen' . $i]['type'])==false)
-                        {
-                            echo 'La Imagen '. $i .' debe ser formato [.JPG] [.GIF] [.PNG]';
+            for ($i = 1; $i <= 5; $i++) {
+                if (isset($_FILES['flImagen' . $i]['name'])) {
+                    if ($_FILES['flImagen' . $i]['name']) {
+                        if (Functions::validaFoto($_FILES['flImagen' . $i]['type']) == false) {
+                            echo 'La Imagen ' . $i . ' debe ser formato [.JPG] [.GIF] [.PNG]';
                             exit;
                         }
 
-                        if($_FILES['flImagen' . $i]['size'] > 524288) //512KB
-                        {
-                            echo 'La Imagen '. $i .' debe ser menor a <b>500kb</b>';
+                        if ($_FILES['flImagen' . $i]['size'] > 524288) { //512KB
+                            echo 'La Imagen ' . $i . ' debe ser menor a <b>500kb</b>';
                             exit;
                         }
                     }
                 }
             }
-            
-            
-            
-            
-            
+
+
+
+
+
             //Servicios Hotel
             $MH_chkRest= Functions::validaChk($this->getTexto('chkEH_rest'));
             $MH_chkLavan= Functions::validaChk($this->getTexto('chkEH_lavan'));

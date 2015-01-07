@@ -12,14 +12,14 @@ class ciudadDAO extends Model
         parent::__construct();
     }
     
-    public function getCiudades($ciudad='')
+    public function getCiudades($codigo='')
     {
         $sql='SELECT C.nombre AS cnombre, C.codigo AS ccodigo 
 		FROM ciudad C ';
 
-        if(!empty($ciudad))
+        if(!empty($codigo))
         {
-            $sql.=' WHERE C.nombre LIKE "'.$ciudad.'%" OR C.codigo LIKE "'.$ciudad.'%" ';
+            $sql.=' WHERE C.codigo = "'.$codigo.'" ';
         }
 
         $sql.=' GROUP BY C.nombre, C.codigo

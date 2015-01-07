@@ -57,5 +57,29 @@
             }
         </script>
         <?php } ?>
+        
+        <?php if(isset($this->index) && $this->index) {  ?>
+        <link rel="stylesheet" href="http://www.euroandino.cl/gfx/home_page/euroandino_2014_home.css" type="text/css" media="all"/>        
+         
+        <script src="http://www.euroandino.cl/gfx/js/jquery.cycle2.min.js"></script>
+        <script type="text/javascript">
+            //<![CDATA[
+            $(function() {
+                $('#HomePageSlider').cycle({
+                    timeout: 4000,
+                    speed: 500,
+                    manualSpeed: 300,
+                    fx: 'fade',
+                    manualFx: 'scrollHorz',
+                    manualTrump: true,
+                    pauseOnHover: true,
+                    slides: '> .HomePageSlider_SlideBox',
+                    log: false,
+                    pager: '> .cycle-pager'
+                });
+            });
+            //]]>
+        </script>
+        <?php } ?>
     </body>
 </html>

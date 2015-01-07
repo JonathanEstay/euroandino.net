@@ -1,4 +1,39 @@
 // JavaScript Document
+function procesoDetalleProg(classFrm)
+{
+	initLoad();
+
+	$("#divPopupPRG").html("");
+	var formData= new FormData($("."+classFrm)[0]);
+	//hacemos la peticion ajax  
+	$.ajax({
+		url: BASE_URL_JS + 'system/detalleProg',  
+		type: 'POST',
+		//Form data
+		//datos del formulario
+		data: formData,
+		//necesario para subir archivos via ajax
+		cache: false,
+		contentType: false,
+		processData: false,
+		//mientras enviamos el archivo
+		beforeSend: function(){},
+		//una vez finalizado correctamente
+		success: function(data)
+		{
+                    $("#divPopupPRG").html(data);
+                    endLoad();
+		},
+		
+		//si ha ocurrido un error
+		error: function()
+		{
+                    $("#divPopupPRG").html("Ha ocurrido un error");
+		}
+	});
+}
+
+
 function procesoEnviaForm(classFrm, php, btn, div)
 {
     $("#"+btn).attr('disabled', 'disabled');
@@ -749,9 +784,9 @@ function abrePopup(div, docPHP, idTitulo, titulo, val)
     {
         var mL_Error=0;
         $("#btnBuscarProgramas").attr('disabled', 'disabled');
-        if($('#mL_txtCiudadDestino').val() != 0)
+        if($('#mL_txtCiudadDestino_PRG').val() != 0)
         {
-            if($('#mL_cmbHab').val() != 0)
+            if($('#mL_cmbHab_PRG').val() != 0)
             {
                 $(document).skylo('start');
 
@@ -914,3 +949,7 @@ function abrePopup(div, docPHP, idTitulo, titulo, val)
             },2500);
         }
     });
+
+
+
+

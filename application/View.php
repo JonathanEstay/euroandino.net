@@ -71,6 +71,7 @@ class View
             'ruta_img' => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/img/', 
             'ruta_js' => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/js/',
             'ruta_hoteles' => BASE_URL . 'public/img/hoteles/',
+            'ruta_programas' => BASE_URL . 'public/img/programas/',
             'js' => $js
         );
         $rutaView= ROOT . 'views' . DS . $this->_controlador . DS . $vista . '.phtml';

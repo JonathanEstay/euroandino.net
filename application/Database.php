@@ -12,18 +12,19 @@ class Database
     
     public function __construct() {
         $this->_conexion= mssql_connect(DB_HOST, DB_USER, DB_PASS);
+        
         /*
          * ODBC
          * $connection_string = 'DRIVER={SQL SERVER};SERVER='. $_TEMP["server"] . ';DATABASE=' . $_TEMP["database"]; 
          * $conexion = odbc_connect($connection_string, $_TEMP["username"], $_TEMP["password"]); 
          */
-        if (!empty($this->_conexion)) {
+        if ($this->_conexion) {
             $bd = mssql_select_db(DB_NAME, $this->_conexion);
-            if ($bd != 1) {
-                throw new Exception('Base de datos no encontrada');
-            } else {
+            if ($bd) {
                 //mysql_set_charset('ISO-8859-1',$this->_conexion);
-                return TRUE;
+                return true;
+            } else {
+                throw new Exception('Base de datos no encontrada');
             }
         } else {
             throw new Exception('No se pudo conectar a la Base de datos');
@@ -33,10 +34,11 @@ class Database
     public function consulta($query) {
         //echo $query; exit;
         $rs = mssql_query($query, $this->_conexion);
-        if (empty($rs)) {
-            return FALSE;
-        } else {
+        
+        if ($rs) {
             return $rs;
+        } else {
+            return false;
         }
     }
 
