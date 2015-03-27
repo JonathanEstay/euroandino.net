@@ -333,8 +333,14 @@ class programaDAO extends Model
 
                 $objProg->setId(trim($progDB['idProg']));
                 $objProg->setCodigo(trim($progDB['codProg']));
-                $objProg->setDesde(trim($progDB['desde']));
-                $objProg->setHasta(trim($progDB['hasta']));
+                
+                if(isset($progDB['desde'])) {
+                    $objProg->setDesde(trim($progDB['desde']));
+                }
+                
+                if(isset($progDB['hasta'])) {
+                    $objProg->setHasta(trim($progDB['hasta']));
+                }
                 $objProg->setNoches(trim($progDB['ntsProg']));
                 $objProg->setTipoP(trim($progDB['tipoProg']));
                 $objProg->setCodBloq(trim($progDB['codBloq']));
@@ -358,9 +364,13 @@ class programaDAO extends Model
                 $objProg->setNota(trim($progDB['nota']));
                 $objProg->setIncluye(trim($progDB['incluye']));
                 $objProg->setDescrip(trim($progDB['descrip']));
-                $objProg->setCatEstrella(trim($progDB['CatEstrella']));
-                $objProg->setIata(trim($progDB['iata']));
                 
+                if(isset($progDB['CatEstrella'])) {
+                    $objProg->setCatEstrella(trim($progDB['CatEstrella']));
+                }
+                if(isset($progDB['iata'])) {
+                    $objProg->setIata(trim($progDB['iata']));
+                }
                 $objetosProg[] = $objProg;
             }
 

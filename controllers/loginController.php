@@ -59,7 +59,8 @@ class loginController extends Controller
     
     
     
-    
+    //7,90903E+12
+
     
     
     
@@ -68,7 +69,6 @@ class loginController extends Controller
     *                             METODOS PROCESADORES                             *
     *                                                                              *
     *******************************************************************************/
-    
     public function ingresar()
     {
         $LC_user= strtolower($this->getTexto('txtUser'));

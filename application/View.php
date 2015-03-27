@@ -104,7 +104,8 @@ class View
             'ruta_fotos_hab' => BASE_URL . 'public/img/tipo_habitacion/',
             'ruta_fotos_hotel' => BASE_URL . 'public/img/hoteles/',
             'ruta_fotos_hotel_thumb' => BASE_URL . 'public/img/hoteles/thumb/thumb_',
-            'ruta_iconos_hotel' => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/img/hotel/'
+            'ruta_iconos_hotel' => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/img/hotel/',
+            'ruta_programas' => BASE_URL . 'public/img/programas/'
         );
         
         $rutaView= ROOT . 'views' . DS . $this->_controlador . DS . 'centerBox' . DS . $vista . '.phtml';

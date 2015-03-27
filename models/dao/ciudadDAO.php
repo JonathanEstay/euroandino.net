@@ -95,7 +95,7 @@ class ciudadDAO extends Model
     public function getCiudadesBloq($ciudad='')
     {
         $sql='SELECT B.ciudad FROM bloqueos B 
-            WHERE B.estado = "A" AND GETDATE() <= B.fectop AND ISNULL(B.ciudad, "") <> "" AND
+            WHERE B.estado = "A" /*AND GETDATE() <= B.fectop */ AND ISNULL(B.ciudad, "") <> "" AND
             (
                 SELECT COUNT(DB.num_file) FROM det_bloq DB WHERE DB.record_c=B.record_c AND DB.num_file=0
             ) > 0 ';

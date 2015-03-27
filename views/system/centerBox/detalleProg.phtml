@@ -1,30 +1,128 @@
+<div class="panel panel-primary">
+    <div class="panel-heading" >
 
-<tr>
-    <td width="20px">
-        <input type="radio" name="P_rdbOpcion_1" value="892">
-    </td>
-    <td>
-        <a id="div_opc_hotelProg_1" style="cursor:pointer" title="">CABANAS RAPA NUI ORITO</a>
-    </td>
-    <td style="color:#F00;" width="105px">$ 930.900</td>
-    <td width="24px">
-        <a data-toggle="modal" href="#myModal" onclick="abrePopup('divPopupPRG', 'http://jonathan-pc/allways/system/notas', 'tituloFormPRG', 'Nota de Programa', '892');">
-            <img src="http://jonathan-pc/allways/views/layout/default/img/nota.png" width="24px" alt="Notas" title="Notas">
-        </a></td>
-</tr>
-<tr>
-    <td width="20px">
-        <input type="radio" name="P_rdbOpcion_1" value="893">
-    </td><td><a id="div_opc_hotelProg_2" style="cursor:pointer" title="">MANUTARA</a></td><td style="color:#F00;" width="105px">$ 1.200.900</td>
-    <td width="24px"><a data-toggle="modal" href="#myModal" onclick="abrePopup('divPopupPRG', 'http://jonathan-pc/allways/system/notas', 'tituloFormPRG', 'Nota de Programa', '893');">
-            <img src="http://jonathan-pc/allways/views/layout/default/img/nota.png" width="24px" alt="Notas" title="Notas">
-        </a></td>
-</tr>
-<tr>
-    <td width="20px">
-        <input type="radio" name="P_rdbOpcion_1" value="895">
-    </td><td><a id="div_opc_hotelProg_3" style="cursor:pointer" title="">OCEANIA RAPA NUI</a></td><td style="color:#F00;" width="105px">$ 1.182.900</td>
-    <td width="24px"><a data-toggle="modal" href="#myModal" onclick="abrePopup('divPopupPRG', 'http://jonathan-pc/allways/system/notas', 'tituloFormPRG', 'Nota de Programa', '895');">
-            <img src="http://jonathan-pc/allways/views/layout/default/img/nota.png" width="24px" alt="Notas" title="Notas">
-        </a></td>
-</tr>
+        <?php echo $this->objProgramas[0]->getTitulo(); ?>
+
+        <div class="options">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#home1" data-toggle="tab">Tarifas</a>
+                </li>
+                <li>
+                    <a href="#profile1" data-toggle="tab">Condiciones</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    
+    
+    <div class="panel-body">
+        <div class="tab-content">
+            <div class="tab-pane active" id="home1" >
+                <div>
+
+                    <table width="100%"  style="margin-top: -15px; margin-left: -15px;">
+                        <tr>
+                            <td colspan="2">
+                                <P style="font-size:11px">
+                                    <b style="color:#FF9900;">PAIS:</b> <?php echo $this->objProgramas[0]->getPais(); ?>, 
+                                    <b style="color:#FF9900; margin-left: 10px;">CIUDAD:</b> <?php echo $this->objProgramas[0]->getCiudad(); ?> 
+                                    <label style="margin-right: 30px;">&nbsp;</label>
+                                    <?php if($this->objProgramas[0]->getAereo()) { ?><img src="<?php echo $_layoutParamsCB['ruta_img']; ?>ok.png" width="16" style="margin-left:5px;" > Aereo <?php } ?>
+                                    <?php if($this->objProgramas[0]->getHotel()) { ?><img src="<?php echo $_layoutParamsCB['ruta_img']; ?>ok.png" width="16" style="margin-left:5px;"> Hotel <?php } ?>
+                                    <?php if($this->objProgramas[0]->getTraslado()) { ?><img src="<?php echo $_layoutParamsCB['ruta_img']; ?>ok.png" width="16" style="margin-left:5px;" > Traslado <?php } ?>
+                                </P>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="210" valign="top">
+                                <img src="<?php echo $_layoutParamsCB['ruta_programas']; ?>1.jpg" width="200" class="img-thumbnail" style="margin-right: 10px;">
+                            </td>
+                            <td>
+                                <?php echo $this->objProgramas[0]->getIncluye(); ?>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <div class="tab-pane" id="profile1">
+                <table width="100%" style="margin-top: -15px; margin-left: -15px;">
+                        <tr>
+                            <td colspan="2">
+                                <p><b style="color:#FF9900; font-size:11px">DESCRIPCI&Oacute;N:</b><br> 
+                                    <?php echo $this->objProgramas[0]->getNota(); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        <!-- <tr>
+                            <td>
+                                <p>
+                                   <b style="color:#FF9900; font-size:11px">SERVICIOS HOTEL:</b><br>
+                                </p>
+                            </td>
+                            <td>
+                                <p>
+
+                                    <b style="color:#FF9900; font-size:11px">SERVICIOS HABITACI&Oacute;N:</b><br> 
+
+                                </p>
+                            </td>
+                        </tr> -->
+                    </table>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+    
+    <div class="panel-heading" style="margin-top: 20px;" >
+        HOTEL 
+    </div>
+    
+    
+    <div class="panel-body">
+        <div class="tab-content">
+            
+            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" style="font-size:12px; width: 70%; margin-top: 20px;" align='center'> <!-- class="table table-striped table-bordered" -->
+                <thead>
+                    <tr style="background-color:#34495e; color: #FFFFFF" role="row">
+                        <th role="columnheader" style="padding-left: 2px;">Tipo Habitaci&oacute;n</th>
+                        <th role="columnheader" style="padding-left: 2px;">Single</th>
+                        <th role="columnheader" style="padding-left: 2px;">Doble</th>
+                        <th role="columnheader" style="padding-left: 2px;">Triple</th>
+                        <th role="columnheader" style="padding-left: 2px; width: 100px;">Status</th>
+                    </tr>
+                </thead>
+                <tr class="colorText">
+                    <td style="padding: 2px; vertical-align: middle;">STANDARD</td>
+                    <td style="color: #DF5F00; font-weight: bold; padding: 2px; vertical-align: middle; width: 100px;">USD 228,70</td>
+                    <td style="color: #DF5F00; font-weight: bold; padding: 2px; vertical-align: middle; width: 100px;">USD 228,70</td>
+                    <td style="color: #DF5F00; font-weight: bold; padding: 2px; vertical-align: middle; width: 100px;">USD 228,70</td>
+                    <td style="padding: 2px; vertical-align: middle;">
+                        <a href="#" class="btn btn-success btn-sm">AVAILABLE</a>
+                    </td>
+                </tr>
+                <tr class="colorText">
+                    <td style="padding: 2px; vertical-align: middle;">STANDARD</td>
+                    <td style="color: #DF5F00; font-weight: bold; padding: 2px; vertical-align: middle; width: 100px;">USD 228,70</td>
+                    <td style="color: #DF5F00; font-weight: bold; padding: 2px; vertical-align: middle; width: 100px;">USD 228,70</td>
+                    <td style="color: #DF5F00; font-weight: bold; padding: 2px; vertical-align: middle; width: 100px;">USD 228,70</td>
+                    <td style="padding: 2px; vertical-align: middle;">
+                        <a href="#" class="btn btn-success btn-sm" >AVAILABLE</a>
+                    </td>
+                </tr>
+            </table>
+            
+        </div>
+    </div>
+</div>
+
+
+

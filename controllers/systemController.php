@@ -182,35 +182,25 @@ class systemController extends Controller
         //$mail->Port = 25;
         $mail->Host = "mail.oristravel.com";
         $mail->Username = "oris@oristravel.com";
-        $mail->Password = "tsyacom";
+        $mail->Password = "tsyacom01";
         
-        $mail->From = 'euroandino@online.euroandino.net';
-        $mail->FromName = 'Euroandino Online';
-        $mail->CharSet = 'UTF-8';
+        $mail->From = 'oris@oristravel.com';
+        $mail->FromName = 'Solicitud de Contacto WEB-ORIS';
+        $mail->CharSet = CHARSET;
         $mail->Subject = 'Confirmacion de reserva online: ';
         	
-        $body  = "Proebando los correos con un tutorial<br>";
-        $body .= "hecho por <strong>Developando</strong>.<br>";
-        $body .= "<font color='red'>Visitanos pronto</font>";
+        $body  = "Un mensaje HTML";
         $mail->MsgHTML($body);
 
-        //$mail->AltBody = 'Su servidor de correo no soporta html';
-        $mail->AddAddress('jestay@tsyacom.cl', "");
-        //$mail->AddAddress("destino2@correo.com","Nombre 02"); 
-
-        //$mail->AddAttachment('images/phpmailer.gif');      // attachment
-        //$mail->AddAttachment('images/phpmailer_mini.gif'); // attachment
-
-
         
-        //$mail->Send();
+        $mail->AddAddress('jestay@tsyacom.cl', "");
+        //$mail->AddAddress('jjreyes.romero88@gmail.com', "");
         if (!$mail->Send()) {
             echo "Error al enviar: " . $mail->ErrorInfo;
         } else {
             echo "Mensaje enviado!";
         }
 
-        //echo 'Mail enviado';
         
         
         $this->_view->currentMenu=5;
@@ -341,6 +331,8 @@ class systemController extends Controller
             //$this->_view->objProgramasCNT = count($this->_view->objProgramas);
         }
         
+        
+        
         Session::destroy('sess_BP_ciudadDes');
         $this->_view->currentMenu=0;
         $this->_view->procesoTerminado=false;
@@ -367,10 +359,23 @@ class systemController extends Controller
     {
         $programas= $this->loadModel('programa');
         
+        
+        /*
+         * 
+         */
+        $this->_ciudad= array();
+        $this->_alert();
+        
         //WEB
         //$sql="";
         
         if($this->getInt('__SP_id__')) {
+            $sql="EXEC TS_GET_PROGRAMAS_ID " . $this->getInt('__SP_id__');
+            //Session::set('sess_TS_GET_PROGRAMAS_ID', $sql);
+            
+            $this->_view->objProgramas= $programas->exeTS_GET_PROGRAMAS($sql);
+            
+            
             //Local
             $sql="EXEC TS_GET_DETALLEPROG ".$this->getInt('__SP_id__')." ";
 
@@ -511,7 +516,6 @@ class systemController extends Controller
                     $this->_view->anoSalida= $exp_fechaSalida[0];
                     $this->_view->mesSalida= $exp_fechaSalida[1];
                     $this->_view->diaSalida= $exp_fechaSalida[2];
-                    
                     
                     $valorHab= $this->_view->objOpcionProg[0]->getValorHab();
                     $this->_view->precio= Functions::getTipoMoneda($this->_view->objOpcionProg[0]->getMoneda()).' '.Functions::formatoValor($this->_view->objOpcionProg[0]->getMoneda(), ($valorHab[0]+$valorHab[1]+$valorHab[2]));
