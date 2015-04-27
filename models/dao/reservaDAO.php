@@ -113,6 +113,76 @@ class reservaDAO extends Model
     }
     
     
+    public function getReservas_TEST($desde, $hasta, $tipo, $spAcceso, $cUsuario)
+    {
+        $sql='SELECT a.*, 
+                (SELECT TOP 1 cod_pak FROM det_file where num_file = A.num_file) as cod_pak,
+                (SELECT top 1 record_c FROM det_bloq where num_file = A.num_file) as record_c 
+                
+            FROM  (SELECT agencia, num_file, nompax, totventa, estado, 
+            totpag, usuario, moneda,
+            CONVERT(VARCHAR(10), fecha, 103) as fecha, 
+            CONVERT(VARCHAR(10), f_viaje, 103) as f_viaje, 
+            fecha as fecha2, 
+            f_viaje as f_viaje2, 
+            ROW_NUMBER() OVER ';
+		
+        if($tipo==1)
+        {
+            $sql.=' (ORDER BY fecha) as row';
+        }
+        elseif($tipo==2)
+        {
+            $sql.=' (ORDER BY f_viaje) as row';
+        }
+
+        $sql.=' FROM file_ ';
+
+
+
+
+
+
+       
+        //echo $sql; exit;
+        
+        $datos= $this->_db->consulta($sql);
+        if($this->_db->numRows($datos)>0)
+        {
+            $objetosReserva= array();
+            $arrayReservas= $this->_db->fetchAll($datos);
+            
+            foreach ($arrayReservas as $rDB){
+                $objReserva= new reservaDTO();
+                
+                $objReserva->setAgencia(trim($rDB['agencia']));
+                $objReserva->setFile(trim($rDB['num_file']));
+                $objReserva->setNomPax(trim($rDB['nompax']));
+                $objReserva->setTotVenta(intval($rDB['totventa']));
+                $objReserva->setEstado(trim($rDB['estado']));
+                $objReserva->setTotPag(intval($rDB['totpag']));
+                $objReserva->setUsuario(trim($rDB['usuario']));
+                $objReserva->setMoneda(trim($rDB['moneda']));
+                $objReserva->setFecha(trim($rDB['fecha']));
+                $objReserva->setFViaje(trim($rDB['f_viaje']));
+                $objReserva->setFecha2(trim($rDB['fecha2']));
+                $objReserva->setFViaje2(trim($rDB['f_viaje2']));
+                $objReserva->setRow(trim($rDB['row']));
+                $objReserva->setCodPak(trim($rDB['cod_pak']));
+                $objReserva->setRecordC(trim($rDB['record_c']));
+                
+                $objetosReserva[]=$objReserva;
+            }
+            
+            return $objetosReserva;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    
     public function getFile($nFile)
     {
         $sql='SELECT [num_file], [tipof], [n_coti], CONVERT(Nvarchar(10), fecha, 103) as fecha, '

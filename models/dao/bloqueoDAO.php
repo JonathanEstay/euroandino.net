@@ -183,7 +183,7 @@ class bloqueoDAO extends Model
         }
     }
     
-    public function exeTraeProgramas($sql, $inc=false)
+    public function TS_GET_BLOQUEOS_PROG($sql, $inc=false)
     {
         $datos= $this->_db->consulta($sql);
         if($this->_db->numRows($datos)>0)
@@ -206,11 +206,14 @@ class bloqueoDAO extends Model
                 
                 $objPackages= new bloqueoDTO();
                 
+                /*echo "ERROR: " . $packDB['Error']; echo "<br>";
+                echo "Linea: " . $packDB['Linea'];echo "<br>";
+                echo "Mensaje: " . $packDB['Mensaje']; exit;*/
                 if(trim(isset($packDB['Error'])))
                 {
                     $objPackages->setERROR(trim($packDB['Error']));
                     $objPackages->setLINEA(trim($packDB['Linea']));
-                    $objPackages->setMENSAJE(trim($packDB['Mensaje']));
+                    $objPackages->setMSG(trim($packDB['Mensaje']));
                 }
                 else
                 {
@@ -236,13 +239,15 @@ class bloqueoDAO extends Model
                     /* HOTELES */
                     for($i=1; $i<=5; $i++)
                     {
-                        $hotel[]=trim($packDB['hotel_'.$i]);
-                        $codHotel[]=trim($packDB['codHotel_'.$i]);
-                        $PA[]=trim($packDB['PlanAlimenticio_'.$i]);
-                        $TH[]=trim($packDB['TipoHabitacion_'.$i]);
-                        $codTH[]=trim($packDB['codTipoHabitacion_'.$i]);
-                        $cat[]=trim($packDB['cat_'.$i]);
-                        $ciudad[]=trim($packDB['ciudad_'.$i]);
+                        if(trim($packDB['hotel_'.$i])) {
+                            $hotel[]=trim($packDB['hotel_'.$i]);
+                            $codHotel[]=trim($packDB['codHotel_'.$i]);
+                            $PA[]=trim($packDB['PlanAlimenticio_'.$i]);
+                            $TH[]=trim($packDB['TipoHabitacion_'.$i]);
+                            $codTH[]=trim($packDB['codTipoHabitacion_'.$i]);
+                            $cat[]=trim($packDB['cat_'.$i]);
+                            $ciudad[]=trim($packDB['ciudad_'.$i]);
+                        }
                     }
                     
                     $objPackages->setHoteles($hotel);
@@ -274,7 +279,198 @@ class bloqueoDAO extends Model
         }
     }
     
-    public function getNota($id)
+    
+    public function TS_GET_BLOQUEOS_PROG_DETALLE($sql, $inc=false)
+    {
+        $datos= $this->_db->consulta($sql);
+        if($this->_db->numRows($datos)>0)
+        {
+            $objetosPack= array();
+            $arrayPackages= $this->_db->fetchAll($datos);
+            
+            foreach ($arrayPackages as $packDB)
+            {
+                $hotel= array();
+                $codHotel= array();
+                $PA= array();
+                $TH= array();
+                $codTH= array();
+                $cat= array();
+                $ciudad= array();
+                $incluye= array();
+                $valorHab= array();
+                
+                
+                $objPackages= new bloqueoDTO();
+                
+                /*echo "ERROR: " . $packDB['Error']; echo "<br>";
+                echo "Linea: " . $packDB['Linea'];echo "<br>";
+                echo "Mensaje: " . $packDB['Mensaje']; exit;*/
+                if(trim(isset($packDB['Error'])))
+                {
+                    $objPackages->setERROR(trim($packDB['Error']));
+                    $objPackages->setLINEA(trim($packDB['Linea']));
+                    $objPackages->setMSG(trim($packDB['Mensaje']));
+                }
+                else
+                {
+                    $objPackages->setId(trim($packDB['idPRG']));
+                    //$objPackages->setNombre(trim($packDB['nombrePRG']));
+                    $objPackages->setNota(trim($packDB['notaPRG']));
+                    $objPackages->setIdOpc(trim($packDB['idOpcion']));
+                    $objPackages->setDesde(trim($packDB['desde']));
+                    $objPackages->setTramo(trim($packDB['Tramo']));
+                    $objPackages->setNotaOpc(trim($packDB['notaOPC']));
+                    $objPackages->setMoneda(trim($packDB['moneda']));
+                    $objPackages->setItiVuelo(trim($packDB['itinerarioVuelo']));
+                    
+                    /* VALOR HABITACION */
+                    for ($i=1; $i<=3; $i++)
+                    {
+                        $valorHab[]=trim($packDB['vHab_'.$i]);
+                    }
+                    $objPackages->setValorHab($valorHab);
+                    /* VALOR HABITACION */
+                    
+                    
+                    /* HOTELES */
+                    for($i=1; $i<=5; $i++)
+                    {
+                        if(trim($packDB['hotel_'.$i])) {
+                            $hotel[]=trim($packDB['hotel_'.$i]);
+                            $codHotel[]=trim($packDB['codHotel_'.$i]);
+                            $PA[]=trim($packDB['PlanAlimenticio_'.$i]);
+                            $TH[]=trim($packDB['TipoHabitacion_'.$i]);
+                            $codTH[]=trim($packDB['codTipoHabitacion_'.$i]);
+                            $cat[]=trim($packDB['cat_'.$i]);
+                            $ciudad[]=trim($packDB['ciudad_'.$i]);
+                        }
+                    }
+                    
+                    $objPackages->setHoteles($hotel);
+                    $objPackages->setCodHoteles($codHotel);
+                    $objPackages->setPA($PA);
+                    $objPackages->setTH($TH);
+                    $objPackages->setCodTH($codTH);
+                    $objPackages->setCat($cat);
+                    $objPackages->setCiudad($ciudad);
+                    /* HOTELES */
+                    
+                    if($inc)
+                    {
+                        $incluye[]= $this->getIncluye(trim($packDB['idPRG']));
+                        $objPackages->setIncluye($incluye);
+                    }
+                    //$objPackages->setXXXX(trim($packDB['xxxxx']));
+                }
+                
+                $objetosPack[]= $objPackages;
+                //sleep(1);
+            }
+            
+            return $objetosPack;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    
+    public function TS_GET_BLOQUEOS_PROG_ID($sql)
+    {
+        $datos= $this->_db->consulta($sql);
+        if($this->_db->numRows($datos)>0)
+        {
+            $objetosPack= array();
+            $arrayPackages= $this->_db->fetchAll($datos);
+            
+            foreach ($arrayPackages as $packDB)
+            {
+                $hotel= array();
+                $codHotel= array();
+                $PA= array();
+                $TH= array();
+                $codTH= array();
+                $cat= array();
+                $ciudad= array();
+                $incluye= array();
+                $valorHab= array();
+                
+                
+                $objPackages= new bloqueoDTO();
+                
+                /*echo "ERROR: " . $packDB['Error']; echo "<br>";
+                echo "Linea: " . $packDB['Linea'];echo "<br>";
+                echo "Mensaje: " . $packDB['Mensaje']; exit;*/
+                if(trim(isset($packDB['Error'])))
+                {
+                    $objPackages->setERROR(trim($packDB['Error']));
+                    $objPackages->setLINEA(trim($packDB['Linea']));
+                    $objPackages->setMSG(trim($packDB['Mensaje']));
+                }
+                else
+                {
+                    $objPackages->setId(trim($packDB['idPRG']));
+                    $objPackages->setCodigo(trim($packDB['codigoPRG']));
+                    $objPackages->setNombre(trim($packDB['nombrePRG']));
+                    $objPackages->setNota(trim($packDB['notaPRG']));
+                    $objPackages->setIdOpc(trim($packDB['idOpcion']));
+                    $objPackages->setDesde(trim($packDB['desde']));
+                    $objPackages->setTramo(trim($packDB['Tramo']));
+                    $objPackages->setNotaOpc(trim($packDB['notaOPC']));
+                    $objPackages->setMoneda(trim($packDB['moneda']));
+                    $objPackages->setItiVuelo(trim($packDB['itinerarioVuelo']));
+                    
+                    /* VALOR HABITACION */
+                    for ($i=1; $i<=3; $i++)
+                    {
+                        $valorHab[]=trim($packDB['vHab_'.$i]);
+                    }
+                    $objPackages->setValorHab($valorHab);
+                    /* VALOR HABITACION */
+                    
+                    
+                    /* HOTELES */
+                    for($i=1; $i<=5; $i++)
+                    {
+                        if(trim($packDB['hotel_'.$i])) {
+                            $hotel[]=trim($packDB['hotel_'.$i]);
+                            $codHotel[]=trim($packDB['codHotel_'.$i]);
+                            $PA[]=trim($packDB['PlanAlimenticio_'.$i]);
+                            $TH[]=trim($packDB['TipoHabitacion_'.$i]);
+                            $codTH[]=trim($packDB['codTipoHabitacion_'.$i]);
+                            $cat[]=trim($packDB['cat_'.$i]);
+                            $ciudad[]=trim($packDB['ciudad_'.$i]);
+                        }
+                    }
+                    
+                    $objPackages->setHoteles($hotel);
+                    $objPackages->setCodHoteles($codHotel);
+                    $objPackages->setPA($PA);
+                    $objPackages->setTH($TH);
+                    $objPackages->setCodTH($codTH);
+                    $objPackages->setCat($cat);
+                    $objPackages->setCiudad($ciudad);
+                    /* HOTELES */
+                    
+                    
+                }
+                
+                $objetosPack[]= $objPackages;
+                //sleep(1);
+            }
+            
+            return $objetosPack;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    
+    public function getNotaProg($id)
     {
         $sql="SELECT REPLACE(convert(varchar(MAX), nota), Char(13), '<br />') as nota "
             . "FROM h2h_Programa WHERE Id=".$id;
@@ -298,11 +494,13 @@ class bloqueoDAO extends Model
         }
     }
     
-    public function getItinerarioVuelo($idOpc)
+    public function getItinerarioVuelo($idProg)
     {
-        $sql="SELECT REPLACE(convert(varchar(MAX), notas), Char(13), '<br />') as notas "
-            . "FROM bloqueos B JOIN h2h_programaOpc PO ON (B.record_c = PO.record_c) "
-            . "WHERE PO.IdOpc=$idOpc";
+        $sql='SELECT P.*, REPLACE(convert(varchar(MAX), notas), Char(13), "<br />") as notas
+            FROM bloqueos B 
+            JOIN h2h_programaOpc PO ON (B.record_c = PO.record_c)
+            JOIN h2h_programa P ON (P.Id = PO.idProg) 
+            WHERE P.Id = ' . $idProg;
         
         $datos= $this->_db->consulta($sql);
         if($this->_db->numRows($datos)>0)

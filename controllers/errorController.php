@@ -27,16 +27,15 @@ class errorController extends Controller
         $this->_view->renderingMain('access');
     }
     
-    private function _getError($codigo = false) //utilizo '_' para identificar que es una funcion privada
+    //utilizo '_' para identificar que es una funcion privada
+    private function _getError($codigo = false) 
     {
-        if($codigo)
-        {
+        if($codigo) {
             //$codigo = $this->filtrarInt($codigo);
             if(is_int($codigo))
                 $codigo=$codigo;
-        }
-        else
-        {
+            
+        } else {
             $codigo = 'default';
         }
         
@@ -44,12 +43,9 @@ class errorController extends Controller
         $error['5050'] = 'Acceso restringido';
         $error['8080'] = 'Tiempo de la session agotado';
         
-        if(array_key_exists($codigo, $error))
-        {
+        if(array_key_exists($codigo, $error)) {
             return $error[$codigo];
-        }
-        else
-        {
+        } else {
             return $error['default'];
         }
     }

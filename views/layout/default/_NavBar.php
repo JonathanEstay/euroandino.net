@@ -32,24 +32,29 @@
     
     <script type="text/javascript">
         var BASE_URL_JS = "<?php echo BASE_URL; ?>";
+        var CONTROLLER_JS = "<?php echo Session::get('SESS_CONTROLLER'); ?>";
         var RUTA_IMG_JS = "<?php echo $_layoutParams['ruta_img']; ?>";
-        
-        function digiClock()
-        {
-            if($( "#divTime" ).hasClass( "open" ))
-            {
-                $.post('<?php echo BASE_URL; ?>system/horaServer', 
-                {
-                    _header_: true
-                }, function(data)
-                {
-                    $("#divClock").html(data);
-                });
+        var segundos = <?php echo date('s')+1; ?>;
+        var minutos = <?php echo date('i'); ?>;
+        var hora = <?php echo date('H'); ?>; 
+
+        function digiClock() {
+            segundos++;
+            if (segundos === 60) {
+                segundos = 0;
+                minutos++;
+                if (minutos === 60) {
+                    minutos = 0;
+                    hora++;
+                    if (hora === 24) {
+                        hora = 0;
+                    }
+                }
             }
-            else
-            {
-                $("#divClock").html('...');
-            }
+            if(segundos>9) { ceroSeg = ''; } else { ceroSeg = '0'; }
+            if(minutos>9) { ceroMin = ''; } else { ceroMin = '0'; }
+            if(hora>9) { ceroHor = ''; } else { ceroHor = '0'; }
+            $("#divClock").html(ceroHor + hora + ":" + ceroMin + minutos + ":" + ceroSeg + segundos);
         }
 
         $(document).ready(function()  

@@ -72,11 +72,11 @@ $(function()
         
         
         
-        <li <?php if(Session::get('sess_BP_ciudadDes')){ echo 'class="hasChild open"'; } ?>>
+        <li <?php if($this->currentMenu == 11){ echo 'class="hasChild open"'; } ?>>
             <a href="javascript:;"><i><img src="<?php echo $_layoutParams['ruta_img']; ?>bloqueo.png" /></i> <span>Bloqueos</span> <span  style="float: right;"><img src="<?php echo $_layoutParams['ruta_img']; ?>down.png" width="12px" /></span></a>
-            <ul class="acc-menu" style="<?php if(Session::get('sess_BP_ciudadDes')){ echo 'display: block;'; }else{ echo 'display: none;'; } ?>">
+            <ul class="acc-menu" style="<?php if($this->currentMenu == 11){ echo 'display: block;'; }else{ echo 'display: none;'; } ?>">
                 <li style="max-height: 500px; overflow-y: scroll;">
-                    <form id="frmBuscarBloqueos" method="post" action="<?php echo BASE_URL; ?>system/buscarBloqueos">
+                    <form id="frmBuscarBloqueos" method="post" action="<?php echo BASE_URL; ?>bloqueos/buscar">
                      	
                         <select name="mL_txtCiudadDestino" id="mL_txtCiudadDestino" class="form-control" >
                             <option value="0">Seleccione destino</option>
@@ -110,7 +110,7 @@ $(function()
                             <tr>
                             	<td width="30%"><span style="padding-left:10px;">Fecha In:</span></td>
                                 <td>
-                                    <!-- style="background:#d2d3d6;" -->
+                                    
                                     <input type="text" class="form-control" id="mL_txtFechaIn" name="mL_txtFechaIn" value="<?php echo $this->ML_fechaIni; ?>">
                                 </td>
                             </tr>
@@ -277,11 +277,11 @@ $(function()
         
         
         <!-- OCULTO HASTA PASO A PRODUCCION -->
-        <li <?php if(Session::get('sess_BP_ciudadDes_PRG')){ echo 'class="hasChild open"'; } ?>>
+        <li <?php if($this->currentMenu == 22){ echo 'class="hasChild open"'; } ?>>
             <a href="javascript:;"><i><img src="<?php echo $_layoutParams['ruta_img']; ?>programa.png" /></i> <span>Programas</span> <span  style="float: right;"><img src="<?php echo $_layoutParams['ruta_img']; ?>down.png" width="12px" /></span></a>
-            <ul class="acc-menu" style="<?php if(Session::get('sess_BP_ciudadDes_PRG')){ echo 'display: block;'; }else{ echo 'display: none;'; } ?>">
+            <ul class="acc-menu" style="<?php if($this->currentMenu == 22){ echo 'display: block;'; }else{ echo 'display: none;'; } ?>">
                 <li style="max-height: 500px; overflow-y: scroll;">
-                    <form id="frmBuscarProgramas" method="post" action="<?php echo BASE_URL; ?>system/buscarProgramas">
+                    <form id="frmBuscarProgramas" method="post" action="<?php echo BASE_URL; ?>programas/buscar">
                      	
                         <select name="mL_txtCiudadDestino_PRG" id="mL_txtCiudadDestino_PRG" class="form-control" >
                             <option value="0">Seleccione destino</option>

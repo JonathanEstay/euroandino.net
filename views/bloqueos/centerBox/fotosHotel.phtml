@@ -1,0 +1,31 @@
+<?php foreach($this->objFotosHotel as $objFotosHotel) { ?>
+<table align="center">
+    <tr>
+        <td align="center">
+            <div class="col-md-12">
+                <ul class="gallery list-unstyled">
+                    <li class="mix" style="display: inline-block; opacity: 1;">
+                        <img src="<?php echo $_layoutParamsCB['ruta_fotos_hotel'] . $objFotosHotel->getImgEnc(); ?>" width="300" height="250">
+                    </li>
+
+                    <li class="mix" style="display: inline-block; opacity: 1;">
+                        <img src="<?php echo $_layoutParamsCB['ruta_fotos_hotel'] . $objFotosHotel->getImgCont(); ?>" width="300" height="250">
+                    </li>
+
+                    <li class="mix" style="display: inline-block; opacity: 1;">
+                        <img src="<?php echo $_layoutParamsCB['ruta_fotos_hotel'] . $objFotosHotel->getImgCont2(); ?>" width="300" height="250">
+                    </li>
+
+                    <li class="mix" style="display: inline-block; opacity: 1;">
+                        <img src="<?php echo $_layoutParamsCB['ruta_fotos_hotel'] . $objFotosHotel->getImgCont3(); ?>" width="300" height="250">
+                    </li>
+
+                    <li class="mix" style="display: inline-block; opacity: 1;">
+                        <img src="<?php echo $_layoutParamsCB['ruta_fotos_hotel'] . $objFotosHotel->getImgCont4(); ?>" width="300" height="250">
+                    </li>
+               </ul>
+            </div>
+        </td>
+    </tr>
+</table>
+<?php } ?>

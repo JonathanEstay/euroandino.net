@@ -11,7 +11,7 @@
 $pRP_error=FALSE;
 $pRP_sqlDetalle=NULL;
 
-$pRP_sqlDetalle="exec WEB_ORIS_CREA_FILE '".Session::get('sess_id_agen')."', '".Session::get('sess_clave_usuario')."', "; 
+$pRP_sqlDetalle="exec TS_BLOQUEOS_CREA_FILE '".Session::get('sess_id_agen')."', '".Session::get('sess_clave_usuario')."', "; 
 
 $pRP_var_getProgramas= $programa->exeSQL(Session::get('sess_TraeProg'));
 if($pRP_var_getProgramas!=FALSE)

@@ -7,7 +7,7 @@ function procesoDetalleProg(classFrm)
 	var formData= new FormData($("."+classFrm)[0]);
 	//hacemos la peticion ajax  
 	$.ajax({
-		url: BASE_URL_JS + 'system/detalleProg',  
+		url: BASE_URL_JS + CONTROLLER_JS + '/detalle',  
 		type: 'POST',
 		//Form data
 		//datos del formulario
@@ -322,11 +322,8 @@ function procesoReservaPRG(classFrm, php, btn, div)
                     //alert('TODO OK'); return false;
                     
                     $("#"+div).html('<div class="alert alert-dismissable alert-success"><strong>Terminado</strong><br/><img src="' + RUTA_IMG_JS + 'ok.png" width="32" border="0" /> Estamos abriendo la carta confirmaci&oacute;n, espere un momento...</div>');
-                    $.post( BASE_URL_JS + "system/cartaConfirmacion", 
+                    /*$.post( BASE_URL_JS + CONTROLLER_JS + "/cartaConfirmacion", 
                     {
-                        /*n_file: myArrayData[1],
-                        cod_prog: myArrayData[2],
-                        cod_bloq: myArrayData[3]*/
                         CR_n_file: myArrayData[1],
                         CR_cod_prog: myArrayData[2],
                         CR_cod_bloq: myArrayData[3]
@@ -340,7 +337,7 @@ function procesoReservaPRG(classFrm, php, btn, div)
                         $('#btnAceptarPRG').animate({
                                 'display': 'block'
                         });
-                    });
+                    });*/
 
                 }
                 else
@@ -712,6 +709,27 @@ function abrePopup(div, docPHP, idTitulo, titulo, val)
     });
 }
 
+function detectedCollapsed(id, opciones, idProg)
+{
+    if($( "#" + id ).hasClass( "in" ) === false) {
+        if($.trim($("#" + opciones).html()) === '') {
+            initLoad();
+            $.post(BASE_URL_JS + CONTROLLER_JS + '/opciones', 
+            {
+                __id__: idProg
+            }, function(data)
+            {
+                $("#" + opciones).html(data);
+                endLoad();
+            });
+        }
+        //alert("AJAX");
+    } /*else {
+        $("#" + opciones).html('');
+        //alert("NADA");
+    }*/
+}
+
 
 
 
@@ -852,7 +870,7 @@ function abrePopup(div, docPHP, idTitulo, titulo, val)
             $(document).skylo('end');
         },1500);
 		setTimeout(function(){
-            window.location.href = BASE_URL_JS + 'system/consultarReserva';
+            window.location.href = BASE_URL_JS + 'booking';
         },2500);
     });
     
@@ -869,7 +887,7 @@ function abrePopup(div, docPHP, idTitulo, titulo, val)
             $(document).skylo('end');
         },1500);
 		setTimeout(function(){
-            window.location.href = BASE_URL_JS + 'system/hoteles';
+            window.location.href = BASE_URL_JS + 'hoteles';
         },2500);
     });
     
@@ -885,7 +903,7 @@ function abrePopup(div, docPHP, idTitulo, titulo, val)
             $(document).skylo('end');
         },1500);
 		setTimeout(function(){
-            window.location.href = BASE_URL_JS + 'system/adminProgramas';
+            window.location.href = BASE_URL_JS + 'programas/admin';
         },2500);
     });
     
@@ -901,7 +919,7 @@ function abrePopup(div, docPHP, idTitulo, titulo, val)
             $(document).skylo('end');
         },1500);
 		setTimeout(function(){
-            window.location.href = BASE_URL_JS + 'system/imagenes';
+            window.location.href = BASE_URL_JS + 'voucher';
         },2500);
     });
     
@@ -917,7 +935,7 @@ function abrePopup(div, docPHP, idTitulo, titulo, val)
             $(document).skylo('end');
         },1500);
 		setTimeout(function(){
-            window.location.href = BASE_URL_JS + 'system/contacto';
+            window.location.href = BASE_URL_JS + 'contacto';
         },2500);
     });
     
@@ -935,6 +953,8 @@ function abrePopup(div, docPHP, idTitulo, titulo, val)
         }
         else
         {
+            $("#btnAdmProg").attr('disabled', 'disabled');
+            
             $(document).skylo('start');
 
             setTimeout(function(){

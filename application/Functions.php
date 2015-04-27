@@ -179,32 +179,32 @@ class Functions
         return $fechaFinal;
     }
     
-    public static function add_ceros($numero,$ceros) 
+    public static function add_ceros($numero, $ceros) 
     {
-            $order_diez = explode(".",$numero);
-            $dif_diez = $ceros - strlen($order_diez[0]);
-            for($m=0;$m<$dif_diez;$m++)
-            {
-                    @$insertar_ceros .= 0;
-            }
-            
-            return $insertar_ceros .= $numero;
+        $cnt_ceros = 0;
+        $dif = $ceros - strlen($numero);
+        for($i=0; $i<=$dif; $i++) {
+            $cnt_ceros .= 0;
+        }
+
+        return $cnt_ceros . $numero;
     }
     
-    public static function getTipoMoneda($moneda)
-    {
-        $newMon=false;
-        if($moneda == 'D')
-        {
-             $newMon= 'USD';
-        }
-        elseif($moneda == 'P')
-        {
-            $newMon= '$';
-        }
-        elseif($moneda == 'E')
-        {
-            $newMon= 'EUR';
+    public static function getTipoMoneda($moneda) {
+        switch ($moneda) {
+            case 'D':
+                $newMon='USD';
+                break;
+            case 'P':
+                $newMon='$';
+                break;
+            case 'E':
+                $newMon='EUR';
+                break;
+        
+            default:
+                $newMon='USD';
+                break;
         }
         
         return $newMon;

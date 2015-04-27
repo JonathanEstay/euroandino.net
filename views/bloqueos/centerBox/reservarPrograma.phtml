@@ -11,11 +11,11 @@
                 <table align="center">
                     <tr>
                     	<td><b>Programa</b>:</td>
-                        <td><?php echo $this->objPrograma[0]->getCodigo().' - '.$this->objPrograma[0]->getNombre(); ?> </td>
+                        <td><?php echo $this->objOpcionPrograma[0]->getCodigo().' - '.$this->objOpcionPrograma[0]->getNombre(); ?> </td>
                     </tr>
                     <tr>
                     	<td><b>Bloqueo</b>:</td>
-                        <td> <?php echo $this->objOpcionProg[0]->getTramo(); ?></td>
+                        <td> <?php echo $this->objOpcionPrograma[0]->getTramo(); ?></td>
                     </tr>
                     <tr>
                     	<td><b>Salida</b>:</td>
@@ -258,7 +258,7 @@ if(Session::get('sess_BP_cntInf')>0)
 <br />
 <center>
 <input type="button"  id="rP_btnProcesaRserva" class="btn btn-primary" value="Reservar" 
-    onclick="procesoReservaPRG('frmReservaPRG', '<?php echo BASE_URL ?>system/procesoReserva', 'rP_btnProcesaRserva', 'divPopupPRG'); ">
+    onclick="procesoReservaPRG('frmReservaPRG', '<?php echo BASE_URL ?>bloqueos/procesoReserva', 'rP_btnProcesaRserva', 'divPopupPRG'); ">
 </center>
    
 </form>

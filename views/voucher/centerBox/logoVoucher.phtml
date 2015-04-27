@@ -26,7 +26,7 @@
                                 <label style="cursor:pointer; display:none;">
                                     <input style="margin-top:-1px; vertical-align:middle;" type="checkbox" name="chk_flImagenVouAgen" checked="checked"> Eliminar
                                 </label>
-                                <input type="button"  id="btnSubeVoucherAgen" class="btn btn-primary" value="Eliminar" onclick="procesoEnviaForm('frmLogoVouAgen', '<?php echo BASE_URL; ?>system/modificarLogoVoucher', 'btnSubeVoucherAgen', 'divLogoVou')">
+                                <input type="button"  id="btnSubeVoucherAgen" class="btn btn-primary" value="Eliminar" onclick="procesoEnviaForm('frmLogoVouAgen', '<?php echo BASE_URL; ?>voucher/modificar', 'btnSubeVoucherAgen', 'divLogoVou')">
                             </center>
                         	<?php }else{ ?>
                             <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div>
@@ -34,7 +34,7 @@
                                 <span class="btn btn-default btn-file"><span class="fileinput-new">Seleccione una imagen</span>
                                 <span class="fileinput-exists">Cambiar imagen</span><input type="file" name="flImagenVouAgen" accept="image/*"></span>
                                 <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remover</a>
-                                <input type="button"  id="btnSubeVoucherAgen" class="btn btn-primary" value="Subir imagen" onclick="procesoEnviaForm('frmLogoVouAgen', '<?php echo BASE_URL; ?>system/modificarLogoVoucher', 'btnSubeVoucherAgen', 'divLogoVou')">
+                                <input type="button"  id="btnSubeVoucherAgen" class="btn btn-primary" value="Subir imagen" onclick="procesoEnviaForm('frmLogoVouAgen', '<?php echo BASE_URL; ?>voucher/modificar', 'btnSubeVoucherAgen', 'divLogoVou')">
                             </div>
                             <?php } ?>
                             

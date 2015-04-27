@@ -13,6 +13,7 @@ class programaDTO
     private $_MSG;
     
     private $_id;
+    private $_id_opc;
     private $_codigo;
     private $_nombre;
     private $_desde;
@@ -42,7 +43,14 @@ class programaDTO
     private $_descrip;
     private $_cat_estrella;
     private $_iata;
+    private $_tramo;
     
+    public function setTramo($t){
+        $this->_tramo = $t;
+    }
+    public function getTramo() {
+        return $this->_tramo;
+    }
     
     public function getIata() {
         return $this->_iata;
@@ -252,6 +260,13 @@ class programaDTO
     }
     public function setId($id) {
         $this->_id = $id;
+    }
+    
+    public function getIdOpc() {
+        return $this->_id_opc;
+    }
+    public function setIdOpc($id) {
+        $this->_id_opc = $id;
     }
     
     public function getLINEA() {

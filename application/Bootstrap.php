@@ -11,6 +11,7 @@ class Bootstrap
     
     public static function run(Request $peticion)
     {
+        Session::set('SESS_CONTROLLER', $peticion->getControlador());
         $controller= $peticion->getControlador() . 'Controller';
         $rutaControlador= ROOT . 'controllers' . DS . $controller . '.php';
         $metodo= $peticion->getMetodo();

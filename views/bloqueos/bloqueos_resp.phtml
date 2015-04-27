@@ -229,7 +229,7 @@
                                                                         <tr>
                                                                                 <td colspan="5" align="center">
                                                                                         <a data-toggle="modal" href="#myModal" 
-                                                                                        onClick="validaReserva(\'frmOpcionesPRG_'.$P_cntProgramas.'\', \'' . BASE_URL . 'system/reservaPrograma\', \'divPopupPRG\', \'tituloFormPRG\', \'Formulario de reserva\');"
+                                                                                        onClick="validaReserva(\'frmOpcionesPRG_'.$P_cntProgramas.'\', \'' . BASE_URL . 'bloqueos/reservaPrograma\', \'divPopupPRG\', \'tituloFormPRG\', \'Formulario de reserva\');"
                                                                                         class="btn btn-primary">Comenzar reserva</a>
                                                                                 </td>
                                                                         </tr>
@@ -286,7 +286,7 @@
                                                         if(!empty($P_notaPRG))
                                                         {
                                                             $P_notaPrgView='<a data-toggle="modal" href="#myModal" 
-                                                                    onClick="abrePopup(\'divPopupPRG\', \'' . BASE_URL . 'system/condicionesGenerales\', \'tituloFormPRG\', \'Condiciones generales\', \''.$P_idPRG.'\');">
+                                                                    onClick="abrePopup(\'divPopupPRG\', \'' . BASE_URL . 'bloqueos/condicionesGenerales\', \'tituloFormPRG\', \'Condiciones generales\', \''.$P_idPRG.'\');">
                                                                     <img src="'.$_layoutParams['ruta_img'].'nota.png" width="24px" alt="Condiciones generales" title="Condiciones generales" />
                                                                     </a>';
 
@@ -471,7 +471,7 @@ $P_programaDetalle.='<td><a id="div_opc_hotelProg_'.$cntPopup.'" style="cursor:p
                                 No se encontraron registros para esta busqueda.
                             </div>
                                 <?php
-                                } $this->procesoTerminado=true; ?> 
+                                } //$this->procesoTerminado=true; ?> 
 						
                     </div>
                 </div>

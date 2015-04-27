@@ -18,6 +18,28 @@ abstract class Controller
     
     abstract public function index();
     
+    
+    protected function _loadLeft()
+    {
+        $this->_view->ML_fechaIni=  Session::get('sess_fechaDefault');
+        $this->_view->ML_fechaFin=  Session::get('sess_fechaDefault');
+        $this->_view->ML_fechaIni_PRG=  Session::get('sess_fechaDefault');
+        $this->_view->ML_fechaFin_PRG=  Session::get('sess_fechaDefault');
+    }
+    
+    protected function _alert($tipo=false, $msg=false)
+    {
+        Session::set('sess_alerts', $tipo); //Tipo alerta
+        Session::set('sess_alerts_msg', $msg);
+    }
+    
+    protected function _alertDestroy()
+    {
+        Session::destroy('sess_alerts');
+        Session::destroy('sess_alerts_msg');
+    }
+    
+    
     protected function loadModel($class)
     {
         $dao= $class . 'DAO';
@@ -71,6 +93,7 @@ abstract class Controller
         }
     }
     
+
     /*protected function loadModel($modelo)
     {
         $modelo= $modelo . 'Model';

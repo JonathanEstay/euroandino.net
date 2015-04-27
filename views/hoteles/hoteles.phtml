@@ -38,7 +38,7 @@
                                             <button type="button" class="close" onClick="muestraOculta('divAlertWarHot', '2')">&times;</button>
                                         </div>
 
-                                        <form method="post" id="frmHoteles" action="<?php echo BASE_URL ?>system/buscarHotel">
+                                        <form method="post" id="frmHoteles" action="<?php echo BASE_URL ?>hoteles/buscar">
                                             <table align="center" cellspacing="5" cellpadding="5">
                                                 <tr>
                                                     <td>Ciudad:</td>
@@ -195,12 +195,12 @@
                                         <td><?php echo $h_ciudadH; ?></td>
                                         <td><?php echo $h_catH; ?></td>
                                         <td align="center">
-                                            <a data-toggle="modal" href="#myModal" onClick="abrePopupHotel('<?php echo BASE_URL; ?>system/editarHotel', 'Editar Hotel', '<?php echo $h_codigoHotel; ?>');">
+                                            <a data-toggle="modal" href="#myModal" onClick="abrePopupHotel('<?php echo BASE_URL; ?>hoteles/editar', 'Editar Hotel', '<?php echo $h_codigoHotel; ?>');">
                                                 <img src="<?php echo $_layoutParams['ruta_img']; ?>edit.png" width="24" border="0" />
                                             </a>
                                         </td>
                                         <td align="center">
-                                            <a data-toggle="modal" href="#myModal" onClick="abrePopupHotel('<?php echo BASE_URL; ?>system/editarTipoHab', 'Editar tipo habitaci&oacute;n', '<?php echo $h_codigoHotel; ?>');">
+                                            <a data-toggle="modal" href="#myModal" onClick="abrePopupHotel('<?php echo BASE_URL; ?>habitacion/editar', 'Editar tipo habitaci&oacute;n', '<?php echo $h_codigoHotel; ?>');">
                                                 <img src="<?php echo $_layoutParams['ruta_img']; ?>camara.png" width="24" border="0" />
                                             </a>
                                         </td>
@@ -254,6 +254,7 @@ $('#btnHoteles').on('click',function()
     }
     else
     {
+        $("#btnHoteles").attr('disabled', 'disabled');
         $(document).skylo('start');
 
         setTimeout(function(){

@@ -8,12 +8,27 @@
 
 class View
 {
+    //private $_request;
     private $_controlador;
     private $_js;
+    private $_rutas;
     
     public function __construct(Request $peticion) { //$peticion es un objeto de Request
         $this->_controlador= $peticion->getControlador();
+        //$this->_request = $peticion;
         $this->_js=array();
+        $this->_rutas = array();
+        
+        /*$modulo = $this->_request->getModulo();
+        $controlador= $this->_request->getControlador();
+        
+        if($modulo) {
+            $this->_rutas['view'] = ROOT . 'modules' . DS . $modulo . DS . 'views' . DS . $controlador . DS; 
+            $this->_rutas['js'] = BASE_URL . 'modules/' . $modulo . '/views/' . $controlador . '/js/'; 
+        } else {
+            $this->_rutas['view'] = ROOT . 'views' . DS . $controlador . DS; 
+            $this->_rutas['js'] = BASE_URL . 'views/' . $controlador . '/js/'; 
+        }*/
     }
     
     
@@ -78,10 +93,10 @@ class View
         
         if(is_readable($rutaView))
         {
-            include_once ROOT . 'views' . DS . 'layout' . DS . DEFAULT_LAYOUT . DS . 'header.php';
-            include_once ROOT . 'views' . DS . 'layout' . DS . DEFAULT_LAYOUT . DS . 'left.php';
+            include_once ROOT . 'views' . DS . 'layout' . DS . DEFAULT_LAYOUT . DS . '_NavBar.php';
+            include_once ROOT . 'views' . DS . 'layout' . DS . DEFAULT_LAYOUT . DS . '_LeftSidebar.php';
             include_once $rutaView;
-            include_once ROOT . 'views' . DS . 'layout' . DS . DEFAULT_LAYOUT . DS . 'footer.php';
+            include_once ROOT . 'views' . DS . 'layout' . DS . DEFAULT_LAYOUT . DS . '_Footer.php';
         }
         else
         {
@@ -115,7 +130,7 @@ class View
         }
         else
         {
-            throw new Exception('Error de vista AJAX');
+            throw new Exception('Error de vista AJAX: ' . $vista);
         }
     }
     

@@ -36,7 +36,7 @@
                                             Debe ingresar una <b>Ciudad</b> para buscar.
                                             <button type="button" class="close" onClick="muestraOculta('divAlertWarProg', '2')">&times;</button>
                                         </div>
-                                        <form method="post" id="frmAdmProg" action="<?php echo BASE_URL ?>system/buscarAdmProgramas">
+                                        <form method="post" id="frmAdmProg" action="<?php echo BASE_URL ?>programas/buscarAdm">
                                             <table align="left" cellspacing="5" cellpadding="5">
                                                 <tr>
                                                     <td>Ciudad:</td>
@@ -155,7 +155,7 @@
                                             <td><?php echo $objProg->getNombre(); ?></td>
                                             <td><?php echo $objProg->getCiudad(); ?></td>
                                             <td align="center">
-                                                <a data-toggle="modal" href="#myModal" onClick="abrePopup('AP_divPopup', '<?php echo BASE_URL; ?>system/editarPrograma', 'tituloForm', 'Carga de archivos', '<?php echo $objProg->getCodigo(); ?>');">
+                                                <a data-toggle="modal" href="#myModal" onClick="abrePopup('AP_divPopup', '<?php echo BASE_URL; ?>programas/editar', 'tituloForm', 'Carga de archivos', '<?php echo $objProg->getCodigo(); ?>');">
                                                     <img src="<?php echo $_layoutParams['ruta_img']; ?>conf.png" width="24" />
                                                 </a>
                                             </td>
