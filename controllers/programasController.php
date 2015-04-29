@@ -18,6 +18,8 @@ class programasController extends Controller
     
     
     
+    
+    
     /*******************************************************************************
     *                                                                              *
     *                                METODOS VIEWS                                 *
@@ -63,6 +65,7 @@ class programasController extends Controller
         $this->_view->renderingSystem('programas');
     }
     
+    
     public function admin()
     {
         Session::acceso('Usuario');
@@ -88,6 +91,11 @@ class programasController extends Controller
     
     
     
+    
+    
+    
+    
+    
     /*******************************************************************************
     *                                                                              *
     *                          METODOS VIEWS CENTER BOX                            *
@@ -95,9 +103,8 @@ class programasController extends Controller
     *******************************************************************************/
     public function detalle()
     {
+        Session::acceso('Usuario');
         $programas= $this->loadModel('programa');
-        $this->_ciudad= array();
-        $this->_alert();
         
         if($this->getInt('__SP_id__')) {
             $sql="EXEC TS_GET_PROGRAMAS_ID_TEST " . $this->getInt('__SP_id__');
@@ -117,8 +124,11 @@ class programasController extends Controller
                 if($objOpcProgramas[0]->getError()) {
                     throw new Exception('<b>Error</b>: ['.$objOpcProgramas[0]->getError().'] <br> <b>Mensaje</b>: ['.$objOpcProgramas[0]->getMensaje().']');
                 } else {
+                    
                     $this->_view->objOpcProgramas= $objOpcProgramas;
-                    //echo $objOpcProgramas; exit;
+                    //$this->_view->hoteles= $this->_view->objOpcProgramas[0]->getNombreHotel();
+                    
+                    
                     $this->_view->renderingCenterBox('detalleProg');
                 }
             } else {
@@ -129,6 +139,20 @@ class programasController extends Controller
             throw new Exception('Error al cargar las opciones');
         }
     }
+    
+    
+    public function procesoReserva()
+    {
+        Session::acceso('Usuario');
+        if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest')
+        {
+            $programas= $this->loadModel('programa');
+            echo 'TODO BIEN';
+        } else {
+            throw new Exception('Error al cargar las opciones');
+        }
+    }
+    
     
     public function editar()
     {
@@ -166,6 +190,7 @@ class programasController extends Controller
             throw new Exception('Error al intentar editar programa');
         }
     }
+    
     
     public function modificar()
     {

@@ -432,13 +432,15 @@ class programaDAO extends Model
 
                     /* HOTELES */
                     for($i=1; $i<=5; $i++) {
-                        $nomHotel[]=trim($detProgDB['nomHotel_'.$i]);
-                        $codHotel[]=trim($detProgDB['codHotel_'.$i]);
-                        $dirHotel[]=trim($detProgDB['dirHotel_'.$i]);
-                        $catHotel[]=trim($detProgDB['catHot_'.$i]);
-                        $starHotel[]=trim($detProgDB['catEstrella_'.$i]);
-                        $codTH[]=trim($detProgDB['codTH_'.$i]);
-                        $TH[]=trim($detProgDB['tipoHab_'.$i]);
+                        if(trim($detProgDB['nomHotel_'.$i])) {
+                            $nomHotel[]=trim($detProgDB['nomHotel_'.$i]);
+                            $codHotel[]=trim($detProgDB['codHotel_'.$i]);
+                            $dirHotel[]=trim($detProgDB['dirHotel_'.$i]);
+                            $catHotel[]=trim($detProgDB['catHot_'.$i]);
+                            $starHotel[]=trim($detProgDB['catEstrella_'.$i]);
+                            $codTH[]=trim($detProgDB['codTH_'.$i]);
+                            $TH[]=trim($detProgDB['tipoHab_'.$i]);
+                        }
                     }
 
                     $objDetProg->setNombreHotel($nomHotel);
@@ -448,6 +450,10 @@ class programaDAO extends Model
                     $objDetProg->setEstrellas($starHotel);
                     $objDetProg->setCodTH($codTH);
                     $objDetProg->setTipoHab($TH);
+                    
+                    
+                    
+                    $objDetProg->setEstado(trim($detProgDB['ESTADO']));
                     /* HOTELES */
                 }
                 
