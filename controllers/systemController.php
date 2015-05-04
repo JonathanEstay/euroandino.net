@@ -24,6 +24,10 @@ class systemController extends Controller
     *******************************************************************************/
     public function index()
     {
+        /*echo Functions::traduceMes();
+        echo '<br>';
+        echo date('m');
+        exit;*/
         Session::acceso('Usuario');
         //$this->_view->setJS(array(''));
         

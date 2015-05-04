@@ -25,8 +25,7 @@ class programasController extends Controller
     *                                METODOS VIEWS                                 *
     *                                                                              *
     *******************************************************************************/
-    public function index()
-    {
+    public function index() {
         Session::acceso('Usuario');
         //$this->_view->setJS(array(''));
         
@@ -37,8 +36,8 @@ class programasController extends Controller
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
         $this->_view->objCiudadesPRG= $this->_ciudad->getCiudades();
-        if(Session::get('sess_BP_ciudadDes_PRG'))
-        {
+        if(Session::get('sess_BP_ciudadDes_PRG')) {
+            
             //$this->loadDTO('incluye');
             $programas= $this->loadModel('programa');
             
@@ -51,6 +50,7 @@ class programasController extends Controller
             Session::set('sess_TS_GET_PROGRAMAS', $sql);
             //echo $sql; exit;
             
+            //Kint::dump( $programas->exeTS_GET_PROGRAMAS($sql) );
             $this->_view->objCiudadBs= $this->_ciudad->getCiudades(Session::get('sess_BP_ciudadDes_PRG'));
             $this->_view->objProgramas= $programas->exeTS_GET_PROGRAMAS($sql);
             //$this->_view->objProgramasCNT = count($this->_view->objProgramas);
@@ -74,8 +74,7 @@ class programasController extends Controller
         $this->_view->objCiudadesPRG= $this->_ciudad->getCiudades();
         
         
-        if(Session::get('sess_AP_ciudad'))
-        {
+        if(Session::get('sess_AP_ciudad')) {
             $programas= $this->loadModel('programa');
             //getAdmProgramas
             $this->_view->objProgramas= $programas->getAdmProgramas(Session::get('sess_AP_ciudad'));
@@ -101,8 +100,8 @@ class programasController extends Controller
     *                          METODOS VIEWS CENTER BOX                            *
     *                                                                              *
     *******************************************************************************/
-    public function detalle()
-    {
+    public function detalle() {
+        
         Session::acceso('Usuario');
         $programas= $this->loadModel('programa');
         
@@ -141,11 +140,9 @@ class programasController extends Controller
     }
     
     
-    public function procesoReserva()
-    {
+    public function procesoReserva() {
         Session::acceso('Usuario');
-        if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest')
-        {
+        if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest') {
             $programas= $this->loadModel('programa');
             echo 'TODO BIEN';
         } else {
@@ -154,107 +151,80 @@ class programasController extends Controller
     }
     
     
-    public function editar()
-    {
+    public function editar() {
         Session::destroy('sessMOD_EP_codPRG');
-        $AP_codigoPrg= $this->getTexto('varCenterBox');
-        if($AP_codigoPrg)
-        {
-            $EP_programa= $this->loadModel('programa');
+        $AP_codigoPrg = $this->getTexto('varCenterBox');
+        if ($AP_codigoPrg) {
+            $EP_programa = $this->loadModel('programa');
             Session::set('sessMOD_EP_codPRG', $AP_codigoPrg);
-            
-            $EP_objPrograma= $EP_programa->getAdmProgramas(0, $AP_codigoPrg);
-            if($EP_objPrograma)
-            {
-                $this->_view->EP_nombreProg= $EP_objPrograma[0]->getNombre();
-                $rutaPDF=ROOT . 'public' . DS . 'pdf' . DS . 'upl_' . str_replace(' ', '_', $EP_objPrograma[0]->getCodigo()) . '.pdf';
+
+            $EP_objPrograma = $EP_programa->getAdmProgramas(0, $AP_codigoPrg);
+            if ($EP_objPrograma) {
+                $this->_view->EP_nombreProg = $EP_objPrograma[0]->getNombre();
+                $rutaPDF = ROOT . 'public' . DS . 'pdf' . DS . 'upl_' . str_replace(' ', '_', $EP_objPrograma[0]->getCodigo()) . '.pdf';
                 //echo $rutaPDF; exit;
-                if(is_readable($rutaPDF))
-                {
-                    $this->_view->EP_PDF= 'upl_' . str_replace(' ', '_', $EP_objPrograma[0]->getCodigo()) . '.pdf';
-                }
-                else
-                {
-                    $this->_view->EP_PDF= false;
+                if (is_readable($rutaPDF)) {
+                    $this->_view->EP_PDF = 'upl_' . str_replace(' ', '_', $EP_objPrograma[0]->getCodigo()) . '.pdf';
+                } else {
+                    $this->_view->EP_PDF = false;
                 }
 
                 $this->_view->renderingCenterBox('editarPrograma');
-            }
-            else
-            {
+            } else {
                 throw new Exception('Error al intentar editar programa. (Metodo)');
             }
-        }
-        else
-        {
+        } else {
             throw new Exception('Error al intentar editar programa');
         }
     }
+
     
-    
-    public function modificar()
-    {
-        if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest')
-        {
-            $rutaPDF= ROOT . 'public' . DS . 'pdf' . DS;
-            $MP_programa= $this->loadModel('programa');
-            
-            if(isset($_FILES['flPDF']['name']))
-            {
-                if($_FILES['flPDF']['name'])
-                {
+    public function modificar() {
+
+        if (strtolower($this->getServer('HTTP_X_REQUESTED_WITH')) == 'xmlhttprequest') {
+            $rutaPDF = ROOT . 'public' . DS . 'pdf' . DS;
+            $MP_programa = $this->loadModel('programa');
+
+            if (isset($_FILES['flPDF']['name'])) {
+
+                if ($_FILES['flPDF']['name']) {
+
                     //$this->getLibrary('upload' . DS . 'class.upload');
 
-                    $upload= new upload($_FILES['flPDF'], 'es_ES');
-                    $upload->allowed= array('application/pdf');
+                    $upload = new upload($_FILES['flPDF'], 'es_ES');
+                    $upload->allowed = array('application/pdf');
                     $upload->file_max_size = '2097152'; // 2MB
                     //$upload->file_new_name_body= 'upl_' . uniqid();
-                    $upload->file_new_name_body= 'upl_' . Session::get('sessMOD_EP_codPRG');
+                    $upload->file_new_name_body = 'upl_' . Session::get('sessMOD_EP_codPRG');
                     $upload->process($rutaPDF);
 
-                    if($upload->processed)
-                    {
+                    if ($upload->processed) {
                         echo 'OK';
+                    } else {
+                        throw new Exception($upload->error);
                     }
-                    else
-                    {
-                        throw new Exception( $upload->error );
-                    }
-                }
-                else
-                {
+                } else {
                     throw new Exception('Debe seleccionar un archivo desde su computador');
                 }
-            }
-            else
-            {
-                if($this->getTexto('chkEP_flPDF'))
-                {
-                    if($this->getTexto('chkEP_flPDF')=='on')
-                    {
+            } else {
+
+                if ($this->getTexto('chkEP_flPDF')) {
+
+                    if ($this->getTexto('chkEP_flPDF') == 'on') {
                         //echo Session::get('sessMOD_EP_codPRG'); exit;
-                        if(Functions::eliminaFile($rutaPDF . 'upl_' . str_replace(' ', '_', Session::get('sessMOD_EP_codPRG')) . '.pdf'))
-                        {
+                        if (Functions::eliminaFile($rutaPDF . 'upl_' . str_replace(' ', '_', Session::get('sessMOD_EP_codPRG')) . '.pdf')) {
                             echo 'OK';
-                        }
-                        else
-                        {
+                        } else {
                             throw new Exception('Error al eliminar el archivo, intente nuevamente');
                         }
-                    }
-                    else
-                    {
+                    } else {
                         throw new Exception('Debe seleccionar un archivo a eliminar');
                     }
-                }
-                else
-                {
+                } else {
                     throw new Exception('Debe seleccionar un archivo desde su computador');
                 }
             }
-        }
-        else
-        {
+        } else {
             throw new Exception('Error inesperado, intente nuevamente. Si el error persiste comuniquese con el administrador');
         }
     }
@@ -273,16 +243,14 @@ class programasController extends Controller
     *                             METODOS PROCESADORES                             *
     *                                                                              *
     *******************************************************************************/
-    public function buscar()
-    {
-        $BP_cntHab= $this->getInt('mL_cmbHab_PRG');
-        $BP_ciudadDes= $this->getTexto('mL_txtCiudadDestino_PRG');
-        $BP_fechaIn= $this->getTexto('mL_txtFechaIn_PRG');
-        $BP_fechaOut= $this->getTexto('mL_txtFechaOut_PRG');
-        $BP_hotel= $this->getTexto('mL_txtHotel_PRG');
+    public function buscar() {
+        $BP_cntHab = $this->getInt('mL_cmbHab_PRG');
+        $BP_ciudadDes = $this->getTexto('mL_txtCiudadDestino_PRG');
+        $BP_fechaIn = $this->getTexto('mL_txtFechaIn_PRG');
+        $BP_fechaOut = $this->getTexto('mL_txtFechaOut_PRG');
+        $BP_hotel = $this->getTexto('mL_txtHotel_PRG');
 
-        if($BP_ciudadDes)
-        {
+        if ($BP_ciudadDes) {
             Session::set('sess_BP_ciudadDes_PRG', $BP_ciudadDes);
         }
 
@@ -296,44 +264,37 @@ class programasController extends Controller
         Session::set('sess_BP_cntAdl', 0);
         Session::set('sess_BP_cntChd', 0);
         Session::set('sess_BP_cntInf', 0);
-        for($i=1; $i<=3; $i++)
-        {
-            if($i<=$BP_cntHab)
-            {
-                Session::set('sess_BP_Adl_'.$i, $this->getInt('mL_cmbAdultos_'.$i));
-                Session::set('sess_BP_Chd_'.$i, $this->getInt('mL_child_'.$i));
-                Session::set('sess_BP_Inf_'.$i, $this->getInt('mL_inf_'.$i));
+        
+        for ($i = 1; $i <= 3; $i++) {
+            if ($i <= $BP_cntHab) {
+                Session::set('sess_BP_Adl_' . $i, $this->getInt('mL_cmbAdultos_' . $i));
+                Session::set('sess_BP_Chd_' . $i, $this->getInt('mL_child_' . $i));
+                Session::set('sess_BP_Inf_' . $i, $this->getInt('mL_inf_' . $i));
 
 
-                if(Session::get('sess_BP_Adl_'.$i)>0)
-                {
-                    Session::set('sess_BP_cntAdl', (Session::get('sess_BP_cntAdl')+1));
+                if (Session::get('sess_BP_Adl_' . $i) > 0) {
+                    Session::set('sess_BP_cntAdl', (Session::get('sess_BP_cntAdl') + 1));
                 }
-                if(Session::get('sess_BP_Chd_'.$i)>0)
-                {
-                    Session::set('sess_BP_cntChd', (Session::get('sess_BP_cntChd')+1));
+                if (Session::get('sess_BP_Chd_' . $i) > 0) {
+                    Session::set('sess_BP_cntChd', (Session::get('sess_BP_cntChd') + 1));
                 }
-                if(Session::get('sess_BP_Inf_'.$i)>0)
-                {
-                    Session::set('sess_BP_cntInf', (Session::get('sess_BP_cntInf')+1));
+                if (Session::get('sess_BP_Inf_' . $i) > 0) {
+                    Session::set('sess_BP_cntInf', (Session::get('sess_BP_cntInf') + 1));
                 }
 
 
-                for($x=1; $x<=2; $x++)
-                {
-                    Session::set('sess_BP_edadChd_'.$x.'_' . $i, $this->getInt('mL_edadChild_'.$x.'_'.$i));
+                for ($x = 1; $x <= 2; $x++) {
+                    Session::set('sess_BP_edadChd_' . $x . '_' . $i, $this->getInt('mL_edadChild_' . $x . '_' . $i));
                 }
 
-                Session::set('sess_BP_cntPas', (Session::get('sess_BP_cntPas')+Session::get('sess_BP_Adl_'.$i)+Session::get('sess_BP_Chd_'.$i)));
-            }
-            else
-            {
-                Session::set('sess_BP_Adl_'.$i, 0);
-                Session::set('sess_BP_Chd_'.$i, 0);
-                Session::set('sess_BP_Inf_'.$i, 0);
+                Session::set('sess_BP_cntPas', (Session::get('sess_BP_cntPas') + Session::get('sess_BP_Adl_' . $i) + Session::get('sess_BP_Chd_' . $i)));
+            } else {
+                Session::set('sess_BP_Adl_' . $i, 0);
+                Session::set('sess_BP_Chd_' . $i, 0);
+                Session::set('sess_BP_Inf_' . $i, 0);
 
-                Session::set('sess_BP_edadChd_1_'.$i, 0);
-                Session::set('sess_BP_edadChd_2_'.$i, 0);
+                Session::set('sess_BP_edadChd_1_' . $i, 0);
+                Session::set('sess_BP_edadChd_2_' . $i, 0);
             }
         }
 
@@ -341,8 +302,7 @@ class programasController extends Controller
     }
     
     
-    public function buscarAdm()
-    {
+    public function buscarAdm() {
         Session::set('sess_AP_ciudad', $this->getTexto('AP_cmbCiudadDestino'));
         $this->redireccionar('programas/admin');
     }
