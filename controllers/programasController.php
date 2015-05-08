@@ -117,6 +117,8 @@ class programasController extends Controller
 
             //Session::set('sess_TS_GET_DETALLEPROG', $sql);
             //echo $sql; exit;
+            
+            
 
             $objOpcProgramas= $programas->exeTS_GET_DETALLEPROG($sql);
             if($objOpcProgramas) {
@@ -126,9 +128,9 @@ class programasController extends Controller
                     
                     $this->_view->objOpcProgramas= $objOpcProgramas;
                     //$this->_view->hoteles= $this->_view->objOpcProgramas[0]->getNombreHotel();
-                    
-                    
+                    //echo '<b>Fatal error:</b> If you have a customer error handler that does not output warnings, you may get a white screen of death if a "require" fails.';
                     $this->_view->renderingCenterBox('detalleProg');
+                    
                 }
             } else {
                 throw new Exception('Error al cargar las opciones');
@@ -136,6 +138,44 @@ class programasController extends Controller
             
         } else {
             throw new Exception('Error al cargar las opciones');
+        }
+    }
+    
+    
+    
+    public function pasajeros() {
+        Session::acceso('Usuario');
+        if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest') {
+            
+            if($this->getInt('_PCD_')) {
+                $programas= $this->loadModel('programa');
+                echo 'a';
+            } else {
+                throw new Exception('Error al cargar las opciones');
+            }
+            
+        } else {
+            throw new Exception('Error al cargar los pasajeros');
+        }
+    }
+    
+    
+    public function detallePasajeros() {
+        Session::acceso('Usuario');
+        if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest') {
+            
+            
+            if($this->getInt('DP_cmbHab')) {
+                //$programas= $this->loadModel('programa');
+                $this->_view->cntHab = $this->getInt('DP_cmbHab');
+                $this->_view->renderingCenterBox('detallePasajeros');
+            } else {
+                throw new Exception('Debe ingresar la cantidad de habitaciones');
+            }
+            
+            
+        } else {
+            throw new Exception('Error al cargar los pasajeros');
         }
     }
     
