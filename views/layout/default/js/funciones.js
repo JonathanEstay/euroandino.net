@@ -33,6 +33,41 @@ function procesoDetalleProg(classFrm)
 	});
 }
 
+function procesoDetallePasajeros(classFrm, php, btn, div)
+{
+    $("#"+btn).attr('disabled', 'disabled');
+    initLoad();
+
+    //$("#" + div).html("");
+    var formData= new FormData($("."+classFrm)[0]);
+    //hacemos la peticion ajax  
+    $.ajax({
+        url: php,  
+        type: 'POST',
+        //Form data
+        //datos del formulario
+        data: formData,
+        //necesario para subir archivos via ajax
+        cache: false,
+        contentType: false,
+        processData: false,
+        //mientras enviamos el archivo
+        beforeSend: function(){},
+        //una vez finalizado correctamente
+        success: function(data)
+        {
+            $("#" + div).html(data);
+            endLoad();
+        },
+
+        //si ha ocurrido un error
+        error: function()
+        {
+            $("#" + div).html("Ha ocurrido un error");
+        }
+    });
+}
+
 
 function procesoEnviaForm(classFrm, php, btn, div)
 {
@@ -368,6 +403,36 @@ function procesoReservaPRG(classFrm, php, btn, div)
 
 
 
+function pasajerosProg(valor, div1, div2, php)
+{
+    $('#' + div1).delay( 10 ).fadeOut( 400 );
+    $('#' + div1).animate({
+            'display': 'none'
+    });
+    
+    if(valor !== 0) {
+        $.post(php, 
+        {
+            _PCD_: valor
+        }, function(data)
+        {
+            //$('#' + div2).html(data);
+            
+            $('#' + div2).delay( 100 ).fadeIn( 400 );
+            $('#' + div2).animate({
+                    'display': 'block'
+            });
+            
+        });
+    } else {
+        $('#' + div2).delay( 100 ).fadeIn( 400 );
+        $('#' + div2).animate({
+                'display': 'block'
+        });
+    }
+}
+
+
 
 
 function procesoCargaDiv(valor, div, php)
@@ -627,22 +692,18 @@ function habitaciones(table, num)
 
 
 
-function habilitaEdadChild(id,hab)
+function habilitaEdadChild(id,hab, chd)
 {
     var i, x;
     status_1 = new Array (true, false, false); 
     status_2 = new Array (true, true, false); 
 
-    for(i=0; i<3; i++)
-    {
-        if(id==i)
-        {
-            for(x=1; x<4; x++)
-            {
-                if(hab==x)
-                {
-                    $("#mL_edadChild_1_"+x).prop('disabled', status_1[i]);
-                    $("#mL_edadChild_2_"+x).prop('disabled', status_2[i]);
+    for(i=0; i<3; i++) {
+        if(id==i) {
+            for(x=1; x<4; x++) {
+                if(hab==x) {
+                    $("#" + chd +  "_1_"+x).prop('disabled', status_1[i]);
+                    $("#" + chd +  "_2_"+x).prop('disabled', status_2[i]);
                 }
             }
         }

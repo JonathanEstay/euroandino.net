@@ -201,7 +201,7 @@ $(function()
                                             <tr>
                                                 <td>Child</td>
                                                 <td>
-                                                    <select name="mL_child_<?php echo $i; ?>" id="mL_child_<?php echo $i; ?>" onchange="habilitaEdadChild(this.value, <?php echo $i; ?>);">
+                                                    <select name="mL_child_<?php echo $i; ?>" id="mL_child_<?php echo $i; ?>" onchange="habilitaEdadChild(this.value, <?php echo $i; ?>, 'mL_edadChild');">
                                                     <?php 
                                                         for($x=0; $x<=2; $x++)
                                                         {
@@ -318,6 +318,9 @@ $(function()
                                     <input type="text" class="form-control" id="mL_txtFechaIn_PRG" name="mL_txtFechaIn_PRG" value="<?php echo $this->ML_fechaIni_PRG; ?>">
                                 </td>
                             </tr>
+                            
+                            
+                            
                             
                             
                             <tr>

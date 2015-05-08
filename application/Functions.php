@@ -233,15 +233,34 @@ class Functions
         echo $fecha->format('Y-m-d'); */
     }
     
+    public function getMoneda($moneda) {
+        if ($moneda == 'P') {
+            return '$';
+        } else if ($moneda == 'D') {
+            return 'USD';
+        } elseif ($moneda == 'E') {
+            return 'EUR';
+        }
+    }
     
-    public function formatoValor($moneda, $dinero)
-    {
+    public function getTarifa($dinero, $moneda) {
+        if ($moneda == 'P') {
+            return number_format($dinero, 0, ',', '.');
+        } else if ($moneda == 'D') {
+            return number_format($dinero, 2, ',', '.');
+        } else if ($moneda == 'E') {
+            return number_format($dinero, 0, ',', '.');
+        }
+    }
+    
+    public function formatoValor($moneda, $dinero) {
+        
         $valor=false;
         if ($moneda == 'P') {
             $valor = '$ ' . number_format($dinero, 0, ',', '.');
         } else if ($moneda == 'D') {
             $valor = 'USD ' . number_format($dinero, 2, ',', '.');
-        } elseif ($moneda == 'E') {
+        } else if ($moneda == 'E') {
             $valor = 'EUR ' . number_format($dinero, 0, ',', '.');
         }
 
