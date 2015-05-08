@@ -1,4 +1,15 @@
-<div class="panel panel-primary">
+<script>
+$('.blink').each(function() {
+        var elem = $(this);
+        setInterval(function() {
+            
+            elem.animate({opacity: 0}, 400);
+            elem.animate({opacity: 1}, 400);
+            
+        }, 1000);
+    });
+</script>
+<div class="panel panel-primary" id="DP_principal" style="display: block;">
     <div class="panel-heading">
 
         <?php echo $this->objProgramas[0]->getTitulo(); ?>
@@ -86,20 +97,21 @@
     
 <?php
 if($this->objOpcProgramas) {
-$cntDP = 0;
+    $cntDP = 1;
     foreach($this->objOpcProgramas as $objOpcProg) {
 ?>
+    <br />
     <div class="panel-heading" style="margin-top: 20px;" >
-        Hoteles
+        Opci&oacute;n  <?php echo $cntDP; ?> <div class="blink" style="float: right;"><button class="btn btn-warning btn-sm" > &iexcl; DISPONIBLE ! </button><?php //echo $objOpcProg->getEstado(); ?></div>
     </div> 
     <div class="panel-body">
-        <div class="tab-content">
-            <form class="frmDetalleReserva_<?php echo $cntDP; ?>">
+        <div class="tab-content" style="display: block;" id="tab_content_1_<?php echo $cntDP; ?>">
+            
             
             <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" style="font-size:12px; width: 100%; margin-top: 20px;" align='center'> <!-- class="table table-striped table-bordered" -->
                 <thead>
                     <tr style="background-color:#34495e; color: #FFFFFF" role="row">
-                        <th role="columnheader" style="padding-left: 2px;">Nombre</th>
+                        <th role="columnheader" style="padding-left: 2px;">Hotel</th>
                         <th role="columnheader" style="padding-left: 2px;">Direcci&oacute;n</th>
                         <th role="columnheader" style="padding-left: 2px;">Categoria</th>
                         <th role="columnheader" style="padding-left: 2px;">Tipo Habitaci&oacute;n</th>
@@ -121,6 +133,12 @@ $cntDP = 0;
                         <td style="width: 80px;"><?php echo $DP_catHot[$i]; ?></td>
                         <td style="padding: 2px; vertical-align: middle; width: 100px;"><?php echo $DP_thHot[$i]; ?></td>
                     </tr>
+                    <tr>
+                        <td style="color: #DF5F00; padding: 2px; vertical-align: middle;"><?php echo $DP_hoteles[$i]; ?></td>
+                        <td style="width: 300px;"><?php echo $DP_dirHot[$i]; ?></td>
+                        <td style="width: 80px;"><?php echo $DP_catHot[$i]; ?></td>
+                        <td style="padding: 2px; vertical-align: middle; width: 100px;"><?php echo $DP_thHot[$i]; ?></td>
+                    </tr>
                     <?php
                 }?>
             </table>
@@ -128,26 +146,184 @@ $cntDP = 0;
             
             
             <!-- RESERVAR -->
-            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" style=" width: 40%;" align="center">
+            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" align="center">
                 <tr>
-                    <td style="font-size: 12px;"> </td>
+                    <td style="font-size: 12px; text-align: center"> SINGLE </td>
+                    <td style="font-size: 12px; text-align: center"> DOBLE </td>
+                    <td style="font-size: 12px; text-align: center"> TRIPLE </td>
+                    <td style="font-size: 12px; text-align: center"> </td>
                 </tr>
 
                 <tr>
                     <td style="padding: 2px; vertical-align: middle;" align="center">
-                        <label style="color: #DF5F00; font-weight: bold; font-size:30px;"><?php echo Functions::formatoValor($objOpcProg->getMoneda(), $objOpcProg->getVVenDBL()); ?></label><br>
-                        <a data-toggle="modal" href="#myModal" id="btnDP_reservar_<?php echo $cntDP; ?>" class="btn btn-success btn-sm" style="width: 88px;" onclick="procesoEnviaForm('frmDetalleReserva_<?php echo $cntDP; ?>', '<?php echo BASE_URL; ?>programas/procesoReserva', 'btnDP_reservar_<?php echo $cntDP; ?>', 'asd');"><?php echo $objOpcProg->getEstado(); ?></a>
-                        <br>
-                        <label style="font-size: 10px;">Valores desde por persona en base a habitaci&oacute;n doble</label>
+                        <label style="color: #DF5F00; font-weight: bold; font-size:20px;"><?php echo Functions::formatoValor($objOpcProg->getMoneda(), $objOpcProg->getVVenSGL()); ?></label><br>
+                    </td>
+                    <td style="padding: 2px; vertical-align: middle;" align="center">
+                        <label style="color: #DF5F00; font-weight: bold; font-size:20px;"><?php echo Functions::formatoValor($objOpcProg->getMoneda(), $objOpcProg->getVVenDBL()); ?></label><br>
+                    </td>
+                    <td style="padding: 2px; vertical-align: middle;" align="center">
+                        <label style="color: #DF5F00; font-weight: bold; font-size:20px;"><?php echo Functions::formatoValor($objOpcProg->getMoneda(), $objOpcProg->getVVenTPL()); ?></label><br>
+                    </td>
+                    <td style="padding: 2px; vertical-align: middle;" align="center">
+                        <a id="btnDP_reservar_<?php echo $cntDP; ?>" class="btn btn-success btn-sm" style="width: 88px;" onclick="pasajerosProg('12', 'tab_content_1_<?php echo $cntDP; ?>', 'tab_content_2_<?php echo $cntDP; ?>', '<?php echo BASE_URL; ?>programas/pasajeros');"> RESERVAR </a>
                     </td>
                 </tr>
             </table>
+            
             <!-- END: RESERVAR -->
+            
+        </div>
+        
+        <div class="tab-content" style="display: none;" id="tab_content_2_<?php echo $cntDP; ?>">
+            
+            <form class="frmDetalleReserva_1_<?php echo $cntDP; ?>">
+                <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" style="width:50%" align="center">
+                    <tr>
+                        <td><span style="padding-left:10px;">Habitaci&oacute;n:</span></td>
+                        <td>
+                            <select name="DP_cmbHab" id="DP_cmbHab" class="form-control" onchange="habitaciones('DP_tblHab_B', this.value)">
+                                <option value="0">Seleccione</option>
+                                <?php 
+                                for($i=1; $i<=3; $i++)
+                                {
+                                 ?>
+                                    <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                                <?php 
+                                } ?>
+                            </select>
+                        </td>
+                    </tr>
+                            
+                    <tr>
+                        <td colspan="2">
+
+
+
+                            <?php for($i=1; $i<=3; $i++)
+                            {
+                                $display='display:none;';
+                                if(Session::get('sess_BP_cntHab')>=$i){ $display= 'display:block;'; }?>
+                            <div id="DP_tblHab_B_<?php echo $i; ?>" style="<?php echo $display; ?>">
+                                <table width="100%" border="0" cellspacing="0" cellpadding="5">
+                                    <tr>
+                                        <td>Adultos</td>
+                                        <td>
+                                            <select name="DP_cmbAdultos_<?php echo $i; ?>" id="DP_cmbAdultos_<?php echo $i; ?>">
+                                              <?php
+                                                  for($x=1; $x<=6; $x++)
+                                                  { 
+                                                      if(Session::get('sess_BP_Adl_' . $i) == $x)
+                                                      { ?>
+                                                      <option selected="selected" value="<?php echo Session::get('sess_BP_Adl_' . $i); ?>"><?php echo Session::get('sess_BP_Adl_' . $i); ?></option>
+                                                      <?php 
+                                                    }
+                                                    else
+                                                    { ?>                          
+                                                    <option value="<?php echo $x; ?>"><?php echo $x; ?></option>
+                                              <?php }
+                                                  } ?>
+                                            </select>                          
+                                        </td>
+                                        <td>Edad C1</td>
+                                        <td>
+                                            <select id="DP_edadChild_1_<?php echo $i; ?>" name="DP_edadChild_1_<?php echo $i; ?>" <?php if(Session::get('sess_BP_Chd_' . $i)>=1){}else{ echo "disabled='disabled'"; }?> >
+                                            <?php
+                                            for($x=2;$x<=12;$x++)
+                                            {
+                                                if(Session::get('sess_BP_edadChd_1_' . $i) == $x)
+                                                {?>
+                                            <option selected="selected" value="<?php echo Session::get('sess_BP_edadChd_1_' . $i); ?>"><?php echo Session::get('sess_BP_edadChd_1_' . $i); ?></option>
+                                            <?php
+                                                }
+                                                else
+                                                {?>                          
+                                            <option value="<?php echo $x; ?>"><?php echo $x; ?></option>
+                                            <?php }  
+                                            } ?>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td>Child</td>
+                                        <td>
+                                            <select name="DP_child_<?php echo $i; ?>" id="DP_child_<?php echo $i; ?>" onchange="habilitaEdadChild(this.value, <?php echo $i; ?>, 'DP_edadChild');">
+                                            <?php 
+                                                for($x=0; $x<=2; $x++)
+                                                {
+                                                    if(Session::get('sess_BP_Chd_' . $i) == $x)
+                                                    {?>
+                                                <option selected="selected" value="<?php echo $x; ?>"><?php echo $x; ?></option>
+                                                <?php }else{ ?>                          
+                                                <option value="<?php echo $x; ?>"><?php echo $x; ?></option>
+                                                <?php }
+                                                }?>
+                                            </select>
+                                        </td>                    	  
+
+                                        <td>Edad C2</td>
+                                        <td>
+                                            <select id="DP_edadChild_2_<?php echo $i; ?>" name="DP_edadChild_2_<?php echo $i; ?>" <?php if(Session::get('sess_BP_Chd_' . $i)==2){}else{ echo "disabled='disabled'"; }?> >
+                                                <?php
+                                                for($x=2; $x<=12; $x++)
+                                                {
+                                                    if(Session::get('sess_BP_edadChd_2_' . $i) == $x)
+                                                    { ?>
+                                                <option selected="selected" value="<?php echo Session::get('sess_BP_edadChd_2_' . $i); ?>"><?php echo Session::get('sess_BP_edadChd_2_' . $i); ?></option>
+                                                <?php }else{ ?>                          
+                                                <option value="<?php echo $x; ?>"><?php echo $x; ?></option>
+                                                <?php }
+                                                } ?>
+                                            </select>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td>Infant</td>
+                                        <td colspan="3">
+                                            <select name="DP_inf_<?php echo $i; ?>" id="DP_inf_<?php echo $i; ?>">
+                                              <?php
+                                                for($x=0; $x<=1; $x++)
+                                                {
+                                                    if(Session::get('sess_BP_Inf_' . $i) == $x)
+                                                    {?>
+                                                <option selected="selected" value="<?php echo $x; ?>"><?php echo $x; ?></option>
+                                                <?php }else{ ?>                          
+                                                <option value="<?php echo $x; ?>"><?php echo $x; ?></option>
+                                                <?php }
+                                                } ?>
+                                            </select>
+                                        </td>                    	  
+                                    </tr>
+
+                                </table>
+                                <li class="divider"></li>
+                            </div>      
+                            <?php } ?>
+
+
+
+
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td colspan="2" align="right">
+                            <a class="btn btn-default btn-sm" onclick="pasajerosProg('', 'tab_content_2_<?php echo $cntDP; ?>', 'tab_content_1_<?php echo $cntDP; ?>', '');" > Atras </a>
+                            &nbsp; &nbsp; &nbsp;
+                            <a class="btn btn-primary btn-sm" id="Siguiente" onclick="procesoDetallePasajeros('frmDetalleReserva_1_<?php echo $cntDP; ?>', '<?php echo BASE_URL; ?>programas/detallePasajeros', 'Siguiente', 'divPopupPRG');"> Siguiente </a>
+                        </td>
+                    </tr>
+                </table>
             </form>
+            
         </div>
     </div>
-    <br />
-<?php } } ?>   
+    
+<?php $cntDP++; } } ?>   
     
     
     
