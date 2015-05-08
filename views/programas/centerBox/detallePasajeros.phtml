@@ -1,0 +1,48 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+
+        Informaci&oacuten de los pasajeros
+
+    </div>
+    
+    
+    <div class="panel-body">
+        
+        <table class="table table-bordered table-striped" style="font-size: 11px; width: 600px;" align="center">
+            <tbody> 
+            <?php
+                for($i = 1; $i<=$this->cntHab; $i++){  
+                ?>
+                    <thead>
+                        <tr>
+                            <th width="100" <!-- style="background-color:#34495e; color: #FFFFFF" -->>Habitaci&oacute;n <?php echo $i ?></th>
+                            <th>Rut</th>
+                            <th>Nombre</th>
+                            <th>Apellidos</th>
+                            <th>Fecha Nac</th>
+                        </tr>
+                   </thead>
+                   <?php
+                   if($this->cntHab){
+                    for($j = 1; $j <= $this->cntHab ; $j++){                                          
+                    ?>
+                    <tr>
+                        <th>Adulto</th>
+                        <td><input type="text" class="form-control" id="DP_txtRut_<?php echo $i.'_'.$j?>" name="DP_txtRut_<?php echo $i.'_'.$j?>" value=""></td>
+                        <td><input type="text" class="form-control" id="DP_txtNombre_<?php echo $i.'_'.$j?>" name="DP_txtNombre_<?php echo $i.'_'.$j?>" value=""></td>
+                        <td><input type="text" class="form-control" id="DP_txtApellido_<?php echo $i.'_'.$j?>" name="DP_txtApellido_<?php echo $i.'_'.$j?>" value=""></td>
+                        <td><input type="text" class="form-control" id="DP_txtFecha_<?php echo $i.'_'.$j?>" name="DP_txtFecha_<?php echo $i.'_'.$j?>" value=""></td>
+                    </tr>
+                    <?php
+                        }
+                    }
+                }
+            ?>
+
+            </tbody>
+
+
+        </table>
+        
+    </div>
+</div>
