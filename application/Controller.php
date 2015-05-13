@@ -124,6 +124,15 @@ abstract class Controller
         return $_POST;
     }
 
+    protected function getPostExist($clave)
+    {
+        if(isset($_POST[$clave])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     protected function getTexto($clave)
     {
         if(isset($_POST[$clave]) && !empty($_POST[$clave]))

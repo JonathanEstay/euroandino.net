@@ -37,11 +37,13 @@
                 
                 <?php
                 $cntProg=0;
-                if($this->objProgramas)
-                { 
+                if($this->objProgramas) { 
+                    
                     //foreach($this->objProgramas as $columPRG)
-                    foreach($this->objProgramas as $objProg)
-                    { ?>
+                    foreach($this->objProgramas as $objProg) { 
+                        
+                        $cntProg++;
+                        ?>
                 
                 <form class="frmPrograma_<?php echo $cntProg; ?>">
                     <div class="col-md-6">

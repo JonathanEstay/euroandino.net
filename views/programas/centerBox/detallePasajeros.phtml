@@ -8,41 +8,93 @@
     
     <div class="panel-body">
         
-        <table class="table table-bordered table-striped" style="font-size: 11px; width: 600px;" align="center">
-            <tbody> 
-            <?php
-                for($i = 1; $i<=$this->cntHab; $i++){  
-                ?>
-                    <thead>
-                        <tr>
-                            <th width="100" <!-- style="background-color:#34495e; color: #FFFFFF" -->>Habitaci&oacute;n <?php echo $i ?></th>
-                            <th>Rut</th>
-                            <th>Nombre</th>
-                            <th>Apellidos</th>
-                            <th>Fecha Nac</th>
-                        </tr>
-                   </thead>
-                   <?php
-                   if($this->cntHab){
-                    for($j = 1; $j <= $this->cntHab ; $j++){                                          
+        <form class="frmReservarPrograma">
+            <table class="table table-bordered table-striped" style="font-size: 11px; width: 600px;" align="center">
+                <tbody> 
+                <?php
+                    for($i = 1; $i <= $this->cntHab; $i++){  
                     ?>
-                    <tr>
-                        <th>Adulto</th>
-                        <td><input type="text" class="form-control" id="DP_txtRut_<?php echo $i.'_'.$j?>" name="DP_txtRut_<?php echo $i.'_'.$j?>" value=""></td>
-                        <td><input type="text" class="form-control" id="DP_txtNombre_<?php echo $i.'_'.$j?>" name="DP_txtNombre_<?php echo $i.'_'.$j?>" value=""></td>
-                        <td><input type="text" class="form-control" id="DP_txtApellido_<?php echo $i.'_'.$j?>" name="DP_txtApellido_<?php echo $i.'_'.$j?>" value=""></td>
-                        <td><input type="text" class="form-control" id="DP_txtFecha_<?php echo $i.'_'.$j?>" name="DP_txtFecha_<?php echo $i.'_'.$j?>" value=""></td>
-                    </tr>
-                    <?php
+                        <thead>
+                            <tr style="background-color:#34495e; color: #FFFFFF">
+                                <th width="100">Habitaci&oacute;n <?php echo $i ?></th>
+                                <th>Rut</th>
+                                <th>Nombre</th>
+                                <th>Apellidos</th>
+                                <th>Fecha Nac</th>
+                            </tr>
+                        </thead>
+                       <?php if(Session::get('sess_DP_cmbAdultos_' . $i)) {
+                            for($j = 1; $j <= Session::get('sess_DP_cmbAdultos_' . $i); $j++) {
+                            ?>
+                            <tr>
+                                <th>Adulto</th>
+                                <td><input type="text" class="form-control" id="DP_txtRut_<?php echo $i.'_'.$j?>" name="DP_txtRut_<?php echo $i.'_'.$j?>" value=""></td>
+                                <td><input type="text" class="form-control" id="DP_txtNombre_<?php echo $i.'_'.$j?>" name="DP_txtNombre_<?php echo $i.'_'.$j?>" value=""></td>
+                                <td><input type="text" class="form-control" id="DP_txtApellido_<?php echo $i.'_'.$j?>" name="DP_txtApellido_<?php echo $i.'_'.$j?>" value=""></td>
+                                <td>
+                                    <script type="text/javascript">
+                                        $(function() {
+                                            $( "#DP_txtFecha_<?php echo $i.'_'.$j?>" ).datepicker({
+                                                changeMonth: true,
+                                                changeYear: true,
+                                                dateFormat: 'dd/mm/yy', 
+                                                firstDay: 1,
+                                                yearRange: "-100:+0",
+                                                dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                                                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr',
+                                                                    'May', 'Jun', 'Jul', 'Ago',
+                                                                    'Sep', 'Oct', 'Nov', 'Dic']
+                                            });
+                                        });
+                                    </script>
+                                    <input type="text" class="form-control" id="DP_txtFecha_<?php echo $i.'_'.$j?>" name="DP_txtFecha_<?php echo $i.'_'.$j?>" value="">
+                                </td>
+                            </tr>
+                            <?php
+                            }
+                        }
+
+                        if(Session::get('sess_DP_cmbChild_' . $i)) {
+                            for($j = 1; $j <= Session::get('sess_DP_cmbChild_' . $i); $j++) {
+                            ?>
+                            <tr>
+                                <th>Child</th>
+                                <td><input type="text" class="form-control" id="DP_txtRutC_<?php echo $i.'_'.$j?>" name="DP_txtRutC_<?php echo $i.'_'.$j?>" value=""></td>
+                                <td><input type="text" class="form-control" id="DP_txtNombreC_<?php echo $i.'_'.$j?>" name="DP_txtNombreC_<?php echo $i.'_'.$j?>" value=""></td>
+                                <td><input type="text" class="form-control" id="DP_txtApellidoC_<?php echo $i.'_'.$j?>" name="DP_txtApellidoC_<?php echo $i.'_'.$j?>" value=""></td>
+                                <td>
+                                    <script type="text/javascript">
+                                        $(function() {
+                                            $( "#DP_txtFechaC_<?php echo $i.'_'.$j?>" ).datepicker({
+                                                changeMonth: true,
+                                                changeYear: true,
+                                                dateFormat: 'dd/mm/yy', 
+                                                firstDay: 1,
+                                                yearRange: "-100:+0",
+                                                dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+                                                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr',
+                                                                    'May', 'Jun', 'Jul', 'Ago',
+                                                                    'Sep', 'Oct', 'Nov', 'Dic']
+                                            });
+                                        });
+                                    </script>
+                                    <input type="text" class="form-control" id="DP_txtFechaC_<?php echo $i.'_'.$j?>" name="DP_txtFechaC_<?php echo $i.'_'.$j?>" value="">
+                                </td>
+                            </tr>
+                            <?php
+                            }
                         }
                     }
-                }
-            ?>
+                ?>
 
-            </tbody>
+                </tbody>
 
 
-        </table>
-        
+            </table>
+
+            <center>
+                <a id="btnReservarPrograma" id="btnReservarPrograma" class="btn btn-success" onclick="procesoEnviaForm('frmReservarPrograma', '<?php echo BASE_URL; ?>programas/procesoReserva', 'btnReservarPrograma', 'divPopupPRG')"> RESERVAR </a>
+            </center>
+        </form>
     </div>
 </div>

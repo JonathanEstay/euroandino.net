@@ -113,22 +113,19 @@ class programasController extends Controller
             
             
             //Local
-            $sql="EXEC TS_GET_DETALLEPROG ".$this->getInt('__SP_id__')." ";
-
+            $sql="EXEC TS_GET_DETALLEPROG " . $this->getInt('__SP_id__');
+            
             //Session::set('sess_TS_GET_DETALLEPROG', $sql);
             //echo $sql; exit;
             
-            
-
             $objOpcProgramas= $programas->exeTS_GET_DETALLEPROG($sql);
             if($objOpcProgramas) {
                 if($objOpcProgramas[0]->getError()) {
-                    throw new Exception('<b>Error</b>: ['.$objOpcProgramas[0]->getError().'] <br> <b>Mensaje</b>: ['.$objOpcProgramas[0]->getMensaje().']');
+                    throw new Exception('<b>Error</b>: [' . $objOpcProgramas[0]->getError() . '] <br> <b>Mensaje</b>: ['.$objOpcProgramas[0]->getMensaje().']');
                 } else {
-                    
+
                     $this->_view->objOpcProgramas= $objOpcProgramas;
                     //$this->_view->hoteles= $this->_view->objOpcProgramas[0]->getNombreHotel();
-                    //echo '<b>Fatal error:</b> If you have a customer error handler that does not output warnings, you may get a white screen of death if a "require" fails.';
                     $this->_view->renderingCenterBox('detalleProg');
                     
                 }
@@ -147,9 +144,9 @@ class programasController extends Controller
         Session::acceso('Usuario');
         if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest') {
             
-            if($this->getInt('_PCD_')) {
-                $programas= $this->loadModel('programa');
-                echo 'a';
+            if($this->getInt('_PP_')) {
+                $this->_view->cntP= $this->getInt('_PP_');
+                $this->_view->renderingCenterBox('pasajeros');
             } else {
                 throw new Exception('Error al cargar las opciones');
             }
@@ -164,15 +161,17 @@ class programasController extends Controller
         Session::acceso('Usuario');
         if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest') {
             
-            
             if($this->getInt('DP_cmbHab')) {
-                //$programas= $this->loadModel('programa');
+                for($i = 1; $i <= $this->getInt('DP_cmbHab'); $i++) {
+                    Session::set('sess_DP_cmbAdultos_' . $i, $this->getInt('DP_cmbAdultos_' . $i));
+                    Session::set('sess_DP_cmbChild_' . $i, $this->getInt('DP_cmbChild_' . $i));
+                }
+                
                 $this->_view->cntHab = $this->getInt('DP_cmbHab');
                 $this->_view->renderingCenterBox('detallePasajeros');
             } else {
                 throw new Exception('Debe ingresar la cantidad de habitaciones');
             }
-            
             
         } else {
             throw new Exception('Error al cargar los pasajeros');
@@ -184,7 +183,12 @@ class programasController extends Controller
         Session::acceso('Usuario');
         if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest') {
             $programas= $this->loadModel('programa');
-            echo 'TODO BIEN';
+            
+            if($this->_validaPasajeros()) {
+                $programas->executeQuery();
+                echo 'OK';
+            }
+            
         } else {
             throw new Exception('Error al cargar las opciones');
         }
@@ -267,6 +271,41 @@ class programasController extends Controller
         } else {
             throw new Exception('Error inesperado, intente nuevamente. Si el error persiste comuniquese con el administrador');
         }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /*******************************************************************************
+    *                                                                              *
+    *                             METODOS PRIVADOS                                 *
+    *                                                                              *
+    *******************************************************************************/
+    private function _validaPasajeros() {
+        $st = false;
+        for($i = 0; $st == false; $i++) {
+            for($j = 1; $j <= Session::get('sess_DP_cmbAdultos_' . $i); $j++) {
+                if($this->getTexto('DP_txtRut_' . $i)){ $st = true; }
+
+                if(Functions::validaRut()) {
+
+                }
+            }
+        }
+        
+        /*if($this->getPostExist('DP_txtRut_1_10')) {
+            echo 'Existe';
+        } else {
+            echo 'NOOO';
+        }*/
+        
+        return false;
     }
     
     

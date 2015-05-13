@@ -403,21 +403,17 @@ function procesoReservaPRG(classFrm, php, btn, div)
 
 
 
-function pasajerosProg(valor, div1, div2, php)
-{
+function pasajerosProg(valor, div1, div2, php) {
     $('#' + div1).delay( 10 ).fadeOut( 400 );
     $('#' + div1).animate({
             'display': 'none'
     });
     
-    if(valor !== 0) {
-        $.post(php, 
-        {
-            _PCD_: valor
-        }, function(data)
-        {
-            //$('#' + div2).html(data);
-            
+    if(valor) {
+        $.post(php,  {
+            _PP_: valor
+        }, function(data) {
+            $('#' + div2).html(data);
             $('#' + div2).delay( 100 ).fadeIn( 400 );
             $('#' + div2).animate({
                     'display': 'block'
