@@ -24,12 +24,8 @@ class systemController extends Controller
     *******************************************************************************/
     public function index()
     {
-        /*echo Functions::traduceMes();
-        echo '<br>';
-        echo date('m');
-        exit;*/
         Session::acceso('Usuario');
-        //$this->_view->setJS(array(''));
+        $this->_view->setJS(array('jquery.cycle2.min', 'sliderHome'));
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
         $this->_view->objCiudadesPRG= $this->_ciudad->getCiudades();
@@ -79,6 +75,14 @@ class systemController extends Controller
     *                                                                              *
     *******************************************************************************/    
     
+    /**
+     * Metodo Procesador: Calcula el valor total a pagar antes de reservar un programa.
+     * <PRE>
+     * -.Creado: 19/05/2015
+     * -.Modificado: 20/05/2015 (Sergio Orellana)
+     * </PRE>
+     * @author: Jonathan Estay
+     */
     public function salir()
     {
         Session::destroy();

@@ -38,7 +38,7 @@
                         </tr>
 
 
-                        <tr>
+                        <!-- <tr>
                             <td>Infant</td>
                             <td colspan="3">
                                 <select name="DP_inf_<?php echo $i; ?>" id="DP_inf_<?php echo $i; ?>">
@@ -47,7 +47,7 @@
                                 <?php } ?>
                                 </select>
                             </td>                    	  
-                        </tr>
+                        </tr> -->
 
                     </table>
                     <hr />
@@ -63,9 +63,9 @@
 
         <tr>
             <td colspan="2" align="right">
-                <a class="btn btn-default btn-sm" onclick="pasajerosProg('', 'tab_content_2_<?php echo $this->cntP; ?>', 'tab_content_1_<?php echo $this->cntP; ?>', '');" > Atras </a>
+                <a class="btn btn-default btn-sm" onclick="Programa.prototype.pasajerosProg('', 'tab_content_2_<?php echo $this->cntP; ?>', 'tab_content_1_<?php echo $this->cntP; ?>', '');" > Atras </a>
                 &nbsp; &nbsp; &nbsp;
-                <a class="btn btn-primary btn-sm" id="Siguiente" onclick="procesoDetallePasajeros('frmDetalleReserva_1_<?php echo $this->cntP; ?>', '<?php echo BASE_URL; ?>programas/detallePasajeros', 'Siguiente', 'divPopupPRG');"> Siguiente </a>
+                <a class="btn btn-primary btn-sm" id="Siguiente" onclick="Programa.prototype.procesoDetallePasajeros('frmDetalleReserva_1_<?php echo $this->cntP; ?>', '<?php echo BASE_URL; ?>programas/detallePasajeros', 'Siguiente', 'divPopupPRG');"> Siguiente </a>
             </td>
         </tr>
     </table>

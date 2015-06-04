@@ -24,8 +24,18 @@ class usuarioDTO
     private $_firma;
     private $_correo;
     private $_correo_admin;
+    private $_rut;
     
     
+    public function getRut() {
+        return $this->_rut;
+    }
+
+    public function setRut($rut) {
+        $this->_rut = $rut;
+    }
+
+        
     public function setClave($clave)
     {
         $this->_clave=$clave;

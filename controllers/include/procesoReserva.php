@@ -13,7 +13,9 @@ $pRP_sqlDetalle=NULL;
 
 $pRP_sqlDetalle="exec TS_BLOQUEOS_CREA_FILE '".Session::get('sess_id_agen')."', '".Session::get('sess_clave_usuario')."', "; 
 
-$pRP_var_getProgramas= $programa->exeSQL(Session::get('sess_TraeProg'));
+//echo str_replace('TS_GET_BLOQUEOS_PROG', 'TS_GET_BLOQUEOS_PROG_ALL', Session::get('sess_sql_TraeProg')); exit;
+$pRP_var_getProgramas= $programa->exeSQL(str_replace('TS_GET_BLOQUEOS_PROG', 'TS_GET_BLOQUEOS_PROG_ALL', Session::get('sess_sql_TraeProg')));
+
 if($pRP_var_getProgramas!=FALSE)
 {
     foreach($pRP_var_getProgramas as $pRP_columPRG)
@@ -27,7 +29,8 @@ if($pRP_var_getProgramas!=FALSE)
         {   //OPCIONES
             if(trim($pRP_columPRG["idOpcion"])==Session::get('sessRP_rdbOpc'))
             {
-                $pRP_fechaSalida= str_replace('/', '-', trim($pRP_columPRG["desde"]));
+                //$pRP_fechaSalida= str_replace('/', '-', trim($pRP_columPRG["desde"]));
+                $pRP_fechaSalida= Functions::invertirFecha(trim($pRP_columPRG["desde"]), '/', '-');
                 $pRP_clave= trim($pRP_columPRG["clave"]);
                 $pRP_codBloqueo= trim($pRP_columPRG["record_c"]);
 
@@ -77,7 +80,7 @@ if($pRP_var_getProgramas!=FALSE)
                         ++$pRP_cntHoteles;
 
                         $pRP_sqlDetalle.=", '".trim($pRP_columPRG["codHotel_".($i+1)])."', 
-                        '".str_replace('/', '-', trim($pRP_columPRG["fechaIn_".($i+1)]))."', 
+                        '".Functions::invertirFecha(trim($pRP_columPRG["fechaIn_".($i+1)]), '/', '-')."', 
                         '".trim($pRP_columPRG["noches_".($i+1)])."', 
                         '".trim($pRP_columPRG["codTipoHabitacion_".($i+1)])."', 
                         '".trim($pRP_columPRG["codPlanAlimenticio_".($i+1)])."', 
@@ -175,16 +178,17 @@ for($i=1; $i<=10; $i++)
             $pRP_fechaNacPAS= Functions::invertirFecha($pRP_fechaNacPAS, '/', '-');
         }
 
-        $pRP_rutINF= trim($_POST['rP_txtRutInf_'.$i]);
-        $pRP_nomINF= trim($_POST['rP_txtNomInf_'.$i]);
-        $pRP_apeINF= trim($_POST['rP_txtApeInf_'.$i]);
-        if(!empty($pRP_rutINF))
-        {
-                $pRP_nacINF= Functions::invertirFecha(trim($_POST['rP_FechaNacInf_'.$i]), '/', '-');
-        }
-        else
-        {
-                $pRP_nacINF='';
+        if($this->getTexto('rP_txtRutInf_'.$i)){
+            $pRP_rutINF= trim($_POST['rP_txtRutInf_'.$i]);
+            $pRP_nomINF= trim($_POST['rP_txtNomInf_'.$i]);
+            $pRP_apeINF= trim($_POST['rP_txtApeInf_'.$i]);
+            $pRP_nacINF= Functions::invertirFecha(trim($_POST['rP_FechaNacInf_'.$i]), '/', '-');
+            
+        } else {
+            $pRP_rutINF= '';
+            $pRP_nomINF= '';
+            $pRP_apeINF= '';
+            $pRP_nacINF='';
         }
 
         $pRP_sqlDetalle.=", '".$pRP_apellidoPAS."/".$pRP_nombrePAS."', '".$pRP_rutPAS."', '".$pRP_fechaNacPAS."', '".$pRP_tipoPAS."', '".$pRP_apeINF." ".$pRP_nomINF."', '".$pRP_rutINF."', '".$pRP_nacINF."', '".$pRP_tratoPAS."' ";	

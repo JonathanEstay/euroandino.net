@@ -12,15 +12,21 @@ $('.blink').each(function() {
 <div class="panel panel-primary" id="DP_principal" style="display: block;">
     <div class="panel-heading">
 
-        <?php echo $this->objProgramas[0]->getTitulo(); ?>
+        <?php
+        Session::set('sess_nombrePrograma', $this->objProgramas[0]->getTitulo());
+        Session::set('sess_ciudadPrograma', $this->objProgramas[0]->getCiudad());
+        Session::set('sess_codigoPrograma', $this->objProgramas[0]->getCodigo());
+        
+        echo $this->objProgramas[0]->getTitulo(); // . ' - ' . $this->objProgramas[0]->getCodigo(); 
+        ?>
 
         <div class="options">
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a href="#home1" data-toggle="tab">Tarifas</a>
+                    <a href="#tarifas" data-toggle="tab">Tarifas</a>
                 </li>
                 <li>
-                    <a href="#profile1" data-toggle="tab">Condiciones</a>
+                    <a href="#condiciones" data-toggle="tab">Condiciones</a>
                 </li>
             </ul>
         </div>
@@ -30,7 +36,7 @@ $('.blink').each(function() {
     
     <div class="panel-body">
         <div class="tab-content">
-            <div class="tab-pane active" id="home1" >
+            <div class="tab-pane active" id="tarifas" >
                 <div>
 
                     <table width="100%"  style="margin-top: -15px; margin-left: -15px;">
@@ -61,7 +67,7 @@ $('.blink').each(function() {
             </div>
 
 
-            <div class="tab-pane" id="profile1">
+            <div class="tab-pane" id="condiciones">
                 <table width="100%" style="margin-top: -15px; margin-left: -15px;">
                         <tr>
                             <td colspan="2">
@@ -102,8 +108,10 @@ if($this->objOpcProgramas) {
 ?>
     <br />
     <div class="panel-heading" style="margin-top: 20px;" >
-        Opci&oacute;n  <?php echo $cntDP; ?> <div class="blink" style="float: right;"><button class="btn btn-warning btn-sm" > &iexcl; DISPONIBLE ! </button><?php //echo $objOpcProg->getEstado(); ?></div>
-    </div> 
+        Opci&oacute;n  <?php echo $cntDP; if($objOpcProg->getEstado() == 'AVAILABLE') { ?>
+            <div class="blink" style="float: right;"><button class="btn btn-warning btn-sm" > &iexcl; DISPONIBLE ! </button><?php //echo $objOpcProg->getEstado(); ?></div>
+        <?php } ?>
+    </div>
     <div class="panel-body">
         <div class="tab-content" style="display: block;" id="tab_content_1_<?php echo $cntDP; ?>">
             
@@ -127,12 +135,6 @@ if($this->objOpcProgramas) {
                 
                 for($i = 0; $i < $DP_cntHoteles; $i++) {
                 ?>
-                    <tr>
-                        <td style="color: #DF5F00; padding: 2px; vertical-align: middle;"><?php echo $DP_hoteles[$i]; ?></td>
-                        <td style="width: 300px;"><?php echo $DP_dirHot[$i]; ?></td>
-                        <td style="width: 80px;"><?php echo $DP_catHot[$i]; ?></td>
-                        <td style="padding: 2px; vertical-align: middle; width: 100px;"><?php echo $DP_thHot[$i]; ?></td>
-                    </tr>
                     <tr>
                         <td style="color: #DF5F00; padding: 2px; vertical-align: middle;"><?php echo $DP_hoteles[$i]; ?></td>
                         <td style="width: 300px;"><?php echo $DP_dirHot[$i]; ?></td>
@@ -165,11 +167,21 @@ if($this->objOpcProgramas) {
                         <label style="color: #DF5F00; font-weight: bold; font-size:20px;"><?php echo Functions::formatoValor($objOpcProg->getMoneda(), $objOpcProg->getVVenTPL()); ?></label><br>
                     </td>
                     <td style="padding: 2px; vertical-align: middle;" align="center">
-                        <a id="btnDP_reservar_<?php echo $cntDP; ?>" class="btn btn-success btn-sm" style="width: 88px;" onclick="pasajerosProg('<?php echo $cntDP; ?>', 'tab_content_1_<?php echo $cntDP; ?>', 'tab_content_2_<?php echo $cntDP; ?>', '<?php echo BASE_URL; ?>programas/pasajeros');"> RESERVAR </a>
+                        <a id="btnDP_reservar_<?php echo $cntDP; ?>" class="btn btn-success btn-sm" style="width: 88px;" 
+                           onclick="Programa.prototype.pasajerosProg('<?php echo $cntDP; ?>', 
+                                       'tab_content_1_<?php echo $cntDP; ?>', 
+                                       'tab_content_2_<?php echo $cntDP; ?>', 
+                                       '<?php echo BASE_URL; ?>programas/pasajeros', 
+                                       '<?php echo $objOpcProg->getVVenSGL(); ?>',
+                                       '<?php echo $objOpcProg->getVVenDBL(); ?>',
+                                       '<?php echo $objOpcProg->getVVenTPL(); ?>',
+                                       '<?php echo $objOpcProg->getMoneda(); ?>',
+                                       '<?php echo $objOpcProg->getClaveOpc(); ?>'
+                                       );"> RESERVAR 
+                        </a>
                     </td>
                 </tr>
             </table>
-            
             <!-- END: RESERVAR -->
             
         </div>
@@ -178,7 +190,7 @@ if($this->objOpcProgramas) {
         
     </div>
     
-<?php $cntDP++; } } ?>   
+<?php $cntDP++; } } ?>
     
     
 </div>

@@ -38,6 +38,7 @@ class Functions
         
         $elRut = str_replace(".", "", trim($RUT[0]));
         $factor = 2;
+        $suma = 0;
         for($i = strlen($elRut)-1; $i >= 0; $i--) {
             $factor = $factor > 7 ? 2 : $factor;
             $suma += $elRut{$i}*$factor++;

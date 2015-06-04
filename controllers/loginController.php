@@ -120,6 +120,7 @@ class loginController extends Controller
                         Session::set('sess_atipoa', $objUser->getAtipoa());
 
                         Session::set('sess_firma', $objUser->getFirma());
+                        Session::set('sess_rut', $objUser->getRut());
                         Session::set('sess_email', $objUser->getEmail());
                         Session::set('sess_email_opera', $objUser->getEmailOpera());
 

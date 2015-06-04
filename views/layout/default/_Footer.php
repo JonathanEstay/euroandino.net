@@ -50,36 +50,18 @@
         <script type='text/javascript' src='<?php echo $_layoutParams['ruta_js']; ?>jquery.stepy.js'></script>
         <script type='text/javascript' src='<?php echo $_layoutParams['ruta_js']; ?>demo-formwizard.js'></script> 
         
-        <?php //if(isset($this->procesoTerminado) && $this->procesoTerminado) { sleep(1); ?>
-        <!-- <script>
-            if($(':contains("{fechaSalida}")').length >= 18) {
-                $("#accordion").html('<div id="divAlertWarHot" class="alert alert-dismissable alert-warning"><strong>Atenci&oacute;n!</strong><br>Ha ocurrido un error en el armado de programas. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="<?php echo BASE_URL ?>system/programas" class="btn btn-primary">Volver a cargar datos</a></div>');
-            }
-        </script> -->
-        <?php //} ?>
+        <?php 
+        if(isset($_layoutParams['js']) && count($_layoutParams['js'])): 
+            for($i=0; $i < count($_layoutParams['js']); $i++):
+        ?>
+        <script type="text/javascript" src="<?php echo $_layoutParams['js'][$i] ?>"></script>
+        <?php 
+            endfor; 
+        endif;
+        ?>
         
         <?php if(isset($this->index) && $this->index) {  ?>
         <link rel="stylesheet" href="http://www.euroandino.cl/gfx/home_page/euroandino_2014_home.css" type="text/css" media="all"/>        
-         
-        <script src="http://www.euroandino.cl/gfx/js/jquery.cycle2.min.js"></script>
-        <script type="text/javascript">
-            //<![CDATA[
-            $(function() {
-                $('#HomePageSlider').cycle({
-                    timeout: 4000,
-                    speed: 500,
-                    manualSpeed: 300,
-                    fx: 'fade',
-                    manualFx: 'scrollHorz',
-                    manualTrump: true,
-                    pauseOnHover: true,
-                    slides: '> .HomePageSlider_SlideBox',
-                    log: false,
-                    pager: '> .cycle-pager'
-                });
-            });
-            //]]>
-        </script>
         <?php } ?>
     </body>
 </html>

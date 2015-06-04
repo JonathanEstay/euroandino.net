@@ -2,15 +2,14 @@
 
 /*
  * + --------------------------------------------------------- +
- * |  Software:	Paginador - clase PHP para paginar registros   |
- * |   Versión:	1.0											   |
- * |  Licencia:	Distribuido de forma libre					   |
- * |     Autor:	Jaisiel Delance								   |
- * | Sitio Web:	http://www.dlancedu.com						   |
+ * |  Software:	Paginador - clase PHP para paginar registros    |
+ * |   Versión:	1.0                                             |
+ * |  Licencia:	Distribuido de forma libre			|
+ * |     Autor:	Jaisiel Delance					|
+ * | Sitio Web:	http://www.dlancedu.com 			|
  * + --------------------------------------------------------- +
  *
  */
-
 
 class Paginador
 {
@@ -122,7 +121,8 @@ class Paginador
         return $this->_paginacion;
         
     }
-
+    
+    
     public function getView($vista, $link = false)
     {
             $rutaView = ROOT . 'views' . DS . '_paginador' . DS . $vista . '.php';

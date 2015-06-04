@@ -63,16 +63,6 @@
         });
     </script>
     
-    <?php 
-    if(isset($_layoutParams['js']) && count($_layoutParams['js'])): 
-        for($i=0; $i < count($_layoutParams['js']); $i++):
-    ?>
-            <script src="<?php echo $_layoutParams['js'][$i] ?>" type="text/javascript"></script>
-    <?php 
-        endfor; 
-    endif;
-    ?>
-    
 </head>
 
 <body>

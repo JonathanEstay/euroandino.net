@@ -142,6 +142,14 @@ abstract class Controller
         }
     }
     
+    protected function getCheckbox($clave)
+    {
+        if(isset($_POST[$clave]) && !empty($_POST[$clave]))
+        {
+            return true;
+        }
+    }
+    
     protected function getInt($clave)
     {
         if(isset($_POST[$clave]) && !empty($_POST[$clave]))

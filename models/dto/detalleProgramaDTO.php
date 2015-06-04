@@ -37,7 +37,17 @@ class detalleProgramaDTO
     
     private $_error;
     private $_mensaje;
+    private $_file;
     
+    
+    public function getFile() {
+        return $this->_file;
+    }
+
+    public function setFile($file) {
+        $this->_file = $file;
+    }
+        
     
     public function getError() {
         return $this->_error;

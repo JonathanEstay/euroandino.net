@@ -27,7 +27,7 @@ class programasController extends Controller
     *******************************************************************************/
     public function index() {
         Session::acceso('Usuario');
-        //$this->_view->setJS(array(''));
+        $this->_view->setJS(array('validaCampos', 'programas'));
         
         //$this->getLibrary('kint/Kint.class');
         
@@ -45,10 +45,10 @@ class programasController extends Controller
             //$sql="EXEC TS_GET_PROGRAMAS '".Session::get('sess_BP_ciudadDes_PRG')."', '', '".Functions::invertirFecha(Session::get('sess_BP_fechaIn_PRG'), '/', '-')."' ";
             
             //Local
-            $sql="EXEC TS_GET_PROGRAMAS_TEST '".Session::get('sess_BP_ciudadDes_PRG')."', '', '".str_replace('/', '-', Session::get('sess_BP_fechaIn_PRG'))."' ";
+            $sql="EXEC TS_GET_PROGRAMAS '".Session::get('sess_BP_ciudadDes_PRG')."', '', '".str_replace('/', '-', Session::get('sess_BP_fechaIn_PRG'))."' ";
             
             Session::set('sess_TS_GET_PROGRAMAS', $sql);
-            //echo $sql; exit;
+            //IDecho $sql; exit;
             
             //Kint::dump( $programas->exeTS_GET_PROGRAMAS($sql) );
             $this->_view->objCiudadBs= $this->_ciudad->getCiudades(Session::get('sess_BP_ciudadDes_PRG'));
@@ -66,8 +66,7 @@ class programasController extends Controller
     }
     
     
-    public function admin()
-    {
+    public function admin() {
         Session::acceso('Usuario');
         
         $this->_view->objCiudades= $this->_ciudad->getCiudadesBloq();
@@ -106,7 +105,7 @@ class programasController extends Controller
         $programas= $this->loadModel('programa');
         
         if($this->getInt('__SP_id__')) {
-            $sql="EXEC TS_GET_PROGRAMAS_ID_TEST " . $this->getInt('__SP_id__');
+            $sql="EXEC TS_GET_PROGRAMAS_ID " . $this->getInt('__SP_id__');
             //Session::set('sess_TS_GET_PROGRAMAS_ID', $sql);
             //echo $sql; exit;
             $this->_view->objProgramas= $programas->exeTS_GET_PROGRAMAS($sql);
@@ -115,15 +114,15 @@ class programasController extends Controller
             //Local
             $sql="EXEC TS_GET_DETALLEPROG " . $this->getInt('__SP_id__');
             
-            //Session::set('sess_TS_GET_DETALLEPROG', $sql);
-            //echo $sql; exit;
+            Session::set('sess_TS_GET_DETALLEPROG', $sql);
+            //echo $sql; //exit;
             
             $objOpcProgramas= $programas->exeTS_GET_DETALLEPROG($sql);
             if($objOpcProgramas) {
                 if($objOpcProgramas[0]->getError()) {
                     throw new Exception('<b>Error</b>: [' . $objOpcProgramas[0]->getError() . '] <br> <b>Mensaje</b>: ['.$objOpcProgramas[0]->getMensaje().']');
                 } else {
-
+                    
                     $this->_view->objOpcProgramas= $objOpcProgramas;
                     //$this->_view->hoteles= $this->_view->objOpcProgramas[0]->getNombreHotel();
                     $this->_view->renderingCenterBox('detalleProg');
@@ -139,13 +138,18 @@ class programasController extends Controller
     }
     
     
-    
     public function pasajeros() {
         Session::acceso('Usuario');
         if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest') {
             
             if($this->getInt('_PP_')) {
                 $this->_view->cntP= $this->getInt('_PP_');
+                Session::set('sess_SGL', $this->getInt('_SGL_'));
+                Session::set('sess_DBL', $this->getInt('_DBL_'));
+                Session::set('sess_TPL', $this->getInt('_TPL_'));
+                Session::set('sess_moneda', $this->getTexto('_MON_'));
+                Session::set('sess_claveOpc', $this->getTexto('_OPC_'));
+                
                 $this->_view->renderingCenterBox('pasajeros');
             } else {
                 throw new Exception('Error al cargar las opciones');
@@ -160,13 +164,19 @@ class programasController extends Controller
     public function detallePasajeros() {
         Session::acceso('Usuario');
         if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest') {
-            
+            $totalPago=0;
             if($this->getInt('DP_cmbHab')) {
                 for($i = 1; $i <= $this->getInt('DP_cmbHab'); $i++) {
                     Session::set('sess_DP_cmbAdultos_' . $i, $this->getInt('DP_cmbAdultos_' . $i));
                     Session::set('sess_DP_cmbChild_' . $i, $this->getInt('DP_cmbChild_' . $i));
                 }
                 
+                Session::set('sess_distribucionPax', $this->_distribucionPax($this->getInt('DP_cmbHab')));
+                
+                $totalPago = $this->_valorTotal($this->getInt('DP_cmbHab'));
+                Session::set('sess_DP_cntHab', $this->getInt('DP_cmbHab'));
+                
+                $this->_view->totalPago = $totalPago;
                 $this->_view->cntHab = $this->getInt('DP_cmbHab');
                 $this->_view->renderingCenterBox('detallePasajeros');
             } else {
@@ -179,14 +189,72 @@ class programasController extends Controller
     }
     
     
+    /**
+     * Metodo CenterBox: Proceso de reserva de un programa.
+     * <PRE>
+     * -.Creado: 20/05/2015
+     * </PRE>
+     * @return String OK
+     * @author Jonathan Estay
+     */
     public function procesoReserva() {
         Session::acceso('Usuario');
         if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest') {
             $programas= $this->loadModel('programa');
             
-            if($this->_validaPasajeros()) {
-                $programas->executeQuery();
-                echo 'OK';
+            $pasajeros = $this->_validaPasajeros();
+            if($pasajeros) {
+                
+                $habitacion = explode(';', Session::get('sess_distribucionPax'));
+                $hab2 = (isset($habitacion[1])) ? $habitacion[1] : '';
+                $hab3 = (isset($habitacion[2])) ? $habitacion[2] : '';
+                
+                $objOpcPrograma= $programas->exeTS_GET_DETALLEPROG(Session::get('sess_TS_GET_DETALLEPROG'));
+                foreach($objOpcPrograma as $objOpcProg) {
+                    
+                    if(Session::get('sess_claveOpc') == $objOpcProg->getClaveOpc()) {
+                    
+                        $sql = 'exec TS_RESERVAR_PRG '
+                        . '"' . Session::get('sess_codigoPrograma') . '", '
+                        . '"' . $objOpcProg->getClaveOpc() . '", '
+                        . '"", '
+                        . '"' . Session::get('sess_BP_fechaIn_PRG') . '", '
+                        . '"' . $habitacion[0] . '", '
+                        . '"' . $hab2 . '", '
+                        . '"' . $hab3 . '", '
+                        . '"datos", '
+                        . '"", '
+                        . '"", '
+                        . '"", '
+                        . '"", '
+                        . '"' . Session::get('sess_rut') . '", ' //@rut_cliente
+                        . 'NULL, '
+                        . 'NULL, '
+                        . 'NULL, '
+                        . '"SM1", '
+                        . '"IT", '
+                        . '"A", ' //@estado
+                        . '0, ' //@tcambio
+                        . '0, ' //@comag
+                        . '0, ' //@tcomi
+                        . '"' . date('d-m-Y') . '", ' //@F_contab
+                        . '"' . $this->getTexto('DP_txtNombre_1_1') . ' ' .  $this->getTexto('DP_txtApellido_1_1') . '"'; //@vage    
+                        $sql .= $pasajeros;
+                    }
+                }
+                
+                //echo $sql; exit;
+                $objResPrograma = $programas->exeTS_RESERVAR($sql);
+                
+                foreach ($objResPrograma as $objRes) {
+                    if(!$objRes->getFile()) {
+                        throw new Exception('<b>Codigo:</b> [ ' . $objRes->getError() . ' ],<br>'
+                            . '<b>Mensaje:</b> ' . $objRes->getMensaje());
+                    } else {
+                        echo 'OK';
+                    }
+                }
+                
             }
             
         } else {
@@ -195,6 +263,27 @@ class programasController extends Controller
     }
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    /*
+     * Begin: Administracion
+     */
+    
+    
+    /**
+     * Metodo CenterBox: Formulario para editar un programa.
+     * <PRE>
+     * -.Creado: 15/04/2015
+     * </PRE>
+     * @return String Vista
+     * @author Jonathan Estay
+     */
     public function editar() {
         Session::destroy('sessMOD_EP_codPRG');
         $AP_codigoPrg = $this->getTexto('varCenterBox');
@@ -206,7 +295,7 @@ class programasController extends Controller
             if ($EP_objPrograma) {
                 $this->_view->EP_nombreProg = $EP_objPrograma[0]->getNombre();
                 $rutaPDF = ROOT . 'public' . DS . 'pdf' . DS . 'upl_' . str_replace(' ', '_', $EP_objPrograma[0]->getCodigo()) . '.pdf';
-                //echo $rutaPDF; exit;
+                
                 if (is_readable($rutaPDF)) {
                     $this->_view->EP_PDF = 'upl_' . str_replace(' ', '_', $EP_objPrograma[0]->getCodigo()) . '.pdf';
                 } else {
@@ -223,6 +312,14 @@ class programasController extends Controller
     }
 
     
+    /**
+     * Metodo procesador: Modifica un programa en base al codigo.
+     * <PRE>
+     * -.Creado: 15/04/2015
+     * </PRE>
+     * @return String OK
+     * @author Jonathan Estay
+     */
     public function modificar() {
 
         if (strtolower($this->getServer('HTTP_X_REQUESTED_WITH')) == 'xmlhttprequest') {
@@ -274,6 +371,17 @@ class programasController extends Controller
     }
     
     
+    /*
+     * End: Administracion
+     */
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -287,25 +395,186 @@ class programasController extends Controller
     *                             METODOS PRIVADOS                                 *
     *                                                                              *
     *******************************************************************************/
+    
+    /**
+     * Metodo privado: Retorna la distribucion de los pasajeros.
+     * <PRE>
+     * -.Creado: 02/06/2015
+     * -.Modificado: 03/06/2015
+     * </PRE>
+     * @return String Contiene la distribucion ((01SGL, 01DBL, 01TPL) + 01CHD + 01CH2) a pasar al Stored Procedure 
+     * @author Jonathan Estay
+     */
+    private function _distribucionPax($hab) {
+        
+        $sgl=0; $dbl=0; $tpl=0;
+        $distribucion='';
+        $distribucionTMP='';
+        for($i = 1; $i <= $hab; $i++) {
+            
+            if(Session::get('sess_DP_cmbAdultos_' . $i) == 1) {
+                $sgl++; $distribucionTMP = '0' . $sgl . 'SGL';
+            } else if(Session::get('sess_DP_cmbAdultos_' . $i) == 2) {
+                $dbl++; $distribucionTMP = '0' . $dbl . 'DBL';
+            } else if(Session::get('sess_DP_cmbAdultos_' . $i) == 3) {
+                $tpl++; $distribucionTMP = '0' . $tpl . 'TPL';
+            }
+            
+            //CHD
+            if(Session::get('sess_DP_cmbChild_' . $i) == 1) {
+                $distribucionTMP .= ' + 01CHD';
+            }else if(Session::get('sess_DP_cmbChild_' . $i) == 2) {
+                $distribucionTMP .= ' + 01CHD + 01CH2';
+            }
+            $distribucion .= $distribucionTMP . ';';
+        }
+        
+        return $distribucion;
+    }
+    
+    
+    
+    /**
+     * Metodo privado: Valida todos los pasajeros antes de realizar la reserva de un programa.
+     * <PRE>
+     * -.Creado: 19/05/2015
+     * -.Modificado: 20/05/2015
+     * </PRE>
+     * @return String Contiene la cantidad de pasajeros a pasar al Stored Procedure 
+     * @author Jonathan Estay
+     */
     private function _validaPasajeros() {
-        $st = false;
-        for($i = 0; $st == false; $i++) {
+        
+        $cnt=0;
+        $pasajeros='';
+        for($i = 1; $i <= Session::get('sess_DP_cntHab'); $i++) {
+            /*
+             * Begin: Validacion Adulto
+             */
             for($j = 1; $j <= Session::get('sess_DP_cmbAdultos_' . $i); $j++) {
-                if($this->getTexto('DP_txtRut_' . $i)){ $st = true; }
-
-                if(Functions::validaRut()) {
-
+                $cnt++;
+                if(!$this->getTexto('DP_txtNombre_' . $i . '_' . $j)) {
+                    throw new Exception("Debe ingresar un <b>Nombre</b> para el pasajero [" . $j . "], de la habitaci&oacute;n [" . $i . "]");
                 }
+                if(!$this->getTexto('DP_txtApellido_' . $i . '_' . $j)) {
+                    throw new Exception("Debe ingresar un <b>Apellido</b> para el pasajero [" . $j . "], de la habitaci&oacute;n [" . $i . "]");
+                }
+                
+                
+                $pasajeros.= ', "' . $this->getTexto('DP_txtNombre_' . $i . '_' . $j) . ' ' . $this->getTexto('DP_txtApellido_' . $i . '_' . $j) . '"';
+                
+                
+                
+                if(!$this->getCheckbox('DP_chkPasaporte_' . $i . '_' . $j)) {
+                
+                    if(!$this->getTexto('DP_txtRut_' . $i . '_' . $j)) {
+                        throw new Exception("Debe ingresar un <b>Rut</b> para el pasajero [" . $j . "], de la habitaci&oacute;n [" . $i . "]");
+                    }
+                    if(!Functions::validaRut($this->getTexto('DP_txtRut_' . $i . '_' . $j))) {
+                        throw new Exception("<b>Rut</b> incorrecto del pasajero [" . $j . "], de la habitaci&oacute;n [" . $i . "]");
+                    }
+                    
+                    $pasajeros.= ', "' . $this->getTexto('DP_txtRut_' . $i . '_' . $j) . '"';
+                    
+                } else {
+                    if(!$this->getTexto('DP_txtPasaporte_' . $i . '_' . $j)) {
+                        throw new Exception("Debe ingresar un <b>Pasaporte</b> para el pasajero [" . $j . "], de la habitaci&oacute;n [" . $i . "]");
+                    }
+                    
+                    $pasajeros.= ', "' . $this->getTexto('DP_txtPasaporte_' . $i . '_' . $j) . '"';
+                }
+                
+                
+                if(!$this->getTexto('DP_txtFecha_' . $i . '_' . $j)) {
+                    throw new Exception("Debe ingresar una <b>Fecha de nacimiento</b> para el pasajero [" . $j . "], de la habitaci&oacute;n [" . $i . "]");
+                }
+                
+                $pasajeros.= ', "' . $this->getTexto('DP_txtFecha_' . $i . '_' . $j) . '", "A"';
+            }
+            /*
+             * End: Validacion Adulto
+             */
+            
+            
+            /*
+             * Begin: Validacion Child
+             */
+            //if(Session::get('sess_DP_cmbChild_' . $i)) {
+            for($k = 1; $k <= Session::get('sess_DP_cmbChild_' . $i); $k++) {
+                $cnt++;
+                if(!$this->getTexto('DP_txtNombreC_' . $i . '_' . $k)) {
+                    throw new Exception("Debe ingresar un <b>Nombre</b> para el child [" . $k . "], de la habitaci&oacute;n [" . $i . "]");
+                }
+                if(!$this->getTexto('DP_txtApellidoC_' . $i . '_' . $k)) {
+                    throw new Exception("Debe ingresar un <b>Apellido</b> para el child [" . $k . "], de la habitaci&oacute;n [" . $i . "]");
+                }
+
+                $pasajeros.= ', "' . $this->getTexto('DP_txtNombreC_' . $i . '_' . $k) . ' ' . $this->getTexto('DP_txtApellidoC_' . $i . '_' . $k) . '"';
+
+
+
+                if(!$this->getCheckbox('DP_chkPasaporteC_' . $i . '_' . $k)) {
+
+                    if(!$this->getTexto('DP_txtRutC_' . $i . '_' . $k)) {
+                        throw new Exception("Debe ingresar un <b>Rut</b> para el child [" . $k . "], de la habitaci&oacute;n [" . $i . "]");
+                    }
+                    if(!Functions::validaRut($this->getTexto('DP_txtRutC_' . $i . '_' . $k))) {
+                        throw new Exception("<b>Rut</b> incorrecto del child [" . $k . "], de la habitaci&oacute;n [" . $i . "]");
+                    }
+
+                    $pasajeros.= ', "' . $this->getTexto('DP_txtRutC_' . $i . '_' . $k) . '"';
+
+                } else {
+                    if(!$this->getTexto('DP_txtPasaporteC_' . $i . '_' . $k)) {
+                        throw new Exception("Debe ingresar un <b>Pasaporte</b> para el child [" . $k . "], de la habitaci&oacute;n [" . $i . "]");
+                    }
+
+                    $pasajeros.= ', "' . $this->getTexto('DP_txtPasaporteC_' . $i . '_' . $k) . '"';
+                }
+
+
+                if(!$this->getTexto('DP_txtFechaC_' . $i . '_' . $k)) {
+                    throw new Exception("Debe ingresar una <b>Fecha de nacimiento</b> para el child [" . $k . "], de la habitaci&oacute;n [" . $i . "]");
+                }
+                $pasajeros.= ', "' . $this->getTexto('DP_txtFechaC_' . $i . '_' . $k) . '", "C"';
+            }
+            /*
+             * End: Validacion Child
+             */
+            
+        }
+        
+        for($l = $cnt; $l < 12; $l++) {
+            $pasajeros.= ', "", "", "", ""';
+        }
+        
+        return $pasajeros;
+    }
+    
+    
+    
+    /**
+     * Metodo privado: Calcula el valor total a pagar antes de reservar un programa.
+     * <PRE>
+     * -.Creado: 19/05/2015
+     * </PRE>
+     * @param $hab Cantidad de habitaciones
+     * @return int valor total de la habitacion
+     * @author Jonathan Estay
+     */
+    private function _valorTotal($hab) {
+        $total=0;
+        for($i = 1; $i <= $hab; $i++) {
+            if(Session::get('sess_DP_cmbAdultos_' . $i) == 1) {
+                $total = $total + (Session::get('sess_DP_cmbAdultos_' . $i)*Session::get('sess_SGL'));
+            } else if(Session::get('sess_DP_cmbAdultos_' . $i) == 2) {
+                $total = $total + (Session::get('sess_DP_cmbAdultos_' . $i)*Session::get('sess_DBL'));
+            } else if(Session::get('sess_DP_cmbAdultos_' . $i) == 3) {
+                $total = $total + (Session::get('sess_DP_cmbAdultos_' . $i)*Session::get('sess_TPL'));
             }
         }
         
-        /*if($this->getPostExist('DP_txtRut_1_10')) {
-            echo 'Existe';
-        } else {
-            echo 'NOOO';
-        }*/
-        
-        return false;
+        return $total;
     }
     
     
@@ -322,6 +591,14 @@ class programasController extends Controller
     *                             METODOS PROCESADORES                             *
     *                                                                              *
     *******************************************************************************/
+    
+    /**
+     * Metodo procesador: Procesa los datos de la busqueda de programas.
+     * <PRE>
+     * -.Creado: 19/05/2015
+     * </PRE>
+     * @author Jonathan Estay
+     */
     public function buscar() {
         $BP_cntHab = $this->getInt('mL_cmbHab_PRG');
         $BP_ciudadDes = $this->getTexto('mL_txtCiudadDestino_PRG');
@@ -381,6 +658,14 @@ class programasController extends Controller
     }
     
     
+    
+    /**
+     * Metodo procesador: Guarda en sesion la ciudad buscada en la administracion de programas.
+     * <PRE>
+     * -.Creado: 19/05/2015
+     * </PRE>
+     * @author Jonathan Estay
+     */
     public function buscarAdm() {
         Session::set('sess_AP_ciudad', $this->getTexto('AP_cmbCiudadDestino'));
         $this->redireccionar('programas/admin');

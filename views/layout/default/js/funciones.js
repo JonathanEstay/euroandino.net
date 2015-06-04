@@ -33,42 +33,6 @@ function procesoDetalleProg(classFrm)
 	});
 }
 
-function procesoDetallePasajeros(classFrm, php, btn, div)
-{
-    $("#"+btn).attr('disabled', 'disabled');
-    initLoad();
-
-    //$("#" + div).html("");
-    var formData= new FormData($("."+classFrm)[0]);
-    //hacemos la peticion ajax  
-    $.ajax({
-        url: php,  
-        type: 'POST',
-        //Form data
-        //datos del formulario
-        data: formData,
-        //necesario para subir archivos via ajax
-        cache: false,
-        contentType: false,
-        processData: false,
-        //mientras enviamos el archivo
-        beforeSend: function(){},
-        //una vez finalizado correctamente
-        success: function(data)
-        {
-            $("#" + div).html(data);
-            endLoad();
-        },
-
-        //si ha ocurrido un error
-        error: function()
-        {
-            $("#" + div).html("Ha ocurrido un error");
-        }
-    });
-}
-
-
 function procesoEnviaForm(classFrm, php, btn, div)
 {
     $("#"+btn).attr('disabled', 'disabled');
@@ -141,6 +105,7 @@ function procesoEnviaForm(classFrm, php, btn, div)
         }
     });
 }
+
 
 
 
@@ -299,16 +264,12 @@ function procesoReservaPRG(classFrm, php, btn, div)
 	
     /*Proceso Valida rut*/
     var txtRutNew1, txtRutNew2;
-    for(x=1; x<rP; x++)
-    {
+    for(x=1; x<rP; x++) {
         txtRutNew1= document.getElementById("rP_txtRut_"+x);
-        for(y=1; y<rP; y++)
-        {
-            if(x!=y)
-            {
+        for(y=1; y<rP; y++) {
+            if(x != y) {
                 txtRutNew2= document.getElementById("rP_txtRut_"+y);
-                if(txtRutNew1.value==txtRutNew2.value)
-                {
+                if(txtRutNew1.value==txtRutNew2.value) {
                     alertError(btn, 'El rut del pasajero['+x+'] se repite con el del pasajero['+y+'].', 3000);
                     txtRutNew1.select();
                     return false;
@@ -357,7 +318,7 @@ function procesoReservaPRG(classFrm, php, btn, div)
                     //alert('TODO OK'); return false;
                     
                     $("#"+div).html('<div class="alert alert-dismissable alert-success"><strong>Terminado</strong><br/><img src="' + RUTA_IMG_JS + 'ok.png" width="32" border="0" /> Estamos abriendo la carta confirmaci&oacute;n, espere un momento...</div>');
-                    /*$.post( BASE_URL_JS + CONTROLLER_JS + "/cartaConfirmacion", 
+                    $.post( BASE_URL_JS + CONTROLLER_JS + "/cartaConfirmacion", 
                     {
                         CR_n_file: myArrayData[1],
                         CR_cod_prog: myArrayData[2],
@@ -372,6 +333,14 @@ function procesoReservaPRG(classFrm, php, btn, div)
                         $('#btnAceptarPRG').animate({
                                 'display': 'block'
                         });
+                    });
+                    
+                    //Temporal
+                    /*endLoad();
+
+                    $('#btnAceptarPRG').delay( 2000 ).fadeIn( 100 );
+                    $('#btnAceptarPRG').animate({
+                            'display': 'block'
                     });*/
 
                 }
@@ -399,35 +368,6 @@ function procesoReservaPRG(classFrm, php, btn, div)
             }
     });
 }
-
-
-
-
-function pasajerosProg(valor, div1, div2, php) {
-    $('#' + div1).delay( 10 ).fadeOut( 400 );
-    $('#' + div1).animate({
-            'display': 'none'
-    });
-    
-    if(valor) {
-        $.post(php,  {
-            _PP_: valor
-        }, function(data) {
-            $('#' + div2).html(data);
-            $('#' + div2).delay( 100 ).fadeIn( 400 );
-            $('#' + div2).animate({
-                    'display': 'block'
-            });
-            
-        });
-    } else {
-        $('#' + div2).delay( 100 ).fadeIn( 400 );
-        $('#' + div2).animate({
-                'display': 'block'
-        });
-    }
-}
-
 
 
 

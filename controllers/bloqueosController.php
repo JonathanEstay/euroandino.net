@@ -48,6 +48,7 @@ class bloqueosController extends Controller
             Session::set('sess_sql_TraeProg', $sql);
             //echo $sql; exit;
             
+            //$this->_view->objCiudadBloq= $this->_ciudad->getCiudadesBloq(Session::get('sess_BP_ciudadDes_PRG'));
             $this->_view->objBloqueos= $bloqueos->TS_GET_BLOQUEOS_PROG($sql, true);
             $this->_view->objBloqueosCNT = count($this->_view->objBloqueos);
         }
@@ -340,12 +341,12 @@ class bloqueosController extends Controller
             $html= $this->curlPOST($param, BASE_URL . 'system/cartaConfirmacion');
             echo $html; exit;*/
             
-            $programa= $this->loadModel('bloqueos');
+            $programa= $this->loadModel('bloqueo');
             
             require_once ROOT . 'controllers' . DS . 'include' . DS .'procesoReserva.php';
             $param="CR_n_file=$n_file&CR_cod_prog=$cod_prog&CR_cod_bloq=$cod_bloq";
             //$param="CR_n_file=190306&CR_cod_prog=CH14FLN01-2&CR_cod_bloq=2014FLN019";
-            //$html= $this->curlPOST($param, BASE_URL . 'system/cartaConfirmacion');
+            $html= $this->curlPOST($param, BASE_URL . 'bloqueos/cartaConfirmacion');
             
             if($pRP_error) {
                 echo $pRP_msg;
@@ -453,36 +454,31 @@ class bloqueosController extends Controller
         Session::set('sess_BP_cntAdl', 0);
         Session::set('sess_BP_cntChd', 0);
         Session::set('sess_BP_cntInf', 0);
-        for($i=1; $i<=3; $i++)
-        {
-            if($i<=$BP_cntHab)
-            {
+        for($i=1; $i<=3; $i++) {
+            
+            if($i<=$BP_cntHab) {
+                
                 Session::set('sess_BP_Adl_'.$i, $this->getInt('mL_cmbAdultos_'.$i));
                 Session::set('sess_BP_Chd_'.$i, $this->getInt('mL_child_'.$i));
                 Session::set('sess_BP_Inf_'.$i, $this->getInt('mL_inf_'.$i));
 
 
-                if(Session::get('sess_BP_Adl_'.$i)>0)
-                {
+                if(Session::get('sess_BP_Adl_'.$i)>0) {
                     Session::set('sess_BP_cntAdl', (Session::get('sess_BP_cntAdl')+1));
                 }
-                if(Session::get('sess_BP_Chd_'.$i)>0)
-                {
+                if(Session::get('sess_BP_Chd_'.$i)>0) {
                     Session::set('sess_BP_cntChd', (Session::get('sess_BP_cntChd')+1));
                 }
-                if(Session::get('sess_BP_Inf_'.$i)>0)
-                {
+                if(Session::get('sess_BP_Inf_'.$i)>0) {
                     Session::set('sess_BP_cntInf', (Session::get('sess_BP_cntInf')+1));
                 }
 
 
-                for($x=1; $x<=2; $x++)
-                {
+                for($x=1; $x<=2; $x++) {
                     Session::set('sess_BP_edadChd_'.$x.'_' . $i, $this->getInt('mL_edadChild_'.$x.'_'.$i));
                 }
-            }
-            else
-            {
+                
+            } else {
                 Session::set('sess_BP_Adl_'.$i, 0);
                 Session::set('sess_BP_Chd_'.$i, 0);
                 Session::set('sess_BP_Inf_'.$i, 0);

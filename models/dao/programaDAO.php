@@ -307,15 +307,11 @@ class programaDAO extends Model
         }
     }
     
-    public function exeSQL($sql)
-    {
+    public function exeSQL($sql) {
         $datos= $this->_db->consulta($sql);
-        if($this->_db->numRows($datos)>0)
-        {
+        if($this->_db->numRows($datos)>0) {
             return $this->_db->fetchAll($datos);
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -368,6 +364,7 @@ class programaDAO extends Model
                 if(isset($progDB['CatEstrella'])) {
                     $objProg->setCatEstrella(trim($progDB['CatEstrella']));
                 }
+                
                 if(isset($progDB['iata'])) {
                     $objProg->setIata(trim($progDB['iata']));
                 }
@@ -456,6 +453,34 @@ class programaDAO extends Model
                     $objDetProg->setEstado(trim($detProgDB['ESTADO']));
                     /* HOTELES */
                 }
+                
+                $objetosDetProg[] = $objDetProg;
+            }
+
+            return $objetosDetProg;
+            
+        } else {
+            return false;
+        }
+    }
+    
+    
+    
+    public function exeTS_RESERVAR($sql) {
+        $datos = $this->_db->consulta($sql);
+        if($this->_db->numRows($datos)>0) {
+            
+            $objetosDetProg = array();
+            $arrayDetProgramas= $this->_db->fetchAll($datos);
+            
+            //echo 'VAR:: '.var_dump($arrayDetProgramas); exit;
+            foreach ($arrayDetProgramas as $detProgDB) {
+                
+                $objDetProg = new detalleProgramaDTO();
+                
+                $objDetProg->setFile(trim($detProgDB['FILE']));
+                $objDetProg->setError(trim($detProgDB['CODIGO']));
+                $objDetProg->setMensaje(trim($detProgDB['MENSAJE']));
                 
                 $objetosDetProg[] = $objDetProg;
             }

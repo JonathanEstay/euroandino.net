@@ -2,10 +2,10 @@
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
 
 <script type="text/javascript">
-            $(function(){
-                $( "[name$='tooltip_hotel']" ).poshytip({ className: "tip-darkgray", alignY : "bottom" });
-            });
-        </script>
+    $(function(){
+        $( "[name$='tooltip_hotel']" ).poshytip({ className: "tip-darkgray", alignY : "bottom" });
+    });
+</script>
     
 <!-- Tooltip Detalle Hotel -->
 <link rel="stylesheet" href="<?php echo $_layoutParams['ruta_css']; ?>tip-darkgray/tip-darkgray.css" type="text/css" />
@@ -18,7 +18,7 @@
                 <li><a href="<?php echo BASE_URL . 'system'; ?>">Inicio</a></li>
                 <li class="active">Busqueda de bloqueos</li>
             </ol>
-            <h1>BLOQUEOS</h1>
+            <h1>BLOQUEOS EN <b style="color:#FF9900;"><?php echo Session::get('sess_BP_ciudadDes'); ?></b></h1>
 
         </div>
         <div class="container">
@@ -38,7 +38,7 @@
                                 
                                 <div class="modal-footer">
                                     <center>
-                                        <a class="btn btn-primary"n href="<?php echo BASE_URL; ?>system/programas" id="btnAceptarPRG" style="display:none">Volver a reservar</a>
+                                        <a class="btn btn-primary"n href="<?php echo BASE_URL . Session::get('SESS_CONTROLLER'); ?>/programas" id="btnAceptarPRG" style="display:none">Volver a reservar</a>
                                     </center>
                                 </div>
                             </div><!-- /.modal-content -->
