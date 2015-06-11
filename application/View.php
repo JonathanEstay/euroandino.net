@@ -114,6 +114,7 @@ class View
             'ruta_css' => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/css/', 
             'ruta_img' => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/img/', 
             'ruta_js' => BASE_URL . 'views/layout/' . DEFAULT_LAYOUT . '/js/',
+            'ruta_js_public' => BASE_URL . 'public/js/',
             'ruta_pdf' => BASE_URL . 'public/pdf/',
             'ruta_voucher' => BASE_URL . 'public/img/voucher/',
             'ruta_fotos_hab' => BASE_URL . 'public/img/tipo_habitacion/',
