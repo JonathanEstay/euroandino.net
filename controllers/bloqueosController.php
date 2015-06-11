@@ -337,9 +337,6 @@ class bloqueosController extends Controller
     {
         Session::acceso('Usuario');
         if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest') {
-            /*$param="CR_n_file=190306&CR_cod_prog=CH14FLN01-2&CR_cod_bloq=2014FLN019";
-            $html= $this->curlPOST($param, BASE_URL . 'system/cartaConfirmacion');
-            echo $html; exit;*/
             
             $programa= $this->loadModel('bloqueo');
             
