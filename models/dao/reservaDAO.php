@@ -74,7 +74,7 @@ class reservaDAO extends Model
         {
             $sql.=' ORDER BY f_viaje2, num_file ASC';
         }
-        //echo $sql; exit;
+        //echo $sql; //exit;
         
         $datos= $this->_db->consulta($sql);
         if($this->_db->numRows($datos)>0)

@@ -9,6 +9,7 @@
 function autoloadCore($class) { 
     if(file_exists(APP_PATH . ucfirst(strtolower($class)) . '.php')) {
         include_once APP_PATH . $class . '.php'; 
+        //echo APP_PATH . $class . '.php' . '<br>'; 
     }
 }
 

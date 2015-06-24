@@ -24,6 +24,7 @@ class bookingController extends Controller
         $this->_view->objCiudadesPRG= $this->_ciudad->getCiudades();
         
         $this->_view->rdbRes=false;
+        $this->_view->rdbVia=false;
         
         if(Session::get('sess_CR_fechaDesde') && Session::get('sess_CR_fechaHasta'))
         {
@@ -39,9 +40,11 @@ class bookingController extends Controller
                 $this->_view->rdbVia='checked';
             }
             
-            $this->_view->objReservas= $reserva->getReservas_TEST(
+            $this->_view->objReservas= $reserva->getReservas(
                 Functions::invertirFecha(Session::get('sess_CR_fechaDesde'), '/', '-'),
                 Functions::invertirFecha(Session::get('sess_CR_fechaHasta'), '/', '-'),
+                //str_replace('/', '-', Session::get('sess_CR_fechaDesde')),
+                //str_replace('/', '-', Session::get('sess_CR_fechaHasta')),
                 Session::get('sess_CR_tipoFecha'),
                 Session::get('sess_sp_acceso'),
                 Session::get('sess_clave_usuario')

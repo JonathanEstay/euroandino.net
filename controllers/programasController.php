@@ -41,12 +41,13 @@ class programasController extends Controller
             //$this->loadDTO('incluye');
             $programas= $this->loadModel('programa');
             
-            //WEB
-            //$sql="EXEC TS_GET_PROGRAMAS '".Session::get('sess_BP_ciudadDes_PRG')."', '', '".Functions::invertirFecha(Session::get('sess_BP_fechaIn_PRG'), '/', '-')."' ";
-            
-            //Local
-            $sql="EXEC TS_GET_PROGRAMAS '".Session::get('sess_BP_ciudadDes_PRG')."', '', '".str_replace('/', '-', Session::get('sess_BP_fechaIn_PRG'))."' ";
-            
+            if(WEB) {
+                //WEB
+                $sql="EXEC TS_GET_PROGRAMAS '".Session::get('sess_BP_ciudadDes_PRG')."', '', '".Functions::invertirFecha(Session::get('sess_BP_fechaIn_PRG'), '/', '-')."' ";
+            } else {
+                //Local
+                $sql="EXEC TS_GET_PROGRAMAS '".Session::get('sess_BP_ciudadDes_PRG')."', '', '".str_replace('/', '-', Session::get('sess_BP_fechaIn_PRG'))."' ";
+            }
             Session::set('sess_TS_GET_PROGRAMAS', $sql);
             //IDecho $sql; exit;
             
@@ -120,7 +121,9 @@ class programasController extends Controller
             $objOpcProgramas= $programas->exeTS_GET_DETALLEPROG($sql);
             if($objOpcProgramas) {
                 if($objOpcProgramas[0]->getError()) {
+                    
                     throw new Exception('<b>Error</b>: [' . $objOpcProgramas[0]->getError() . '] <br> <b>Mensaje</b>: ['.$objOpcProgramas[0]->getMensaje().']');
+                    
                 } else {
                     
                     $this->_view->objOpcProgramas= $objOpcProgramas;
@@ -214,36 +217,65 @@ class programasController extends Controller
                     
                     if(Session::get('sess_claveOpc') == $objOpcProg->getClaveOpc()) {
                     
-                        $sql = 'exec TS_RESERVAR_PRG '
-                        . '"' . Session::get('sess_codigoPrograma') . '", '
-                        . '"' . $objOpcProg->getClaveOpc() . '", '
-                        . '"", '
-                        . '"' . Session::get('sess_BP_fechaIn_PRG') . '", '
-                        . '"' . $habitacion[0] . '", '
-                        . '"' . $hab2 . '", '
-                        . '"' . $hab3 . '", '
-                        . '"datos", '
-                        . '"", '
-                        . '"", '
-                        . '"", '
-                        . '"", '
-                        . '"' . Session::get('sess_rut') . '", ' //@rut_cliente
-                        . 'NULL, '
-                        . 'NULL, '
-                        . 'NULL, '
-                        . '"SM1", '
-                        . '"IT", '
-                        . '"A", ' //@estado
-                        . '0, ' //@tcambio
-                        . '0, ' //@comag
-                        . '0, ' //@tcomi
-                        . '"' . date('d-m-Y') . '", ' //@F_contab
-                        . '"' . $this->getTexto('DP_txtNombre_1_1') . ' ' .  $this->getTexto('DP_txtApellido_1_1') . '"'; //@vage    
-                        $sql .= $pasajeros;
+                        if(WEB) {
+                            //WEB
+                            $sql = 'exec TS_RESERVAR_PRG '
+                            . '"' . Session::get('sess_clave_usuario') . '", '
+                            . '"' . Session::get('sess_codigoPrograma') . '", '
+                            . '"' . $objOpcProg->getClaveOpc() . '", '
+                            . '"", '
+                            . '"' . Functions::invertirFecha(Session::get('sess_BP_fechaIn_PRG'), '/', '-') . '", '
+                            . '"' . $habitacion[0] . '", '
+                            . '"' . $hab2 . '", '
+                            . '"' . $hab3 . '", '
+                            . '"datos", '
+                            . '"", '
+                            . '"", '
+                            . '"", '
+                            . '"", '
+                            . '"' . Session::get('sess_rut') . '", ' //@rut_cliente
+                            . 'NULL, '
+                            . 'NULL, '
+                            . 'NULL, '
+                            . '"TI", ' //@tipof
+                            . '"A", ' //@estado
+                            . '0, ' //@tcomi
+                            //. '"' . date('d-m-Y') . '", ' //@F_contab
+                            . '"' . date('Y-m-d') . '", ' //@F_contab
+                            . '"' . $this->getTexto('DP_txtNombre_1_1') . ' ' .  $this->getTexto('DP_txtApellido_1_1') . '"'; //@vage    
+                            $sql .= $pasajeros;
+                        } else {
+                            //Local
+                            $sql = 'exec TS_RESERVAR_PRG '
+                            . '"' . Session::get('sess_clave_usuario') . '", '
+                            . '"' . Session::get('sess_codigoPrograma') . '", '
+                            . '"' . $objOpcProg->getClaveOpc() . '", '
+                            . '"", '
+                            . '"' . Session::get('sess_BP_fechaIn_PRG') . '", '
+                            . '"' . $habitacion[0] . '", '
+                            . '"' . $hab2 . '", '
+                            . '"' . $hab3 . '", '
+                            . '"datos", '
+                            . '"", '
+                            . '"", '
+                            . '"", '
+                            . '"", '
+                            . '"' . Session::get('sess_rut') . '", ' //@rut_cliente
+                            . 'NULL, '
+                            . 'NULL, '
+                            . 'NULL, '
+                            . '"TI", ' //@tipof
+                            . '"A", ' //@estado
+                            . '0, ' //@tcomi
+                            . '"' . date('d-m-Y') . '", ' //@F_contab
+                            . '"' . $this->getTexto('DP_txtNombre_1_1') . ' ' .  $this->getTexto('DP_txtApellido_1_1') . '"'; //@vage    
+                            $sql .= $pasajeros;
+                        }
                     }
                 }
                 
                 //echo $sql; exit;
+                //echo 'OK&' .  md5(':D'); exit;
                 $objResPrograma = $programas->exeTS_RESERVAR($sql);
                 
                 foreach ($objResPrograma as $objRes) {
@@ -251,7 +283,12 @@ class programasController extends Controller
                         throw new Exception('<b>Codigo:</b> [ ' . $objRes->getError() . ' ],<br>'
                             . '<b>Mensaje:</b> ' . $objRes->getMensaje());
                     } else {
-                        echo 'OK';
+                        Session::set('sess_numeroFile', $objRes->getFile());
+                        $param='';
+                        $html= $this->curlPOST($param, BASE_URL . 'programas/cartaConfirmacion');
+                        //$this->getLibrary('class.phpmailer');
+                        //$this->mailReserva($n_file, $html);
+                        echo 'OK&' .  md5(':D');
                     }
                 }
                 
@@ -262,6 +299,75 @@ class programasController extends Controller
         }
     }
     
+    
+    
+    
+    
+    
+    
+    
+    /**
+     * Metodo CenterBox: Abre la carta de confirmacion una vez realizada la reserva.
+     * <PRE>
+     * -.Creado: 20/05/2015
+     * </PRE>
+     * @return String HTML carta confirmacion
+     * @author Jonathan Estay
+     */
+    public function cartaConfirmacion()
+    {
+        Session::acceso('Usuario');
+        if(strtolower($this->getServer('HTTP_X_REQUESTED_WITH'))=='xmlhttprequest') {
+            if($this->getTexto('__sucessful__')) {
+                //Cargando modelos
+                $M_file= $this->loadModel('reserva');
+                $M_packages= $this->loadModel('programa');
+                $pajasero = $this->loadModel('pasajero');
+
+                if(!Session::get('sess_numeroFile')) {
+                    throw new Exception('File no recibido');
+                }
+
+                $objsFile= $M_file->getFile(Session::get('sess_numeroFile'));
+                $this->_view->CC_objsDetFile= $M_file->getDetFile(Session::get('sess_numeroFile'));
+
+                $objsPackages= $M_packages->getPackages(Session::get('sess_codigoPrograma'));
+
+
+                if($objsFile) {
+                    $this->_view->CC_agencia=$objsFile[0]->getAgencia();
+                    $this->_view->CC_vage= $objsFile[0]->getVage();
+                    $this->_view->CC_nomPax= $objsFile[0]->getNomPax();
+                    $this->_view->CC_nPax= $objsFile[0]->getNPax();
+                    $this->_view->CC_fviaje= $objsFile[0]->getFViaje();
+                    $this->_view->CC_moneda= $objsFile[0]->getMoneda();
+                    $this->_view->CC_totventa= $objsFile[0]->getTotVenta();
+                    $this->_view->CC_cambio= $objsFile[0]->getCambio();
+                    $this->_view->CC_comag= $objsFile[0]->getComag();
+
+                    $this->_view->CC_datos= $objsFile[0]->getDatos();
+                    $this->_view->CC_ajuste= $objsFile[0]->getAjuste();
+                    $this->_view->CC_tcomi= $objsFile[0]->getTComi();
+                }
+
+                if($objsPackages) {
+                    $this->_view->CC_nombreProg=$objsPackages[0]->getNombre();
+                }
+
+                $this->_view->objetosPasajero = $pajasero->getPasajeros(Session::get('sess_numeroFile'));
+                //echo var_dump($this->_view->objetosPasajero);
+
+                $this->_view->numFile= Session::get('sess_numeroFile');
+                $this->_view->codigoPRG= Session::get('sess_codigoPrograma');
+
+                $this->_view->renderingCenterBox('cartaConfirm');
+            } else {
+                throw new Exception('Error al desplegar la carta de confirmacion, [sucessful]');
+            }
+        } else {
+            throw new Exception('Error al desplegar la carta de confirmacion');
+        }
+    }
     
     
     
@@ -285,6 +391,7 @@ class programasController extends Controller
      * @author Jonathan Estay
      */
     public function editar() {
+        Session::acceso('Usuario');
         Session::destroy('sessMOD_EP_codPRG');
         $AP_codigoPrg = $this->getTexto('varCenterBox');
         if ($AP_codigoPrg) {
@@ -295,11 +402,27 @@ class programasController extends Controller
             if ($EP_objPrograma) {
                 $this->_view->EP_nombreProg = $EP_objPrograma[0]->getNombre();
                 $rutaPDF = ROOT . 'public' . DS . 'pdf' . DS . 'upl_' . str_replace(' ', '_', $EP_objPrograma[0]->getCodigo()) . '.pdf';
-                
                 if (is_readable($rutaPDF)) {
                     $this->_view->EP_PDF = 'upl_' . str_replace(' ', '_', $EP_objPrograma[0]->getCodigo()) . '.pdf';
                 } else {
                     $this->_view->EP_PDF = false;
+                }
+                
+                
+                $rutaFoto= ROOT . 'public' . DS . 'img'. DS . 'programas'. DS . 'thumb' . DS . 'upl_' . str_replace(' ', '_', $EP_objPrograma[0]->getCodigo());
+                $extension= Functions::getExtensionImagen($rutaFoto);
+                if($extension) {
+                    $this->_view->ep_foto = 'upl_' . str_replace(' ', '_', $EP_objPrograma[0]->getCodigo()) . $extension;
+                } else {
+                    $this->_view->ep_foto = false;
+                }
+                
+                
+                $objPrograma = $EP_programa->getPrograma(Session::get('sessMOD_EP_codPRG'));
+                if ($objPrograma) {
+                    $this->_view->ep_descripcion = $objPrograma[0];
+                } else {
+                    $this->_view->ep_descripcion = '';
                 }
 
                 $this->_view->renderingCenterBox('editarPrograma');
@@ -313,64 +436,131 @@ class programasController extends Controller
 
     
     /**
-     * Metodo procesador: Modifica un programa en base al codigo.
+     * Metodo procesador: Modifica el pdf de un programa en base al codigo de este.
      * <PRE>
      * -.Creado: 15/04/2015
      * </PRE>
      * @return String OK
      * @author Jonathan Estay
      */
-    public function modificar() {
-
+    public function modificar_pdf() {
+        Session::acceso('Usuario');
         if (strtolower($this->getServer('HTTP_X_REQUESTED_WITH')) == 'xmlhttprequest') {
-            $rutaPDF = ROOT . 'public' . DS . 'pdf' . DS;
-            $MP_programa = $this->loadModel('programa');
+            
+            $ruta = ROOT . 'public' . DS . 'pdf' . DS;
+            if ($this->getTexto('chkEP_flPDF')) {
 
-            if (isset($_FILES['flPDF']['name'])) {
-
-                if ($_FILES['flPDF']['name']) {
-
-                    //$this->getLibrary('upload' . DS . 'class.upload');
-
-                    $upload = new upload($_FILES['flPDF'], 'es_ES');
-                    $upload->allowed = array('application/pdf');
-                    $upload->file_max_size = '2097152'; // 2MB
-                    //$upload->file_new_name_body= 'upl_' . uniqid();
-                    $upload->file_new_name_body = 'upl_' . Session::get('sessMOD_EP_codPRG');
-                    $upload->process($rutaPDF);
-
-                    if ($upload->processed) {
+                if ($this->getTexto('chkEP_flPDF') == 'on') {
+                    
+                    if (Functions::eliminaFile($ruta . 'upl_' . str_replace(' ', '_', Session::get('sessMOD_EP_codPRG')) . '.pdf')) {
                         echo 'OK';
                     } else {
-                        throw new Exception($upload->error);
+                        throw new Exception('Error al eliminar el archivo, intente nuevamente');
                     }
+                    
                 } else {
-                    throw new Exception('Debe seleccionar un archivo desde su computador');
+                    throw new Exception('Debe seleccionar un archivo a eliminar');
                 }
+            
             } else {
-
-                if ($this->getTexto('chkEP_flPDF')) {
-
-                    if ($this->getTexto('chkEP_flPDF') == 'on') {
-                        //echo Session::get('sessMOD_EP_codPRG'); exit;
-                        if (Functions::eliminaFile($rutaPDF . 'upl_' . str_replace(' ', '_', Session::get('sessMOD_EP_codPRG')) . '.pdf')) {
-                            echo 'OK';
-                        } else {
-                            throw new Exception('Error al eliminar el archivo, intente nuevamente');
-                        }
-                    } else {
-                        throw new Exception('Debe seleccionar un archivo a eliminar');
-                    }
+                
+                if(Functions::uploadFile('flPDF', 'application/pdf', Session::get('sessMOD_EP_codPRG'), $ruta)) {
+                    echo 'OK';
                 } else {
-                    throw new Exception('Debe seleccionar un archivo desde su computador');
+                    throw new Exception('Error al intentar subir el archivo');
                 }
+                
             }
+            
         } else {
             throw new Exception('Error inesperado, intente nuevamente. Si el error persiste comuniquese con el administrador');
         }
     }
     
     
+    
+    
+    
+    /**
+     * Metodo procesador: Modifica la foto de un programa en base al codigo de este.
+     * <PRE>
+     * -.Creado: 08/06/2015
+     * -.Modificado: 09/06/2015
+     * </PRE>
+     * @return String OK
+     * @author Jonathan Estay
+     */
+    public function modificar_foto() {
+        Session::acceso('Usuario');
+        if (strtolower($this->getServer('HTTP_X_REQUESTED_WITH')) == 'xmlhttprequest') {
+            $ruta = ROOT . 'public' . DS . 'img' . DS .'programas' . DS;
+            if ($this->getTexto('chkEP_flFoto')) {
+
+                if ($this->getTexto('chkEP_flFoto') == 'on') {
+                    
+                    $extension= Functions::getExtensionImagen($ruta . 'upl_' . str_replace(' ', '_', Session::get('sessMOD_EP_codPRG')));
+                    if (Functions::eliminaFile($ruta . 'upl_' . str_replace(' ', '_', Session::get('sessMOD_EP_codPRG'))  . $extension)) {
+                        Functions::eliminaFile($ruta . 'thumb' . DS . 'upl_' . str_replace(' ', '_', Session::get('sessMOD_EP_codPRG'))  . $extension);
+                        echo 'OK';
+                    } else {
+                        throw new Exception('Error al eliminar el archivo, intente nuevamente');
+                    }
+                    
+                } else {
+                    throw new Exception('Debe seleccionar un archivo a eliminar');
+                }
+            
+            } else {
+                
+                if(Functions::uploadFileImage('flFoto', $ruta, Session::get('sessMOD_EP_codPRG'))) {
+                    echo 'OK';
+                } else {
+                    throw new Exception('Error al intentar subir el archivo');
+                }
+                
+            }
+            
+        } else {
+            throw new Exception('Error inesperado, intente nuevamente. Si el error persiste comuniquese con el administrador');
+        }
+    }
+    
+    
+    
+    
+    
+    /**
+     * Metodo procesador: Modifica la foto de un programa en base al codigo de este.
+     * <PRE>
+     * -.Creado: 08/06/2015
+     * -.Modificado: 09/06/2015
+     * </PRE>
+     * @return String OK
+     * @author Jonathan Estay
+     */
+    public function modificar() {
+        Session::acceso('Usuario');
+        if (strtolower($this->getServer('HTTP_X_REQUESTED_WITH')) == 'xmlhttprequest') {
+            $comentario = $this->getPostClave('areaDescrip');
+            if($comentario) {
+                $programa = $this->loadModel('programa');
+                $objPrograma = $programa->getPrograma(Session::get('sessMOD_EP_codPRG'));
+                //echo var_dump($objPrograma);
+                if($objPrograma) {
+                    $programa->comentario(Session::get('sessMOD_EP_codPRG'), $comentario);
+                    echo 'OK';
+                } else {
+                    $programa->comentario(Session::get('sessMOD_EP_codPRG'), $comentario, true);
+                    echo 'OK';
+                }
+            } else {
+                throw new Exception('Debe ingresar un comentario' . $comentario);
+            }
+            
+        } else {
+            throw new Exception('Error inesperado, intente nuevamente. Si el error persiste comuniquese con el administrador');
+        }
+    }
     /*
      * End: Administracion
      */
@@ -489,7 +679,12 @@ class programasController extends Controller
                     throw new Exception("Debe ingresar una <b>Fecha de nacimiento</b> para el pasajero [" . $j . "], de la habitaci&oacute;n [" . $i . "]");
                 }
                 
-                $pasajeros.= ', "' . $this->getTexto('DP_txtFecha_' . $i . '_' . $j) . '", "A"';
+                
+                if(WEB) {
+                    $pasajeros.= ', "' . Functions::invertirFecha($this->getTexto('DP_txtFecha_' . $i . '_' . $j), '/', '-') . '", "A"';
+                } else {
+                    $pasajeros.= ', "' . $this->getTexto('DP_txtFecha_' . $i . '_' . $j) . '", "A"';
+                }
             }
             /*
              * End: Validacion Adulto
@@ -536,7 +731,14 @@ class programasController extends Controller
                 if(!$this->getTexto('DP_txtFechaC_' . $i . '_' . $k)) {
                     throw new Exception("Debe ingresar una <b>Fecha de nacimiento</b> para el child [" . $k . "], de la habitaci&oacute;n [" . $i . "]");
                 }
-                $pasajeros.= ', "' . $this->getTexto('DP_txtFechaC_' . $i . '_' . $k) . '", "C"';
+                
+                
+                if(WEB) {
+                    $pasajeros.= ', "' . Functions::invertirFecha($this->getTexto('DP_txtFechaC_' . $i . '_' . $k), '/', '-') . '", "C"';
+                } else {
+                    $pasajeros.= ', "' . $this->getTexto('DP_txtFechaC_' . $i . '_' . $k) . '", "C"';
+                }
+                    
             }
             /*
              * End: Validacion Child

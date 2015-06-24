@@ -1,3 +1,12 @@
+<script type="text/javascript">
+    $(function(){
+        $( "[name$='tooltip_hotel']" ).poshytip({ className: "tip-darkgray", alignY : "bottom" });
+    });
+</script>
+
+<!-- Tooltip Detalle Hotel -->
+    <link rel="stylesheet" href="<?php echo $_layoutParams['ruta_css']; ?>tip-darkgray/tip-darkgray.css" type="text/css" />
+<!-- End: Tooltip Detalle Hotel -->
 <div id="page-content">
     <div id='wrap'>
         <div id="page-heading">
@@ -24,7 +33,7 @@
                         <div class="modal-footer">
                             <center>
                                 
-                                <a class="btn btn-primary"n href="<?php echo BASE_URL; ?>system/programas" id="btnAceptarPRG" style="display:none">Volver a reservar</a>
+                                <a class="btn btn-primary"n href="<?php echo BASE_URL . Session::get('SESS_CONTROLLER'); ?>" id="btnAceptarPRG" style="display:none">Volver a reservar</a>
                             </center>
                         </div>
                     </div><!-- /.modal-content -->
@@ -62,7 +71,13 @@
                                         <table width="100%"  style="margin-top: -15px; margin-left: -15px;">
                                                 <tr>
                                                     <td width="210" valign="top">
-                                                        <img src="<?php echo $_layoutParams['ruta_programas']; ?>1.jpg" width="200" class="img-thumbnail" style="margin-right: 10px;">
+                                                        <?php 
+                                                        if($objProg->getImagen()) { ?>
+                                                            <img src="<?php echo $_layoutParams['ruta_programas'] . $objProg->getImagen(); ?>" width="200" class="img-thumbnail" style="margin-right: 10px;">
+                                                        <?php } else {
+                                                        ?>
+                                                        <img src="<?php echo $_layoutParams['ruta_programas']; ?>sin_foto.png" width="150" class="img-thumbnail" style="margin-right: 10px;">
+                                                        <?php } ?>
                                                     </td>
                                                     <td>
                                                         <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" style=" margin-left: 10px;">

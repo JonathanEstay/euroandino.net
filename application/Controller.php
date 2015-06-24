@@ -13,7 +13,7 @@ abstract class Controller
     
     public function __construct() {
         $this->_registry = Registry::getInstancia();
-        $this->_view= new view($this->_registry->_request);
+        $this->_view= new View($this->_registry->_request);
     }
     
     abstract public function index();
@@ -46,7 +46,7 @@ abstract class Controller
         $dto= $class . 'DTO';
         $rutaDAO= ROOT . 'models' . DS . 'dao'. DS .$dao . '.php';
         $rutaDTO= ROOT . 'models' . DS . 'dto'. DS .$dto . '.php';
-        $rutaDetalleDTO= ROOT . 'models' . DS . 'dto'. DS . 'detalle' .$dto . '.php';
+        $rutaDetalleDTO= ROOT . 'models' . DS . 'dto'. DS . 'detalle' .ucfirst($dto) . '.php';
         
         if(is_readable($rutaDAO))
         {
@@ -122,6 +122,11 @@ abstract class Controller
     protected function getPOST()
     {
         return $_POST;
+    }
+    
+    protected function getPostClave($clave)
+    {
+        return trim($_POST[$clave]);
     }
 
     protected function getPostExist($clave)

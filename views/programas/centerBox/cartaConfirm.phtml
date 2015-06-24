@@ -275,76 +275,34 @@
                             <th></th>
                             <th>Tipo</th>
                             <th>Nombre</th>
+                            <th>Apellido</th>
                             <th>Rut</th>
-                            <th>Fecha nacimiento</th>
+                            <!-- <th>Fecha nacimiento</th> -->
                             <th>Nombre Infant</th>
                             <th>Rut Infant</th>
                             <th>Fecha nacimiento Infant</th>
                         </tr>
-                        <?php
-                        $contador = 1; 
-                        if($this->CC_objsDetBloq)
-                        { 
-                            foreach($this->CC_objsDetBloq as $objDB)
-                            {
-                                echo '<tr>
-                                        <td>'.$contador.'</td>
-                                        <td>';
-                                
-                                if($objDB->getTipoPax() == "A")
-                                {
-                                    echo 'Adulto';
-                                }
-                                elseif($objDB->getTipoPax() == "C")
-                                {
-                                    echo 'Child';
-                                }
-
-                                echo '</td>
-                                        <td>'.str_replace('/', ' ', $objDB->getNomPax()).'</td>
-                                        <td>'.$objDB->getRut().'</td>
-                                        <td>';
-                                        if($objDB->getFChild() == "01/01/1900")
-                                        {
-                                            echo '';
-                                        }
-                                        else
-                                        {
-                                            echo $objDB->getFChild();
-                                        }
-
-                                echo '</td>
-                                        <td>'.$objDB->getNInfant().'</td>
-                                        <td>'.$objDB->getRutInf().'</td>
-                                        <td>';
-
-                                        if($objDB->getFInfant() == "01/01/1900")
-                                        {
-                                            echo ''; 
-                                        }
-                                        else
-                                        {
-                                            echo $objDB->getFInfant();
-                                        }
-                                        echo '</td>
-                                </tr>';
-
-                                $contador = $contador + 1;
-                            }
-                        }
-                        ?>
+                        
+                        <?php foreach ($this->objetosPasajero as $objPasajero) { ?>
+                        <tr>
+                            <td></td>
+                            <td><?php echo $objPasajero->getTipo(); ?></td>
+                            <td><?php echo $objPasajero->getNombre(); ?></td>
+                            <td><?php echo $objPasajero->getApellido(); ?></td>
+                            <td><?php echo $objPasajero->getRut(); ?></td>
+                            <!-- <td></td> -->
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <?php } ?>
+                        
                         <tr>
                             <td colspan="8" style="font-weight:bold;">&nbsp;</td>
                         </tr>
-                        <tr>
-                            <td colspan="8" style="font-weight:bold;">Itinerario de vuelo:</td>
-                        </tr>
-                        <tr>
-                            <td colspan="8"><?php echo $this->CC_notas; ?></td>
-                        </tr>
                     </table>
                 </td>
-            </tr>	
+            </tr>
         </table>
         
 

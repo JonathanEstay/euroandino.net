@@ -134,6 +134,7 @@ $pRP_sqlDetalle.=", 'E', '".$pRP_monedaSP."' ";
 
 
 
+
 //MAXIMO 10 PASAJEROS
 for($i=1; $i<=10; $i++)
 {

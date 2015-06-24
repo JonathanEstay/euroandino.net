@@ -268,7 +268,8 @@ class programaDAO extends Model
             
             $objPackages= new programaDTO();
             
-            $objPackages->setNotaOpc(trim($arrayPackages[0]['nota']));
+            //$objPackages->setNotaOpc(trim($arrayPackages[0]['nota']));
+            $objPackages->setNota(trim($arrayPackages[0]['nota']));
             $objetosPack[]= $objPackages;
             
             return $objetosPack;
@@ -356,10 +357,17 @@ class programaDAO extends Model
                 $objProg->setCrucero(trim($progDB['crucero']));
                 $objProg->setAsis(trim($progDB['asisten']));
                 $objProg->setIti(trim($progDB['itinera']));
-                $objProg->setImagen(trim($progDB['imagen']));
+                
+                $ext = Functions::getExtensionImagen(ROOT . 'public' . DS . 'img'. DS . 'programas'. DS . 'upl_' . str_replace(' ', '_', trim($progDB['codProg'])));
+                if($ext) {
+                    $objProg->setImagen('upl_' . str_replace(' ', '_', trim($progDB['codProg'])) . $ext);
+                } else {
+                    $objProg->setImagen('');
+                }
+                
                 $objProg->setNota(trim($progDB['nota']));
                 $objProg->setIncluye(trim($progDB['incluye']));
-                $objProg->setDescrip(trim($progDB['descrip']));
+                $objProg->setDescrip(html_entity_decode(trim($progDB['descrip'])));
                 
                 if(isset($progDB['CatEstrella'])) {
                     $objProg->setCatEstrella(trim($progDB['CatEstrella']));
@@ -490,6 +498,37 @@ class programaDAO extends Model
         } else {
             return false;
         }
+    }
+    
+    
+    public function getPrograma($cod) {
+        $sql = 'SELECT * FROM h2h_PdfProg WHERE codigo = "' . $cod . '"';
+        $datos = $this->_db->consulta($sql);
+        if($this->_db->numRows($datos)>0) {
+            
+            $objetos = array();
+            $array= $this->_db->fetchAll($datos);
+            foreach ($array as $objDB) {
+                //$obj = new detalleProgramaDTO();
+                //$obj->setFile(trim($objDB['descripcion']));
+                $objetos[] = trim($objDB['descripcion']);
+            }
+
+            return $objetos;
+        } else {
+            return false;
+        }
+    }
+    
+    public function comentario($cod, $desc, $nuevo = false) {
+        if ($nuevo) {
+            $sql = 'INSERT INTO h2h_PdfProg (codigo, descripcion) VALUES ("' . $cod . '", "' . str_replace('\\', '', htmlentities($desc)) . '")';
+        } else {
+            $sql = 'UPDATE h2h_PdfProg SET descripcion = "' . str_replace('\\', '', htmlentities($desc)) . '" WHERE codigo = "' . $cod . '"';
+        }
+        //echo $sql;
+        $this->_db->consulta($sql);
+        return true;
     }
     
 }

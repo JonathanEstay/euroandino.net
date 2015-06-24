@@ -1,6 +1,6 @@
 .tip-darkgray {
 	opacity:0.95;
-	z-index:1000;
+	z-index:99999;
 	text-align:left;
 	
 	border:1px solid #888;

@@ -8,6 +8,104 @@
 
 class Functions
 {
+    
+    public function uploadFile($file, $type, $name, $ruta) {
+        if (isset($_FILES[$file]['name'])) {
+
+            if ($_FILES[$file]['name']) {
+
+                $upload = new upload($_FILES[$file], 'es_ES');
+                $upload->allowed = array($type);
+                $upload->file_max_size = '2097152'; // 2MB
+                //$upload->file_new_name_body= 'upl_' . uniqid();
+                $upload->file_new_name_body = 'upl_' . $name;
+                $upload->process($ruta);
+
+                if ($upload->processed) {
+                    return true;
+                } else {
+                    throw new Exception('Error al subir el archivo: ' . $upload->error);
+                }
+            } else {
+                throw new Exception('Debe seleccionar un archivo desde su computador');
+            }
+        } else {
+            return false;
+        }
+    }
+    
+    
+    
+    
+    public function uploadFileImage($file, $ruta, $name) {
+        if(isset($_FILES[$file]['name'])) {
+            if($_FILES[$file]['name']) {
+                $upload= new upload($_FILES[$file], 'es_ES');
+                $upload->allowed= array('image/jpg', 'image/jpeg', 'image/png', 'image/gif');
+                $upload->file_max_size = '524288'; // 512KB
+                
+                if ($name) {
+                    $upload->file_new_name_body= 'upl_' . $name;
+                } else {
+                    $upload->file_new_name_body= 'upl_' . sha1(uniqid());
+                }
+                $upload->process($ruta);
+
+                if($upload->processed) { 
+                    
+                    //THUMBNAILS
+                    $imagen= $upload->file_dst_name; 
+                    $thumb= new upload($upload->file_dst_pathname);
+                    $thumb->image_resize= true;
+                    $thumb->image_x= 150;
+                    $thumb->image_y= 150;
+                    //$thumb->file_name_body_pre= 'thumb_';
+                    $thumb->process($ruta . 'thumb' . DS);
+                    
+                    return true;
+                    
+                } else {
+                    throw new Exception('Error al subir la imagen: ' . $upload->error);
+                }
+            }
+            
+        } else {
+            return false;
+        }
+    }
+    
+    
+    public function getExtensionImagen($file) {
+        $types = array('.jpg', '.png', '.jpeg', '.gif');
+        foreach($types as $ext) {
+            if (file_exists($file . $ext)) {
+                return $ext;
+            }
+        }
+        
+        return false;
+    }
+    
+    public function getExtension($file) {
+        $tmp = explode(".", $file); 
+        $extension = end($tmp); 
+        return $extension;
+    }
+    
+    
+    
+    public function eliminaFile($file) {
+        if(is_readable($file)) {
+            @unlink($file);
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    
+    
+    
     public function tratoPax($tpax) {
         $result=NULL;
         switch ($tpax) {
@@ -150,19 +248,6 @@ class Functions
         else
         {
             return 0;
-        }
-    }
-    
-    public function eliminaFile($file)
-    {
-        if(is_readable($file))
-        {
-            @unlink($file);
-            return true;
-        }
-        else
-        {
-            return false;
         }
     }
     

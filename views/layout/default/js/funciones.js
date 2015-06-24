@@ -58,16 +58,13 @@ function procesoEnviaForm(classFrm, php, btn, div)
         success: function(data)
         {
             endLoad();
-            if(data==='OK')
-            {
+            if(data==='OK') {
                 $("#"+div).delay(1500).queue(function(n)
                 {
                     $("#"+div).html('<div class="alert alert-dismissable alert-success"><strong>Terminado</strong><br/><img src="' + RUTA_IMG_JS + 'ok.png" width="32" border="0" /> Proceso realizado con &eacute;xito.</div>');
                     n();
                 });
-            }
-            else
-            { 	
+            } else {	
                 $('#mensajeWar').html(data);
                 $('#divAlertWar').delay( 1000 ).fadeIn( 500 );
                 $('#divAlertWar').animate({

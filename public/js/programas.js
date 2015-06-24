@@ -74,6 +74,26 @@ Programa.prototype.procesoDetallePasajeros = function(classFrm, php, btn, div)
 {
     $("#"+btn).attr('disabled', 'disabled');
     initLoad();
+    
+    if($("#DP_cmbHab").val() === '0') {
+        endLoad();
+        $('#mensajeWar').html('Debe seleccionar la cantidad de habitaciones.');
+        $('#divAlertWar').delay( 1000 ).fadeIn( 500 );
+        $('#divAlertWar').animate({
+                'display': 'block'
+        });
+
+        $('#divAlertWar').delay( 3000 ).fadeOut( 500 );
+        $('#divAlertWar').animate({
+                                    'display': 'none'
+                                });
+        $("#"+btn).delay(2000).queue(function(m)
+        {
+            $("#"+btn).removeAttr("disabled");
+            m();
+        });
+        return false;
+    }
 
     //$("#" + div).html("");
     var formData= new FormData($("."+classFrm)[0]);
@@ -101,6 +121,86 @@ Programa.prototype.procesoDetallePasajeros = function(classFrm, php, btn, div)
         error: function()
         {
             $("#" + div).html("Ha ocurrido un error");
+        }
+    });
+};
+
+
+
+
+Programa.prototype.procesoEnviaFormProg = function (classFrm, php, btn, div)
+{
+    $("#"+btn).attr('disabled', 'disabled');
+
+    initLoad();
+
+    var formData= new FormData($("."+classFrm)[0]);
+    
+    //hacemos la peticion ajax  
+    $.ajax({
+        url: php,  
+        type: 'POST',
+        //Form data
+        //datos del formulario
+        data: formData,
+        //necesario para subir archivos via ajax
+        cache: false,
+        contentType: false,
+        processData: false,
+        //mientras enviamos el archivo
+        beforeSend: function(){},
+        //una vez finalizado correctamente
+        success: function(data)
+        {
+            var myArrayData= data.split('&');
+            if($.trim(myArrayData[0]) === 'OK')
+            {
+                $('#btnCerrar1PRG').delay( 100 ).fadeOut( 100 );
+                $('#btnCerrar1PRG').animate({
+                                            'display': 'none'
+                                        });
+
+                //alert('TODO OK'); return false;
+
+                $("#"+div).html('<div class="alert alert-dismissable alert-success"><strong>Terminado</strong><br/><img src="' + RUTA_IMG_JS + 'ok.png" width="32" border="0" /> Estamos abriendo la carta confirmaci&oacute;n, espere un momento...</div>');
+                $.post( BASE_URL_JS + CONTROLLER_JS + "/cartaConfirmacion", 
+                {
+                    __sucessful__: myArrayData[1]
+
+                }, function(dataRS)
+                {
+                    $("#"+div).html(dataRS);
+                    endLoad();
+
+                    $('#btnAceptarPRG').delay( 2000 ).fadeIn( 100 );
+                    $('#btnAceptarPRG').animate({
+                            'display': 'block'
+                    });
+                });
+            }
+            else
+            { 	
+                alertError(btn, data, 5000);
+            }
+            
+            
+        },
+
+        //si ha ocurrido un error
+        error: function()
+        {
+            endLoad();
+
+            $('#mensajeWar').html('Error error');
+            $('#divAlertWar').delay( 1000 ).fadeIn( 500 );
+            $('#divAlertWar').animate({
+                    'display': 'block'
+            });
+
+            $('#divAlertWar').delay( 5000 ).fadeOut( 500 );
+            $('#divAlertWar').animate({
+                                        'display': 'none'
+                                    });
         }
     });
 }

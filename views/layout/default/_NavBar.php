@@ -3,15 +3,16 @@
 <head>
     <meta charset="<?php echo CHARSET; ?>" />
     <meta http-equiv="Content-Type" content="text/html; charset=<?php echo CHARSET; ?>"  />
-    <title><?php if(isset($this->titulo))echo $this->titulo; ?></title>
+    <title><?php if(isset($this->titulo)){ echo $this->titulo; }?></title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="ORISTRAVEL">
     <meta name="author" content="The Red Team">
 
     <script src="<?php echo $_layoutParams['ruta_js']; ?>jquery-1.10.2.min.js"></script>
-    <link href="<?php echo $_layoutParams['ruta_css']; ?>styles.min.css?=121" rel="stylesheet" >
-    <link href='<?php echo $_layoutParams['ruta_css']; ?>google-fonts.css?family=Source+Sans+Pro:300,400,600' rel='stylesheet' type='text/css'>
+    <link href="<?php echo $_layoutParams['ruta_css']; ?>styles.min.css" rel="stylesheet" >
+    <!-- <link href='<?php echo $_layoutParams['ruta_css']; ?>google-fonts.css?family=Source+Sans+Pro:300,400,600' rel='stylesheet' type='text/css'> -->
+     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600' rel='stylesheet' type='text/css'>
 
 
     
