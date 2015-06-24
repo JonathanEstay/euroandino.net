@@ -40,16 +40,25 @@ class bookingController extends Controller
                 $this->_view->rdbVia='checked';
             }
             
-            $this->_view->objReservas= $reserva->getReservas(
-                Functions::invertirFecha(Session::get('sess_CR_fechaDesde'), '/', '-'),
-                Functions::invertirFecha(Session::get('sess_CR_fechaHasta'), '/', '-'),
-                //str_replace('/', '-', Session::get('sess_CR_fechaDesde')),
-                //str_replace('/', '-', Session::get('sess_CR_fechaHasta')),
+            
+            if (WEB) {
+                $this->_view->objReservas= $reserva->getReservas(
+                    Functions::invertirFecha(Session::get('sess_CR_fechaDesde'), '/', '-'),
+                    Functions::invertirFecha(Session::get('sess_CR_fechaHasta'), '/', '-'),
+                    Session::get('sess_CR_tipoFecha'),
+                    Session::get('sess_sp_acceso'),
+                    Session::get('sess_clave_usuario')
+                    );
+            } else {
+                //Local
+                $this->_view->objReservas= $reserva->getReservas(
+                str_replace('/', '-', Session::get('sess_CR_fechaDesde')),
+                str_replace('/', '-', Session::get('sess_CR_fechaHasta')),
                 Session::get('sess_CR_tipoFecha'),
                 Session::get('sess_sp_acceso'),
                 Session::get('sess_clave_usuario')
                 );
-            
+            }
         }
         else
         {
@@ -77,6 +86,7 @@ class bookingController extends Controller
     
     public function verPDF_HTML($numFile)
     {
+        Session::acceso('Usuario');
         $ruta_img= 'views/layout/' . DEFAULT_LAYOUT . '/img/';
         
         ob_start();
@@ -101,6 +111,7 @@ class bookingController extends Controller
     
     public function cartaConfirmacion()
     {
+        Session::acceso('Usuario');
         //Cargando modelos
         $M_file= $this->loadModel('reserva');
         $M_bloqueos= $this->loadModel('bloqueo');
@@ -113,7 +124,6 @@ class bookingController extends Controller
         
         if(!$nFile) {
             throw new Exception('File no recibido');
-            exit;
         }
         //Creando los objetos para las View
         $objsFile= $M_file->getFile($nFile);
@@ -127,8 +137,7 @@ class bookingController extends Controller
         $objsPackages= $M_packages->getPackages($codPRG);
         
         
-        if($objsFile!=false)
-        {
+        if($objsFile) {
             $this->_view->CC_agencia=$objsFile[0]->getAgencia();
             $this->_view->CC_vage= $objsFile[0]->getVage();
             $this->_view->CC_nomPax= $objsFile[0]->getNomPax();
@@ -144,17 +153,13 @@ class bookingController extends Controller
             $this->_view->CC_tcomi= $objsFile[0]->getTComi();
         }
         
-        if($objsPackages!=false)
-        {
+        if($objsPackages) {
             $this->_view->CC_nombreProg=$objsPackages[0]->getNombre();
         }
         
-        if($objsBloq!=false)
-        {
+        if($objsBloq) {
             $this->_view->CC_notas= str_replace("\n", "<br>", $objsBloq[0]->getNotas());
-        }
-        else
-        {
+        } else {
             $this->_view->CC_notas=false;
         }
         
@@ -170,6 +175,8 @@ class bookingController extends Controller
     
     public function buscar()
     {
+        Session::acceso('Usuario');
+        
         Session::set('sess_CR_fechaDesde', $this->getTexto('txtFechaDesde-ConsRes'));
         Session::set('sess_CR_fechaHasta', $this->getTexto('txtFechaHasta-ConsRes'));
         Session::set('sess_CR_tipoFecha', $this->getInt('rdbFecha'));

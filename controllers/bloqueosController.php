@@ -33,18 +33,22 @@ class bloqueosController extends Controller
         {
             $this->loadDTO('incluye');
             $bloqueos= $this->loadModel('bloqueo');
-            $sql="exec TS_GET_BLOQUEOS_PROG '".Session::get('sess_BP_ciudadDes')."', "
-                
+            
+            if(WEB) {
                 //Web
-                . "'".Functions::invertirFecha(Session::get('sess_BP_fechaIn'), '/', '-')."', "
-                . "'".Functions::invertirFecha(Session::get('sess_BP_fechaOut'), '/', '-')."', "
-                
+                $sql="exec TS_GET_BLOQUEOS_PROG '".Session::get('sess_BP_ciudadDes')."', "
+                    . "'".Functions::invertirFecha(Session::get('sess_BP_fechaIn'), '/', '-')."', "
+                    . "'".Functions::invertirFecha(Session::get('sess_BP_fechaOut'), '/', '-')."', "
+                    . "'".Session::get('sess_BP_hotel')."'";
+            } else {
                 //Local
-                //. "'".str_replace('/', '-', Session::get('sess_BP_fechaIn'))."', "
-                //. "'".str_replace('/', '-', Session::get('sess_BP_fechaOut'))."', "
-                
-                
-                . "'".Session::get('sess_BP_hotel')."'";
+                $sql="exec TS_GET_BLOQUEOS_PROG '".Session::get('sess_BP_ciudadDes')."', "
+                    . "'".str_replace('/', '-', Session::get('sess_BP_fechaIn'))."', "
+                    . "'".str_replace('/', '-', Session::get('sess_BP_fechaOut'))."', "
+                    . "'".Session::get('sess_BP_hotel')."'";
+            }
+            
+            
             for($i=1; $i<=3; $i++)
             {
                 $sql.= ", '".Session::get('sess_BP_Adl_'.$i)."', '".Session::get('sess_BP_edadChd_1_'.$i)."', 
@@ -92,18 +96,21 @@ class bloqueosController extends Controller
         if(Session::get('sess_BP_ciudadDes'))
         {
             $bloqueos= $this->loadModel('bloqueo');
-            $sql="exec TS_GET_BLOQUEOS_PROG_DETALLE " . $BO_idprog . ", "
+            
+            if(WEB) {
+                $sql="exec TS_GET_BLOQUEOS_PROG_DETALLE " . $BO_idprog . ", "
+                //Web
+                . "'".Functions::invertirFecha(Session::get('sess_BP_fechaIn'), '/', '-')."', "
+                . "'".Functions::invertirFecha(Session::get('sess_BP_fechaOut'), '/', '-')."', "
+                . "'".Session::get('sess_BP_hotel')."'";
+            } else {
+                $sql="exec TS_GET_BLOQUEOS_PROG_DETALLE " . $BO_idprog . ", "
+                //Local
+                . "'".str_replace('/', '-', Session::get('sess_BP_fechaIn'))."', "
+                . "'".str_replace('/', '-', Session::get('sess_BP_fechaOut'))."', "
+                . "'".Session::get('sess_BP_hotel')."'";
+            }
                     
-                    //Web
-                    . "'".Functions::invertirFecha(Session::get('sess_BP_fechaIn'), '/', '-')."', "
-                    . "'".Functions::invertirFecha(Session::get('sess_BP_fechaOut'), '/', '-')."', "
-                    
-                    
-                    //Local
-                    //. "'".str_replace('/', '-', Session::get('sess_BP_fechaIn'))."', "
-                    //. "'".str_replace('/', '-', Session::get('sess_BP_fechaOut'))."', "
-                    
-                    . "'".Session::get('sess_BP_hotel')."'";
             
             for($i=1; $i<=3; $i++)
             {
@@ -277,22 +284,23 @@ class bloqueosController extends Controller
             
                 $bloqueo= $this->loadModel('bloqueo');
                 $this->_view->objPrograma= $bloqueo->validaPrograma($RP_idProg, $RP_rdbOpc);
-                if($this->_view->objPrograma)
-                {
+                
+                if($this->_view->objPrograma) {
+                    if(WEB) {
+                        //Web
+                        $sql="exec TS_GET_BLOQUEOS_PROG_ID " . $RP_idProg . ", " . $RP_rdbOpc .", "
+                        . "'".Functions::invertirFecha(Session::get('sess_BP_fechaIn'), '/', '-')."', "
+                        . "'".Functions::invertirFecha(Session::get('sess_BP_fechaOut'), '/', '-')."', ";
+                    } else {
+                        //Local
+                        $sql="exec TS_GET_BLOQUEOS_PROG_ID " . $RP_idProg . ", " . $RP_rdbOpc .", "
+                        . "'".str_replace('/', '-', Session::get('sess_BP_fechaIn'))."', "
+                        . "'".str_replace('/', '-', Session::get('sess_BP_fechaOut'))."', ";
+                    }
                     
-                    $sql="exec TS_GET_BLOQUEOS_PROG_ID " . $RP_idProg . ", " . $RP_rdbOpc .", "
                     
-                    //Web
-                    . "'".Functions::invertirFecha(Session::get('sess_BP_fechaIn'), '/', '-')."', "
-                    . "'".Functions::invertirFecha(Session::get('sess_BP_fechaOut'), '/', '-')."', "
-                    
-                    //Local
-                    //. "'".str_replace('/', '-', Session::get('sess_BP_fechaIn'))."', "
-                    //. "'".str_replace('/', '-', Session::get('sess_BP_fechaOut'))."', "
-                    
-                    . "'".Session::get('sess_BP_hotel')."'";
-                    for($i=1; $i<=3; $i++)
-                    {
+                    $sql.= "'".Session::get('sess_BP_hotel')."'";
+                    for($i=1; $i<=3; $i++) {
                         $sql.= ", '".Session::get('sess_BP_Adl_'.$i)."', '".Session::get('sess_BP_edadChd_1_'.$i)."', 
                                 '".Session::get('sess_BP_edadChd_2_'.$i)."', '".Session::get('sess_BP_Inf_'.$i)."'"; //habitaciones
                     }

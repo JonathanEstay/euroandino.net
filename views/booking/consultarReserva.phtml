@@ -1,40 +1,40 @@
 <script>
 $(function()
 {
-	$( "#txtFechaDesde-ConsRes" ).datepicker({
-		defaultDate: "+1w",
-		changeMonth: true,
-		numberOfMonths: 2,
-		monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
-		'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-		monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
-		'Jul','Ago','Sep','Oct','Nov','Dic'],
-		dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
-		dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
-		dateFormat: 'dd/mm/yy',
-		firstDay: 1,
-		onSelect: function( selectedDate ){
-			$( "#txtFechaHasta-ConsRes" ).datepicker( "option", "minDate", selectedDate );
-		}
-	});
+    $( "#txtFechaDesde-ConsRes" ).datepicker({
+        defaultDate: "+1w",
+        changeMonth: true,
+        numberOfMonths: 2,
+        monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+        'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+        monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+        'Jul','Ago','Sep','Oct','Nov','Dic'],
+        dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
+        dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
+        dateFormat: 'dd/mm/yy',
+        firstDay: 1,
+        onSelect: function( selectedDate ){
+            $( "#txtFechaHasta-ConsRes" ).datepicker( "option", "minDate", selectedDate );
+        }
+    });
 
-	$( "#txtFechaHasta-ConsRes" ).datepicker({
-		minDate: +1,
-		defaultDate: "+1w",
-		changeMonth: true,
-		numberOfMonths: 2,
-		monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
-		'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-		monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
-		'Jul','Ago','Sep','Oct','Nov','Dic'],
-		dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
-		dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
-		dateFormat: 'dd/mm/yy',
-		firstDay: 1,
-		onSelect: function( selectedDate ) {
-			$( "#txtFechaDesde-ConsRes" ).datepicker( "option", "maxDate", selectedDate );
-		}
-	});
+    $( "#txtFechaHasta-ConsRes" ).datepicker({
+        minDate: +1,
+        defaultDate: "+1w",
+        changeMonth: true,
+        numberOfMonths: 2,
+        monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio',
+        'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+        monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
+        'Jul','Ago','Sep','Oct','Nov','Dic'],
+        dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
+        dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
+        dateFormat: 'dd/mm/yy',
+        firstDay: 1,
+        onSelect: function( selectedDate ) {
+            $( "#txtFechaDesde-ConsRes" ).datepicker( "option", "maxDate", selectedDate );
+        }
+    });
 });
 </script>
 <div id="page-content">
@@ -146,15 +146,15 @@ $(function()
                             <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered datatables" id="example">
                                 <thead>
                                     <tr style="background-color:#76c4ed;">
-                                        <th width="45">Status</th>
+                                        <th width="15"></th>
                                         <th>F. Reserva</th>
                                         <th>F. Viaje</th>
-                                        <th width="120">N&deg; Reserva</th>
+                                        <th width="70">Reserva</th>
                                         <th>Agencia</th>
                                         <th>Nombre Pasajero</th>
-                                        <th>Total</th>
+                                        <th width="130">Total</th>
                                         <th>Voucher</th>
-                                        <th>Confirmaci&oacute;n</th>
+                                        <th width="15"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
